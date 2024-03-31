@@ -46,7 +46,7 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header.jsp"/>
 <% if (sliders != null && !sliders.isEmpty()) { %>
 <div id="carouselExampleIndicators" class="carousel slide" style="padding-bottom: 15px" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -112,7 +112,8 @@
                                     <i class="fa-solid fa-star"></i>
                                 </span>
                             </div>
-                            <a href="productDetail.html" class="product-order">Xem chi tiết</a>
+
+                            <a href="productDetail?id=<%= product.getId() %>" class="product-order">Xem chi tiết</a>
 
                         </div>
                     </div>
@@ -157,7 +158,7 @@
                                     <i class="fa-solid fa-star"></i>
                                 </span>
                             </div>
-                            <a href="productDetail.html" class="product-order">Xem chi tiết</a>
+                            <a href="productDetail?id=<%= product.getId() %>" class="product-order">Xem chi tiết</a>
                         </div>
                     </div>
                     <% } %>
@@ -200,7 +201,7 @@
                                     <i class="fa-solid fa-star"></i>
                                 </span>
                             </div>
-                            <a href="productDetail.html" class="product-order">Xem chi tiết</a>
+                            <a href="productDetail?id=<%= product.getId() %>" class="product-order">Xem chi tiết</a>
                         </div>
                     </div>
                     <% } %>
@@ -243,7 +244,8 @@
                                     <i class="fa-solid fa-star"></i>
                                 </span>
                             </div>
-                            <a href="productDetail.html" class="product-order">Xem chi tiết</a>
+                            <%--                            TODO: quan : chi tiet san pham --%>
+                            <a href="productDetail?id=<%=product.getId()%>" class="product-order">Xem chi tiết</a>
                         </div>
                     </div>
                     <% } %>

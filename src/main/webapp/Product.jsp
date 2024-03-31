@@ -24,24 +24,25 @@
     int totalPage = request.getAttribute("totalPage") == null ? 0 : (int) request.getAttribute("totalPage");
     int pageCurrent = request.getAttribute("pageCurrent") == null ? 1 : Integer.parseInt(request.getAttribute("pageCurrent").toString());
     String id_category = (String) request.getAttribute("category");
-    String filter = request.getAttribute("filter") == null ? "" : "&filter="+(String) request.getAttribute("filter");
-    String sort = request.getAttribute("order") == null ? "" : "&order="+(String) request.getAttribute("order");
+    String filter = request.getAttribute("filter") == null ? "" : "&filter=" + (String) request.getAttribute("filter");
+    String sort = request.getAttribute("order") == null ? "" : "&order=" + (String) request.getAttribute("order");
     NumberFormat nf = NumberFormat.getInstance();
 %>
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header.jsp"/>
 <div id="content">
     <div class="container">
         <div class="gird">
             <div class="menu__category">
                 <h3 class="menu__category--title">Thắt lưng nam</h3>
                 <ul class="list__category">
-                    <% for(Map.Entry<String, String> entry : listCategory.entrySet()) {
+                    <% for (Map.Entry<String, String> entry : listCategory.entrySet()) {
                         String id = entry.getKey();
                         String name = entry.getValue();
                     %>
-                        <li class="list__category--item">
-                            <a href="./product?category=<%=id%>&page=1"><%=name%></a>
-                        </li>
+                    <li class="list__category--item">
+                        <a href="./product?category=<%=id%>&page=1"><%=name%>
+                        </a>
+                    </li>
                     <%}%>
                 </ul>
             </div>
@@ -57,10 +58,14 @@
                                     Nhỏ hơn 50.000
                                 </a>
                             </li>
-                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=2">Từ 50.000 đến 100.000</a></li>
-                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=3">Từ 100.000 đến 300.000</a></li>
-                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=4">Từ 300.000 đến 500.000</a></li>
-                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=5">Lớn hơn 500.000</a></li>
+                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=2">Từ 50.000
+                                đến 100.000</a></li>
+                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=3">Từ 100.000
+                                đến 300.000</a></li>
+                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=4">Từ 300.000
+                                đến 500.000</a></li>
+                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=5">Lớn hơn
+                                500.000</a></li>
                         </ul>
                     </div>
                     <div class="box-filter">
@@ -69,24 +74,32 @@
                             <span>Giá</span>
                             <i class="fa-solid fa-chevron-down"></i>
                             <ul class="sort-menu">
-                                <li><a href="./product?category=<%=id_category%>&page=<%=pageCurrent%>">Mặc định</a></li>
-                                <li><a href="./product?category=<%=id_category%>&page=<%=pageCurrent%>&order=asc">Giá từ thấp đến cao</a></li>
-                                <li><a href="./product?category=<%=id_category%>&page=<%=pageCurrent%>&order=desc">Giá từ cao đến thấp</a></li>
+                                <li><a href="./product?category=<%=id_category%>&page=<%=pageCurrent%>">Mặc định</a>
+                                </li>
+                                <li><a href="./product?category=<%=id_category%>&page=<%=pageCurrent%>&order=asc">Giá từ
+                                    thấp đến cao</a></li>
+                                <li><a href="./product?category=<%=id_category%>&page=<%=pageCurrent%>&order=desc">Giá
+                                    từ cao đến thấp</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="list__product">
-                    <% for (Product p : listProduct) { %>
+                    <% for (Product product : listProduct) { %>
                     <div class="product-item">
                         <div class="product">
-                            <a href="./productDetail.html"><img class="product-img"
-                                                                src="<%=listImageThumbnail.get(p.getId())%>" alt=""></a>
-                            <div class="product-container__tittle"><p class="product-title"><%=p.getName()%></div>
+                            <a href="productDetail"><img class="product-img"
+                                                         src="<%=listImageThumbnail.get(product.getId())%>"
+                                                         alt=""></a>
+                            <div class="product-container__tittle">
+                                <p class="product-title"><%=product.getName()%>
+                                </p>
+                            </div>
+
+                            <p class="product-price">Giá: <%=nf.format(product.getPrice())%>đ
                             </p>
-                            <p class="product-price">Giá: <%=nf.format(p.getPrice())%>đ
-                            </p>
-                            <a href="./productDetail.html" class="product-order">Xem chi tiết</a>
+                            <%--                            TODO : quan : Xem chi tiet san pham--%>
+                            <a href="productDetail?id=<%= product.getId() %>" class="product-order">Xem chi tiết</a>
                         </div>
                     </div>
                     <%}%>
@@ -94,15 +107,17 @@
                 <div class="pagination">
                     <% if (pageCurrent > 1) {%>
                     <a href="./product?category=<%=id_category%>&page=<%=pageCurrent-1%><%=filter%><%=sort%>"
-                       class="other-page previou-page"><span>Trước</span></a>
+                       class="other-page previous-page"><span>Trước</span></a>
                     <%}%>
 
                     <% for (int i = 1; i <= totalPage; i++) {%>
-                        <% if (i == pageCurrent) {%>
-                            <a href="./product?category=<%=id_category%>&page=<%=i%><%=filter%><%=sort%>" style = "color: red;" class="other-page"><span><%=i%></span></a>
-                        <%} else {%>
-                            <a href="./product?category=<%=id_category%>&page=<%=i%><%=filter%><%=sort%>" class="other-page"><span><%=i%></span></a>
-                        <%}%>
+                    <% if (i == pageCurrent) {%>
+                    <a href="./product?category=<%=id_category%>&page=<%=i%><%=filter%><%=sort%>" style="color: red;"
+                       class="other-page"><span><%=i%></span></a>
+                    <%} else {%>
+                    <a href="./product?category=<%=id_category%>&page=<%=i%><%=filter%><%=sort%>"
+                       class="other-page"><span><%=i%></span></a>
+                    <%}%>
                     <%}%>
                     <% if (pageCurrent > 1 && pageCurrent < totalPage) {%>
                     <a href="./product?category=<%=id_category%>&page=<%=pageCurrent+1%><%=filter%><%=sort%>"

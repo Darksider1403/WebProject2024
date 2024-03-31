@@ -148,7 +148,7 @@
                     <div class="pagination">
                         <% if (pageCurrent > 1) {%>
                         <a href="./managerProduct?page=<%=pageCurrent-1%><%=search%>"
-                           class="other-page previou-page"><span>Trước</span></a>
+                           class="other-page previous-page"><span>Trước</span></a>
                         <%}%>
 
                         <% for (int i = 1; i <= totalPage; i++) {%>
