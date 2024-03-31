@@ -86,7 +86,7 @@
                             </p>
                             <p class="product-price">Giá: <%=nf.format(p.getPrice())%>đ
                             </p>
-                            <a href="./productDetail.html" class="product-order">Xem chi tiết</a>
+                            <a href="./productDetail.jsp" class="product-order">Xem chi tiết</a>
                         </div>
                     </div>
                     <%}%>

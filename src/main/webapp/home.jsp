@@ -112,8 +112,9 @@
                                     <i class="fa-solid fa-star"></i>
                                 </span>
                             </div>
-                            <a href="productDetail.html" class="product-order">Xem chi tiết</a>
 
+                            <a href="productDetail.jsp?id=<%=product.getId()%>" class="product-order">Xem chi
+                                tiết</a>
                         </div>
                     </div>
                     <% } %>
@@ -243,7 +244,8 @@
                                     <i class="fa-solid fa-star"></i>
                                 </span>
                             </div>
-                            <a href="productDetail.html" class="product-order">Xem chi tiết</a>
+                            <%--                            TODO: quan : chi tiet san pham --%>
+                            <a href="productDetail.jsp?id=<%=product.getId()%>" class="product-order">Xem chi tiết</a>
                         </div>
                     </div>
                     <% } %>
