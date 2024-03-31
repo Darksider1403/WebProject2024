@@ -113,8 +113,8 @@
                                 </span>
                             </div>
 
-                            <a href="productDetail.jsp?id=<%=product.getId()%>" class="product-order">Xem chi
-                                tiết</a>
+                            <a href="productDetail?id=<%= product.getId() %>" class="product-order">Xem chi tiết</a>
+
                         </div>
                     </div>
                     <% } %>
