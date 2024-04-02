@@ -1,17 +1,21 @@
 <%@ page import="DAO.ProductDAO" %>
 <%@ page import="Model.Product" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Map" %>
 <%@ page import="Service.ProductService" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
 <head>
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
+          integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
+          integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/productDetail.css">
@@ -19,60 +23,53 @@
 <body>
 <jsp:include page="header.jsp"/>
 <%
-    ProductService ps = request.getAttribute("ps") == null ? ProductService.getInstance() : (ProductService) request.getAttribute("ps");
-
-    Map<String, String> listImagesThumbnail = request.getAttribute("listImagesThumbnail") == null ? new HashMap<>() : (Map<String, String>) request.getAttribute("listImagesThumbnail");
-
-    List<Product> listProduct = request.getAttribute("listProduct") == null
-            ? new ArrayList<>() : (List<Product>) request.getAttribute("listProduct");
+    //    String productId = (String) request.getAttribute("id");
+    ProductService productService = request.getAttribute("ps") == null ? ProductService.getInstance() : (ProductService) request.getAttribute("ps");
 
     Product selectedProduct = (Product) request.getAttribute("selectedProduct");
-    NumberFormat nf = NumberFormat.getInstance();
+    Map<String, String> imageMap = productService.selectImageProductDetail(selectedProduct.getId());
 %>
-
 <% if (selectedProduct != null) { %>
 <ol class="page-breadcrumb breadcrumb__list">
     <li><a href="./home" class="breadcrumb__item">Trang chủ</a></li>
-    <li><a href="#" class="breadcrumb__item"><%= selectedProduct.getId() %>
+    <li><a href="" class="breadcrumb__item"><%= selectedProduct.getId() %>
     </a></li>
 </ol>
 
 <div class="container p-3">
     <div class="row">
-        <div class="col-md-6 text-center p-5 border bg-white">
-            <% for (Product product : listProduct) { %>
-            <div class="product-item">
-                <div class="product">
-
-                    <a href="#"><img class="product-img" style="width: 270px;height: 300px"
-                                     src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
-                    <p class="product-title">
-                        <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
-                    </p>
-                    <div class="product-detail">
-                        <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
-                        <div class="order">
-                            <a href="AddToCartServlet?masanpham=<%=product.getId()%>" class="btn-add-to-cart"
-                               style="text-decoration: none">Thêm vào giỏ hàng</a>
-                        </div>
-                        <span class="rating">
-                                    <span class="rating-value"></span>
-                                    <i class="fa-solid fa-star"></i>
-                                </span>
-                    </div>
-
-                    <a href="productDetail?id=<%= product.getId() %>" class="product-order">Xem chi tiết</a>
-
-                </div>
-            </div>
-            <% } %>
+        <div class="col-md-6 p-5 border bg-white">
+            <%
+                if (imageMap != null) {
+                    for (Map.Entry<String, String> entry : imageMap.entrySet()) {
+            %>
+            <img src="<%= entry.getValue() %>" alt="Product Image"> <%
+            }
+        } else {
+        %>
+            <p>No images found for this product.</p>
+            <%
+                }
+            %>
+            <%--                    <p class="product-title">--%>
+            <%--                        <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>--%>
+            <%--                    </p>--%>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 p-5 border bg-white">
             <h2><%= selectedProduct.getName() %>
             </h2>
-            <p class="text-justify"><%= selectedProduct.getId_category() %>
+            <p class="text-justify"><%= selectedProduct.getQuantity() %>
             </p>
             <p class="price">Giá: <%= selectedProduct.getPrice() %>đ</p>
+
+            <div class="order">
+                <form action="AddToCartServlet" method="post">
+                    <a class="btn btn-success" href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
+                        <i class="fa-solid fa-cart-shopping"></i>Add to cart
+                    </a>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
@@ -82,4 +79,9 @@
 <% } %>
 
 </body>
+<script src="https://use.fontawesome.com/releases/v6.4.2/js/all.js" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+        integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>

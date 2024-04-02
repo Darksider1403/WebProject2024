@@ -25,6 +25,11 @@ public class ProductService {
         return ProductDAO.selectImageThumbnail();
     }
 
+    public Map<String, String> selectImageProductDetail(String productId) {
+        return ProductDAO.selectImageProductDetail(productId);
+    }
+
+
     public int totalQuantityProduct() {
         return ProductDAO.totalQuantityProduct();
     }
