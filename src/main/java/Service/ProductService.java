@@ -14,11 +14,9 @@ public class ProductService {
         if (instance == null) instance = new ProductService();
         return instance;
     }
-
-    public List<Product> productList() {
+    public  List<Product> productList() {
         return ProductDAO.productList();
     }
-
     public Map<String, String> selectCategory() {
         return ProductDAO.selectCategory();
     }
@@ -49,18 +47,16 @@ public class ProductService {
     }
 
     public int insertProduct(String id, String name, String price, String quantity, String material,
-                             String size, String color, String gender, String idCategory) {
-        return ProductDAO.insertProduct(id, name, price, quantity, material, size, color, gender, idCategory);
+                                    String size, String color, String gender, String idCategory) {
+        return ProductDAO.insertProduct(id, name, price, quantity, material, size,color, gender, idCategory);
     }
 
     public int insertImage(String idProduct, String source, boolean is_thumbnail_image) {
         return ProductDAO.insertImages(idProduct, source, is_thumbnail_image);
     }
-
     public int deleteProduct(String id) {
         return ProductDAO.deleteProduct(id);
     }
-
     public int updateProduct(String id, int status) {
         return ProductDAO.updateProduct(id, status);
     }
@@ -72,15 +68,12 @@ public class ProductService {
     public Product findById(String productId) {
         return ProductDAO.getProductById(productId);
     }
-
-    public List<Product> findByGender(String gender) {
+    public List<Product> findByGender(String gender ){
         return ProductDAO.findByGender(gender);
     }
-
-    public double getRating(String id_product) {
+    public double rating (String id_product){
         return ProductDAO.getRating(id_product);
     }
-
     public List<Slider> findAll() {
         return ProductDAO.findAll();
     }

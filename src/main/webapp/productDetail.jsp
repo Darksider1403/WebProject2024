@@ -22,7 +22,6 @@
 <jsp:include page="header.jsp"/>
 <%
     //    String productId = (String) request.getAttribute("id");
-    Double productRating = (Double) request.getAttribute("productRating");
     ProductService productService = request.getAttribute("ps") == null ? ProductService.getInstance() : (ProductService) request.getAttribute("ps");
 
     Product selectedProduct = (Product) request.getAttribute("selectedProduct");
@@ -72,67 +71,46 @@
             </h2>
             <div class="d-flex flex-row my-3">
                 <div class="text-warning mb-1 me-2">
-                    <% for (int i = 1; i <= Math.floor(productRating); i++) { %>
                     <i class="fa fa-star"></i>
-                    <% } %>
-                    <% if (productRating % 1 > 0) { %>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
                     <i class="fas fa-star-half-alt"></i>
-                    <% } %>
-                    <% for (int i = (int) (Math.ceil(productRating) + 1); i <= 5; i++) { %> <i class="fa-regular fa-star"></i>
-                    <% } %>
                     <span class="ms-1">
-            <%= productRating %>
-        </span>
+                4.5
+              </span>
                 </div>
             </div>
-            <div class="row mb-4">
-                <div class="col-md-4 col-6">
-                    <label class="mb-2">Size</label>
-                    <label>
-                        <select class="form-select border border-secondary" style="height: 35px;">
-                            <option>Small</option>
-                            <option>Medium</option>
-                            <option>Large</option>
-                        </select>
-                    </label>
-                </div>
-
-                <div class="col-md-4 col-6 mb-3">
-                    <label class="mb-2 d-block">Quantity</label>
-                    <div class="input-group mb-3" style="width: 170px;">
-                        <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon1"
-                                data-mdb-ripple-color="dark">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <input type="text" class="form-control text-center border border-secondary" placeholder="14"
-                               aria-label="Example text with button addon" aria-describedby="button-addon1"/>
-                        <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon2"
-                                data-mdb-ripple-color="dark">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
+            <p class="text-justify">Số lượng hàng: <%= selectedProduct.getQuantity() %>
+            </p>
+            <p class="price">Giá: <%= selectedProduct.getPrice() %>đ</p>
+            <br>
+            <div class="product--size">
+                <span>s</span>
+                <span class="active">m</span>
+                <span>l</span>
+                <span>xl</span>
             </div>
-            <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
+            <div class="product--quantity">
+                <label>
+                    <input class="quantity" type="number" placeholder="quantity" min="1" max="10" value="1"/>
+                </label>
+            </div>
+            <br>
             <div class="order">
                 <form action="AddToCartServlet" method="post">
-                    <a class="btn btn-primary shadow-0"
+                    <a class="btn btn-success text-center"
                        href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
-                        <i class="me-1 fa fa-shopping-basket"></i>Add to cart
+                        <i class="fa-solid fa-cart-shopping"></i>Add to cart
                     </a>
                 </form>
             </div>
-            <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i
-                    class="me-1 fa fa-heart fa-lg"></i> Save </a>
-
         </div>
-
     </div>
-</div>
 
-<% } else { %>
-<p>Product not found!</p>
-<% } %>
+        <% } else { %>
+    <p>Product not found!</p>
+        <% } %>
 
 </body>
 <script src="https://use.fontawesome.com/releases/v6.4.2/js/all.js" crossorigin="anonymous"></script>
