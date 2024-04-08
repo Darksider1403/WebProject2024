@@ -71,7 +71,7 @@ public class ProductService {
     public List<Product> findByGender(String gender ){
         return ProductDAO.findByGender(gender);
     }
-    public double rating (String id_product){
+    public double getRating (String id_product){
         return ProductDAO.getRating(id_product);
     }
     public List<Slider> findAll() {

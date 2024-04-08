@@ -22,6 +22,7 @@
 <jsp:include page="header.jsp"/>
 <%
     //    String productId = (String) request.getAttribute("id");
+    Double productRating = (Double) request.getAttribute("productRating");
     ProductService productService = request.getAttribute("ps") == null ? ProductService.getInstance() : (ProductService) request.getAttribute("ps");
 
     Product selectedProduct = (Product) request.getAttribute("selectedProduct");
@@ -71,14 +72,18 @@
             </h2>
             <div class="d-flex flex-row my-3">
                 <div class="text-warning mb-1 me-2">
+                    <% for (int i = 1; i <= Math.floor(productRating); i++) { %>
                     <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
+                    <% } %>
+                    <% if (productRating % 1 > 0) { %>
                     <i class="fas fa-star-half-alt"></i>
+                    <% } %>
+                    <% for (int i = (int) (Math.ceil(productRating) + 1); i <= 5; i++) { %> <i
+                        class="fa-regular fa-star"></i>
+                    <% } %>
                     <span class="ms-1">
-                4.5
-              </span>
+            <%= productRating %>
+        </span>
                 </div>
             </div>
             <p class="text-justify">Số lượng hàng: <%= selectedProduct.getQuantity() %>

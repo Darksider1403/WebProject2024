@@ -16,8 +16,8 @@ import java.util.Map;
 @WebServlet("/productDetail")
 public class ProductDetailServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String productId = req.getParameter("id");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String productId = request.getParameter("id");
         System.out.println(productId);
 
         if (productId != null) {
@@ -25,17 +25,21 @@ public class ProductDetailServlet extends HttpServlet {
 
             Product selectedProduct = ProductService.getInstance().findById(productId);
             ProductService productService = ProductService.getInstance();
+            Double productRating = ProductService.getInstance().getRating(productId);
 
-            resp.setContentType("text/html;charset=UTF-8");
+            System.out.println(productRating);
 
-            RequestDispatcher rd = req.getRequestDispatcher("/productDetail.jsp");
-            req.setAttribute("selectedProduct", selectedProduct);
-//            req.setAttribute("listProduct", listProduct);
-            req.setAttribute("ps", productService);
+            response.setContentType("text/html;charset=UTF-8");
+
+            RequestDispatcher rd = request.getRequestDispatcher("/productDetail.jsp");
+            request.setAttribute("selectedProduct", selectedProduct);
+//            request.setAttribute("listProduct", listProduct);
+            request.setAttribute("ps", productService);
+            request.setAttribute("productRating", productRating);
 
             Map<String, String> listImagesThumbnail = ProductService.getInstance().selectImageProductDetail(productId);
-            req.setAttribute("listImagesThumbnailForProductDetail", listImagesThumbnail);
-            rd.forward(req, resp);
+            request.setAttribute("listImagesThumbnailForProductDetail", listImagesThumbnail);
+            rd.forward(request, response);
         } else {
             System.out.println("error");
         }
