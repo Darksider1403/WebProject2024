@@ -25,6 +25,7 @@
     <div class="small-container cart-page">
         <table class="cart-table">
             <tr>
+                <th scope="col"></th>
                 <th scope="col">Stt</th>
                 <th scope="col">Sản phẩm</th>
                 <th scope="col"></th>
@@ -40,9 +41,12 @@
                 double tongGiaTri = 0;
                 Map<String, String> listImagesThumbnail = ProductService.getInstance().selectImageThumbnail();
                 int stt=1;
+                boolean checkValue = false;
                 for (CartItems sp :sanPhams) {
-                    tongGiaTri += sp.getTotalPrice();
+
             %>
+            <td> <input type="checkbox" name="isChecked-<%= sp.getProduct().getId()%>value="<%= checkValue %>"">
+            </td>
             <td><%= stt++ %></td>
             <td>
                 <div>
@@ -98,7 +102,10 @@
                 </a>
             </td>
             </tr>
-            <% } // End of for loop %>
+            <%
+                    tongGiaTri += sp.getTotalPrice();
+                } // End of for loop
+            %>
         </table>
         <!-- Other HTML content... -->
     </div>
@@ -108,7 +115,7 @@
                 <td>
                     Tổng số tiền
                 </td>
-                <td id="grandTotal"> <%= nf.format(tongGiaTri)%>đ</td>
+                <td id="grandTotal"> <%= session.getAttribute("grandTotal") %>đ</td>
             </tr>
         </table>
     </div>

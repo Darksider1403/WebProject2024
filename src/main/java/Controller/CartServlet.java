@@ -33,5 +33,23 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+            calculateGrandTotal(request);
+            // Other post handling logic
+        }
+
+        private void calculateGrandTotal(HttpServletRequest request) {
+            double grandTotal = 0;
+            List<CartItems> sanPhams = (List<CartItems>) request.getSession().getAttribute("list-sp");
+
+            for (CartItems sp : sanPhams) {
+                String checkboxParam = "isChecked_" + sp.getProduct().getId();
+                String checkboxValue = request.getParameter(checkboxParam);
+                if (checkboxValue != null && checkboxValue.equals("checked")) {
+                    grandTotal += sp.getTotalPrice();
+                }
+            }
+
+            request.getSession().setAttribute("grandTotal", grandTotal);
+        }
     }
-}
+
