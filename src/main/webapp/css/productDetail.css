@@ -72,6 +72,36 @@
     opacity: 1;
 }
 
+.btn-lg {
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+}
+
+.rating-stars {
+    display: inline-flex;
+    justify-content: space-around;
+}
+
+.rating-stars i {
+    font-size: 16px;
+}
+
+.rating-value {
+    margin-left: 10px;
+}
+
+#feedbackForm {
+
+}
+
+
 .product--size {
     margin: 20px 0;
 

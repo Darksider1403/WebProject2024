@@ -3,6 +3,7 @@
 <%@ page import="Service.ProductService" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.*" %>
+<%@ page import="Model.Account" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
@@ -22,6 +23,7 @@
 <jsp:include page="header.jsp"/>
 <%
     //    String productId = (String) request.getAttribute("id");
+    Account account = (Account) session.getAttribute("account");
     Double productRating = (Double) request.getAttribute("productRating");
     ProductService productService = request.getAttribute("ps") == null ? ProductService.getInstance() : (ProductService) request.getAttribute("ps");
 
@@ -44,7 +46,6 @@
                     <% for (Map.Entry<String, String> entry : imageMap.entrySet()) { %>
                     <li>
                         <img src="<%= entry.getValue() %>" alt="" data-zoom-image="<%= entry.getValue() %>">
-                        <span class="image-indicator"></span>
                     </li>
                     <% } %>
                 </ul>
@@ -56,7 +57,6 @@
 
                             firstImageUrl = firstEntry.getValue();
                         }
-
                     %>
                     <img src="<%=firstImageUrl%>" id="main-image" alt="Main Image">
 
@@ -72,49 +72,55 @@
             </h2>
             <div class="d-flex flex-row my-3">
                 <div class="text-warning mb-1 me-2">
-                    <% for (int i = 1; i <= Math.floor(productRating); i++) { %>
-                    <i class="fa fa-star"></i>
-                    <% } %>
-                    <% if (productRating % 1 > 0) { %>
-                    <i class="fas fa-star-half-alt"></i>
-                    <% } %>
-                    <% for (int i = (int) (Math.ceil(productRating) + 1); i <= 5; i++) { %> <i
-                        class="fa-regular fa-star"></i>
-                    <% } %>
-                    <span class="ms-1">
-            <%= productRating %>
-        </span>
+                    <div class="rating-container">
+    <span class="rating-stars">
+        <% for (int i = 1; i <= Math.floor(productRating); i++) { %>
+            <i class="fa fa-star text-primary"></i>
+        <% } %>
+        <% if (productRating % 1 > 0) { %>
+            <i class="fas fa-star-half-alt text-primary"></i>
+        <% } %>
+        <% for (int i = (int) (Math.ceil(productRating) + 1); i <= 5; i++) { %>
+            <i class="fa-regular fa-star"></i>
+        <% } %>
+    </span>
+                        <span class="rating-value ms-1">
+        <%= productRating %>
+    </span>
+                    </div>
                 </div>
             </div>
             <p class="text-justify">Số lượng hàng: <%= selectedProduct.getQuantity() %>
             </p>
             <p class="price">Giá: <%= selectedProduct.getPrice() %>đ</p>
-            <br>
             <div class="product--size">
                 <span>s</span>
                 <span class="active">m</span>
                 <span>l</span>
                 <span>xl</span>
             </div>
-            <div class="product--quantity">
-                <label>
-                    <input class="quantity" type="number" placeholder="quantity" min="1" max="10" value="1"/>
-                </label>
-            </div>
             <br>
             <div class="order">
                 <form action="AddToCartServlet" method="post">
-                    <a class="btn btn-success text-center"
-                       href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
-                        <i class="fa-solid fa-cart-shopping"></i>Add to cart
+                    <a class="btn btn-primary btn-lg" href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
+                        <i class="fas fa-cart-plus"></i>Thêm sản phẩm
                     </a>
                 </form>
             </div>
         </div>
-    </div>
 
-        <% } else { %>
-    <p>Product not found!</p>
+        <form id="feedbackForm">
+            <div class="mb-3">
+                <label for="feedbackText" class="form-label">Đánh giá sản phẩm:</label>
+                <textarea class="form-control" id="feedbackText" rows="3"></textarea>
+            </div>
+
+            <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? "true" : "false"%>">
+
+            <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi</button>
+        </form>
+
+    </div>
         <% } %>
 
 </body>
@@ -179,6 +185,15 @@
         // Add click event listener to the main image to close the zoom
         imageDisplay.on('click', function () {
             imageDisplay.removeClass('active');
+        });
+
+        document.getElementById('submitButton').addEventListener('click', function (event) {
+            var isLoggedIn = document.getElementById('isLoggedIn').value === "true";
+            if (!isLoggedIn) {
+                // User is not logged in, prevent form submission and display popup
+                event.preventDefault();
+                alert('You have to log in to submit feedback!');
+            }
         });
     });
 </script>
