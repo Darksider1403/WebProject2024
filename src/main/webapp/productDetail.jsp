@@ -116,7 +116,7 @@
                 <label for="feedbackText" class="form-label">Đánh giá sản phẩm:</label>
                 <textarea class="form-control" id="feedbackText" rows="3" name="content"></textarea>
             </div>
-            <input type="hidden" id="productId" name="productId" value="<%= selectedProduct %>">
+            <input type="hidden" id="productId" name="productId" value="<%= selectedProduct.getId() %>">
             <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? "true" : "false"%>">
 
             <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi</button>

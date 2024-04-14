@@ -74,7 +74,7 @@
 
 .btn-lg {
     width: 200px;
-    height: 50px;
+    height:  50px;
     font-size: 18px;
     line-height: 50px;
     padding: 0;
@@ -82,6 +82,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    align-content: center;
 }
 
 .rating-container {

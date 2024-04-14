@@ -37,9 +37,9 @@ public class FeedbackServlet extends HttpServlet {
         int updateCount = feedbackService.saveCommentFeedback(content, productId, idAccount);
         if (updateCount > 0) {
             // Feedback saved successfully
-            response.sendRedirect("./productDetail?productId=" + productId + "&feedbackSubmitted=true"); // Redirect to product detail with success message
+            response.sendRedirect("./productDetail?id=" + productId); // Redirect to product detail with success message
         } else {
-            response.sendRedirect("./productDetail?productId=" + productId + "&feedbackError=true"); // Redirect to product detail with error message
+            response.sendRedirect("./productDetail?id=" + productId + "&feedbackError=true"); // Redirect to product detail with error message
         }
     }
 }
