@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
           integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <link rel="stylesheet" href="css/productDetail.css">
 </head>
@@ -99,7 +101,7 @@
                 <span>l</span>
                 <span>xl</span>
             </div>
-            <br>
+
             <div class="order">
                 <form action="AddToCartServlet" method="post">
                     <a class="btn btn-primary btn-lg" href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
@@ -109,17 +111,38 @@
             </div>
         </div>
 
-        <form id="feedbackForm">
+        <form id="feedbackForm" action="./submitFeedback" method="post">
             <div class="mb-3">
                 <label for="feedbackText" class="form-label">Đánh giá sản phẩm:</label>
-                <textarea class="form-control" id="feedbackText" rows="3"></textarea>
+                <textarea class="form-control" id="feedbackText" rows="3" name="content"></textarea>
             </div>
-
+            <input type="hidden" id="productId" name="productId" value="<%= selectedProduct %>">
             <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? "true" : "false"%>">
 
             <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi</button>
-        </form>
 
+            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="loginModalLabel">Vui lòng Đăng nhập</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Bạn cần phải đăng nhập để gửi phản hồi.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button id='closeModal' type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
+                            </button>
+                            <a href="./login" class="btn btn-primary">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
         <% } %>
 
@@ -187,13 +210,15 @@
             imageDisplay.removeClass('active');
         });
 
-        document.getElementById('submitButton').addEventListener('click', function (event) {
-            var isLoggedIn = document.getElementById('isLoggedIn').value === "true";
-            if (!isLoggedIn) {
-                // User is not logged in, prevent form submission and display popup
-                event.preventDefault();
-                alert('You have to log in to submit feedback!');
-            }
+        $(document).ready(function () {
+            $('#submitButton').click(function (event) {
+                const isLoggedIn = $('#isLoggedIn').val() === "true";
+                if (!isLoggedIn) {
+                    // Prevent form submission and show login modal
+                    event.preventDefault();
+                    $('#loginModal').modal('show');
+                }
+            });
         });
     });
 </script>

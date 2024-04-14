@@ -77,6 +77,11 @@
     height: 50px;
     font-size: 18px;
     line-height: 50px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .rating-container {
@@ -96,11 +101,6 @@
 .rating-value {
     margin-left: 10px;
 }
-
-#feedbackForm {
-
-}
-
 
 .product--size {
     margin: 20px 0;
