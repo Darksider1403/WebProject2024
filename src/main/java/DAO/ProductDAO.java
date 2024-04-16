@@ -35,11 +35,55 @@ public class ProductDAO {
                 handle.createQuery("SELECT idProduct, source FROM images " +
                         "Where is_thumbnail_image=1").mapToMap().collectIntoList()
         );
+        return getStringMapForImageForThumbnail(maps);
+    }
+
+    public static Map<String, String> selectImageProductDetail(String productId) {
+        JDBI = ConnectJDBI.connector();
+        try {
+            List<Map<String, Object>> maps = JDBI.withHandle(handle ->
+                    handle.createQuery("SELECT idProduct, source FROM images WHERE idProduct = ?")
+                            .bind(0, productId)
+                            .mapToMap()
+                            .collectIntoList()
+            );
+            System.out.println("Number of image records retrieved: " + maps.size());  // Log the size of the list
+            if (!maps.isEmpty()) {
+                return getStringMapForProductDetail(maps);
+            } else {
+                System.out.println("No image data found for product ID: " + productId);
+                return null;
+            }
+        } catch (Exception e) {
+            System.err.println("Error retrieving image data: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        selectImageProductDetail("TL001");
+    }
+
+    private static Map<String, String> getStringMapForImageForThumbnail(List<Map<String, Object>> maps) {
         Map<String, String> listImages = new HashMap<>();
         for(int i = 0; i <maps.size(); i++ ) {
             String id = maps.get(i).get("idproduct").toString();
             String name = maps.get(i).get("source").toString();
-            listImages.put(id, name);
+            if (!listImages.containsKey(id)) { // Check if key already exists
+                listImages.put(id, name);
+            }
+        }
+        return listImages;
+    }
+
+    private static Map<String, String> getStringMapForProductDetail(List<Map<String, Object>> maps) {
+        Map<String, String> listImages = new HashMap<>();
+        for(int i = 0; i <maps.size(); i++ ) {
+            String id = maps.get(i).get("idproduct").toString();
+            String name = maps.get(i).get("source").toString();
+            if (!listImages.containsKey(id)) { // Check if key already exists
+                listImages.put(String.valueOf(i), name);
+            }
         }
         return listImages;
     }

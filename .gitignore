@@ -38,3 +38,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+src/main/resources/db.properties
+src/main/resources/db.properties.properties
+.idea/misc.xml
+/.idea
+.idea/webContexts.xml
+.idea/misc.xml
+.idea/inspectionProfiles/Project_Default.xml
