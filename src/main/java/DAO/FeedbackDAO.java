@@ -1,11 +1,16 @@
 package DAO;
 
 
+import Model.Comment;
 import org.jdbi.v3.core.Jdbi;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public class FeedbackDAO {
@@ -27,6 +32,19 @@ public class FeedbackDAO {
         );
 
         return execute;
+    }
+
+    public static List<Comment> getCommentsByProductId(String productId) {
+        String GET_COMMENTS_SQL = "SELECT content, date_comment, idAccount FROM reviews WHERE idProduct = ?";
+        JDBI = ConnectJDBI.connector();
+        List<Comment> comments = JDBI.withHandle(handle ->
+                handle.createQuery(GET_COMMENTS_SQL)
+                        .bind(0, productId)
+                        .mapToBean(Comment.class).stream().toList()
+        );
+        System.out.println("Number of comments retrieved: " + comments.size());
+
+        return comments;
     }
 }
 

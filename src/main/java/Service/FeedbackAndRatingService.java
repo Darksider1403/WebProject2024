@@ -1,8 +1,11 @@
 package Service;
 
 import DAO.FeedbackDAO;
+import Model.Comment;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
 
 public class FeedbackAndRatingService {
     private static FeedbackAndRatingService instance;
@@ -13,7 +16,11 @@ public class FeedbackAndRatingService {
         return instance;
     }
 
-    public int saveCommentFeedback(String content, String productId, int idAccount) throws UnsupportedEncodingException {
+    public int saveCommentFeedback(String content, String productId, int idAccount) {
         return FeedbackDAO.saveCommentFeedback(content, productId, idAccount);
+    }
+
+    public List<Comment> getCommentsByProductId(String productId) {
+        return FeedbackDAO.getCommentsByProductId(productId);
     }
 }

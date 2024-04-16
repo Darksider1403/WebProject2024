@@ -4,6 +4,8 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.*" %>
 <%@ page import="Model.Account" %>
+<%@ page import="Model.Comment" %>
+<%@ page import="Service.FeedbackAndRatingService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
@@ -24,13 +26,19 @@
 <body>
 <jsp:include page="header.jsp"/>
 <%
-    //    String productId = (String) request.getAttribute("id");
     Account account = (Account) session.getAttribute("account");
     Double productRating = (Double) request.getAttribute("productRating");
-    ProductService productService = request.getAttribute("ps") == null ? ProductService.getInstance() : (ProductService) request.getAttribute("ps");
+    ProductService productService = request.getAttribute("ps") == null ?
+            ProductService.getInstance() : (ProductService) request.getAttribute("ps");
+    FeedbackAndRatingService feedbackAndRatingService =
+            request.getAttribute("feedbackAndRatingService") == null ?
+                    FeedbackAndRatingService.getInstance() :
+                    (FeedbackAndRatingService) request.getAttribute("feedbackAndRatingService");
 
     Product selectedProduct = (Product) request.getAttribute("selectedProduct");
-    Map<String, String> imageMap = productService.selectImageProductDetail(selectedProduct.getId());
+    String productId = selectedProduct != null ? selectedProduct.getId() : "";
+    List<Comment> comments = feedbackAndRatingService.getCommentsByProductId(productId);
+    Map<String, String> imageMap = productService.selectImageProductDetail(selectedProduct != null ? selectedProduct.getId() : null);
 %>
 <% if (selectedProduct != null) { %>
 <ol class="page-breadcrumb breadcrumb__list">
@@ -102,6 +110,8 @@
                 <span>xl</span>
             </div>
 
+            <p class="text-justify">Mô tả sản phẩm:</p>
+
             <div class="order">
                 <form action="AddToCartServlet" method="post">
                     <a class="btn btn-primary btn-lg" href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
@@ -111,10 +121,37 @@
             </div>
         </div>
 
+        <%-- Comments Section --%>
+        <h3>Đánh giá sản phẩm (<%= (comments != null) ? comments.size() : 0 %>)</h3>
+        <%
+            if (comments != null && !comments.isEmpty()) {
+                for (Comment comment : comments) {
+        %>
+        <div class="comment-item d-flex mb-3">
+            <div class="profile-pic">
+            </div>
+            <div class="comment-content flex-grow-1">
+                <p class="comment-author"><%= comment.getIdAccount() %></p>
+                <p class="comment-text"><%= comment.getContent() %></p>
+                <% if (comment.getDateComment() != null) { %>
+                <p class="comment-date"><%= comment.getDateComment().toString() %></p>
+                <% } %>
+            </div>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>Chưa có đánh giá nào. Hãy là người đầu tiên để lại bình luận!</p>
+        <%
+            }
+        %>
+
+        <%--Feedback Form--%>
         <form id="feedbackForm" action="./submitFeedback" method="post">
             <div class="mb-3">
                 <label for="feedbackText" class="form-label">Đánh giá sản phẩm:</label>
-                <textarea class="form-control" id="feedbackText" rows="3" name="content"></textarea>
+                <textarea class="form-control" id="feedbackText" rows="5" cols="33" name="content"></textarea>
             </div>
             <input type="hidden" id="productId" name="productId" value="<%= selectedProduct.getId() %>">
             <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? "true" : "false"%>">
@@ -143,6 +180,8 @@
                 </div>
             </div>
         </form>
+
+
     </div>
         <% } %>
 
