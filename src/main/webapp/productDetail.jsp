@@ -112,7 +112,9 @@
             </div>
 
             <p class="text-justify">Mô tả sản phẩm:</p>
-            <p class=""></p>
+            <p class="">
+                <%= selectedProduct.getMaterial() %>
+            </p>
 
             <div class="order">
                 <form action="AddToCartServlet" method="post">
@@ -135,31 +137,9 @@
             <div class="button-container">
                 <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi</button>
             </div>
-
-            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="loginModalLabel">Vui lòng Đăng nhập</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Bạn cần phải đăng nhập để gửi phản hồi.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button id='closeModal' type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
-                            </button>
-                            <a href="./login" class="btn btn-primary">Login</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </form>
 
-        <div class="rating-container">
+        <div class="rating-container" style="position: relative; left: 212px; top: -195px; transition: none 0s ease 0s;">
             <form id="ratingForm" action="./rateProduct" method="post">
                 <input type="hidden" name="productId" value="<%= selectedProduct.getId() %>">
                 <input type="hidden" id="selectedRating" name="selectedRating" value="">
@@ -290,7 +270,6 @@
                     ratingInput.value = rating;
                     document.getElementById('ratingForm').submit();
                 } else {
-                    // Redirect the user to the login page or display an error message
                     window.location.href = './login';
                 }
             });
