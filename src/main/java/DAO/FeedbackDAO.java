@@ -4,13 +4,9 @@ package DAO;
 import Model.Comment;
 import org.jdbi.v3.core.Jdbi;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class FeedbackDAO {

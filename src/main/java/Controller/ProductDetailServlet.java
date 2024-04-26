@@ -41,7 +41,6 @@ public class ProductDetailServlet extends HttpServlet {
 
             RequestDispatcher rd = request.getRequestDispatcher("/productDetail.jsp");
             request.setAttribute("selectedProduct", selectedProduct);
-//            request.setAttribute("listProduct", listProduct);
             request.setAttribute("ps", productService);
             request.setAttribute("productRating", productRating);
 

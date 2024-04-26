@@ -1,7 +1,5 @@
-<%@ page import="DAO.ProductDAO" %>
 <%@ page import="Model.Product" %>
 <%@ page import="Service.ProductService" %>
-<%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.*" %>
 <%@ page import="Model.Account" %>
 <%@ page import="Model.Comment" %>
@@ -29,13 +27,16 @@
     Account account = (Account) session.getAttribute("account");
     Double productRating = (Double) request.getAttribute("productRating");
     ProductService productService = request.getAttribute("ps") == null ?
-            ProductService.getInstance() : (ProductService) request.getAttribute("ps");
+            ProductService.getInstance() :
+            (ProductService) request.getAttribute("ps");
+
     FeedbackAndRatingService feedbackAndRatingService =
             request.getAttribute("feedbackAndRatingService") == null ?
                     FeedbackAndRatingService.getInstance() :
                     (FeedbackAndRatingService) request.getAttribute("feedbackAndRatingService");
 
     Product selectedProduct = (Product) request.getAttribute("selectedProduct");
+
     String productId = selectedProduct != null ? selectedProduct.getId() : "";
     List<Comment> comments = feedbackAndRatingService.getCommentsByProductId(productId);
     Map<String, String> imageMap = productService.selectImageProductDetail(selectedProduct != null ? selectedProduct.getId() : null);
@@ -43,7 +44,7 @@
 <% if (selectedProduct != null) { %>
 <ol class="page-breadcrumb breadcrumb__list">
     <li><a href="./home" class="breadcrumb__item">Trang chủ</a></li>
-    <li><a href="" class="breadcrumb__item"><%= selectedProduct.getId() %>
+    <li><a href="" class="breadcrumb__item">/ <%= selectedProduct.getId() %>
     </a></li>
 </ol>
 
@@ -111,6 +112,7 @@
             </div>
 
             <p class="text-justify">Mô tả sản phẩm:</p>
+            <p class=""></p>
 
             <div class="order">
                 <form action="AddToCartServlet" method="post">
@@ -121,42 +123,18 @@
             </div>
         </div>
 
-        <%-- Comments Section --%>
-        <h3>Đánh giá sản phẩm (<%= (comments != null) ? comments.size() : 0 %>)</h3>
-        <%
-            if (comments != null && !comments.isEmpty()) {
-                for (Comment comment : comments) {
-        %>
-        <div class="comment-item d-flex mb-3">
-            <div class="profile-pic">
-            </div>
-            <div class="comment-content flex-grow-1">
-                <p class="comment-author"><%= comment.getIdAccount() %></p>
-                <p class="comment-text"><%= comment.getContent() %></p>
-                <% if (comment.getDateComment() != null) { %>
-                <p class="comment-date"><%= comment.getDateComment().toString() %></p>
-                <% } %>
-            </div>
-        </div>
-        <%
-            }
-        } else {
-        %>
-        <p>Chưa có đánh giá nào. Hãy là người đầu tiên để lại bình luận!</p>
-        <%
-            }
-        %>
-
         <%--Feedback Form--%>
         <form id="feedbackForm" action="./submitFeedback" method="post">
             <div class="mb-3">
-                <label for="feedbackText" class="form-label">Đánh giá sản phẩm:</label>
+                <label for="feedbackText" class="form-label" style="font-size: 2.1rem;">Đánh giá sản phẩm:</label>
                 <textarea class="form-control" id="feedbackText" rows="5" cols="33" name="content"></textarea>
             </div>
             <input type="hidden" id="productId" name="productId" value="<%= selectedProduct.getId() %>">
             <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? "true" : "false"%>">
 
-            <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi</button>
+            <div class="button-container">
+                <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi</button>
+            </div>
 
             <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
                  aria-hidden="true">
@@ -181,7 +159,56 @@
             </div>
         </form>
 
+        <div class="rating-container">
+            <form id="ratingForm" action="./rateProduct" method="post">
+                <input type="hidden" name="productId" value="<%= selectedProduct.getId() %>">
+                <input type="hidden" id="selectedRating" name="selectedRating" value="">
+                <div class="rating" id="starRating">
+                    <i class="star" data-rating="1" onmouseover="highlightStars(1)" onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="2" onmouseover="highlightStars(2)" onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="3" onmouseover="highlightStars(3)" onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="4" onmouseover="highlightStars(4)" onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="5" onmouseover="highlightStars(5)" onmouseout="resetStars()">★</i>
+                </div>
+            </form>
+        </div>
 
+
+        <%-- Comments Section --%>
+        <h3>Các lượt đánh giá sản phẩm (<%= (comments != null) ? comments.size() : 0 %>)</h3>
+        <%
+            if (comments != null && !comments.isEmpty()) {
+                for (Comment comment : comments) {
+        %>
+        <div class="comment-item d-flex mb-3">
+            <div class="profile-pic">
+                <img src="./assets/images/facebook-user-icon-19.jpg" alt="User Avatar">
+            </div>
+
+            <div class="comment-content flex-grow-1">
+                <p class="comment-author">
+                    <% if (account != null) { %>
+                    <%= account.getUsername() %>
+                    <% } else { %>
+                    Anonymous User
+                    <% } %>
+                </p>
+                <p class="comment-text"><%= comment.getContent() %>
+                </p>
+                <% if (comment.getDateComment() != null) { %>
+                <p class="comment-date"><%= comment.getDateComment().toString() %>
+                </p>
+                <% } %>
+            </div>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>Chưa có đánh giá nào. Hãy là người đầu tiên để lại bình luận!</p>
+        <%
+            }
+        %>
     </div>
         <% } %>
 
@@ -223,39 +250,48 @@
         });
     });
 
-    $(document).ready(function () {
-        const thumbnails = $('.image-list li img');
-        const mainImage = $('#main-image');
-        const imageDisplay = $('.image-display');
-
-        thumbnails.on('click', function (event) {
-            const zoomImage = $(this).data('zoomImage');
-            mainImage.attr('src', zoomImage);
-            imageDisplay.addClass('active');
+    function highlightStars(count) {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach((star, index) => {
+            if (index < count) {
+                star.style.color = 'gold';
+            }
         });
+    }
 
-        thumbnails.on('click', function (event) {
-            const zoomImage = $(this).data('zoomImage');
-            mainImage.attr('src', zoomImage);
-            imageDisplay.addClass('active');
-
-            // Add/remove active class for image indicators
-            thumbnails.removeClass('active');
-            $(this).addClass('active');
+    function resetStars() {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(star => {
+            star.style.color = 'black';
         });
+    }
 
-        // Add click event listener to the main image to close the zoom
-        imageDisplay.on('click', function () {
-            imageDisplay.removeClass('active');
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('selectedRating');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.dataset.rating;
+                ratingInput.value = rating;
+                document.getElementById('ratingForm').submit();
+            });
         });
+    });
 
-        $(document).ready(function () {
-            $('#submitButton').click(function (event) {
-                const isLoggedIn = $('#isLoggedIn').val() === "true";
-                if (!isLoggedIn) {
-                    // Prevent form submission and show login modal
-                    event.preventDefault();
-                    $('#loginModal').modal('show');
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('selectedRating');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                if (<%= session.getAttribute("account") != null %>){
+                    const rating = this.dataset.rating;
+                    ratingInput.value = rating;
+                    document.getElementById('ratingForm').submit();
+                } else {
+                    // Redirect the user to the login page or display an error message
+                    window.location.href = './login';
                 }
             });
         });

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/submitFeedback") // Maps to URL pattern "/submitFeedback"
+@WebServlet("/submitFeedback")
 public class FeedbackServlet extends HttpServlet {
 
     @Override
@@ -26,14 +26,14 @@ public class FeedbackServlet extends HttpServlet {
 
         // Get user ID from session (assuming user ID is stored in session)
         HttpSession session = request.getSession(false); // Don't create a new session if not existing
-        Account account = null;
+        Account account;
         List<Comment> comments = null;
         int idAccount = 0;
 
         if (session != null) {
             account = (Account) session.getAttribute("account");
             if (account != null) {
-                idAccount = account.getID(); // Access user ID from Account object
+                idAccount = account.getID();
             }
         }
 
