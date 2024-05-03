@@ -42,6 +42,19 @@ public class FeedbackDAO {
 
         return comments;
     }
+
+    public static int getTotalNumberOfComments() {
+        String GET_TOTAL_COMMENTS_SQL = "SELECT COUNT(*) as total FROM reviews";
+
+        JDBI = ConnectJDBI.connector();
+        int totalComments = JDBI.withHandle(handle ->
+                handle.createQuery(GET_TOTAL_COMMENTS_SQL)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+
+        return totalComments;
+    }
 }
 
 
