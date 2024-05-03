@@ -43,3 +43,4 @@ src/main/resources/db.properties.properties
 .idea/webContexts.xml
 .idea/misc.xml
 .idea/inspectionProfiles/Project_Default.xml
+.idea/jsLibraryMappings.xml

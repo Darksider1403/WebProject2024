@@ -26,4 +26,8 @@ public class FeedbackAndRatingService {
     public int saveRating(int rating, int idAccount, String productId) {
         return RatingDAO.saveRating(rating, idAccount, productId);
     }
+
+    public int getTotalNumberOfComments() {
+        return FeedbackDAO.getTotalNumberOfComments();
+    }
 }
