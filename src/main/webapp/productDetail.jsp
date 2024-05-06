@@ -4,6 +4,8 @@
 <%@ page import="Model.Account" %>
 <%@ page import="Model.Comment" %>
 <%@ page import="Service.FeedbackAndRatingService" %>
+<%@ page import="DAO.AccountDAO" %>
+<%@ page import="Service.AccountService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
@@ -139,7 +141,8 @@
             </div>
         </form>
 
-        <div class="rating-container" style="position: relative; left: 212px; top: -195px; transition: none 0s ease 0s;">
+        <div class="rating-container"
+             style="position: relative; left: 212px; top: -195px; transition: none 0s ease 0s;">
             <form id="ratingForm" action="./rateProduct" method="post">
                 <input type="hidden" name="productId" value="<%= selectedProduct.getId() %>">
                 <input type="hidden" id="selectedRating" name="selectedRating" value="">
@@ -167,17 +170,25 @@
 
             <div class="comment-content flex-grow-1">
                 <p class="comment-author">
-                    <% if (account != null) { %>
-                    <%= account.getUsername() %>
-                    <% } else { %>
+                    <%
+                        int accountId = comment.getIdAccount();
+                        if (accountId > 0) {
+                            Account commenterAccount = AccountService.getInstance().getAccountByAccountId(accountId);
+                            if (commenterAccount != null) {
+                    %>
+                    <%= commenterAccount.getUsername() %>
+                    <%
+                        }
+                    } else {
+                    %>
                     Anonymous User
-                    <% } %>
+                    <%
+                        }
+                    %>
                 </p>
-                <p class="comment-text"><%= comment.getContent() %>
-                </p>
+                <p class="comment-text"><%= comment.getContent() %></p>
                 <% if (comment.getDateComment() != null) { %>
-                <p class="comment-date"><%= comment.getDateComment().toString() %>
-                </p>
+                <p class="comment-date"><%= comment.getDateComment().toString() %></p>
                 <% } %>
             </div>
         </div>
@@ -246,12 +257,12 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const stars = document.querySelectorAll('.star');
         const ratingInput = document.getElementById('selectedRating');
 
         stars.forEach(star => {
-            star.addEventListener('click', function() {
+            star.addEventListener('click', function () {
                 const rating = this.dataset.rating;
                 ratingInput.value = rating;
                 document.getElementById('ratingForm').submit();
@@ -259,13 +270,13 @@
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const stars = document.querySelectorAll('.star');
         const ratingInput = document.getElementById('selectedRating');
 
         stars.forEach(star => {
-            star.addEventListener('click', function() {
-                if (<%= session.getAttribute("account") != null %>){
+            star.addEventListener('click', function () {
+                if (<%= session.getAttribute("account") != null %>) {
                     const rating = this.dataset.rating;
                     ratingInput.value = rating;
                     document.getElementById('ratingForm').submit();

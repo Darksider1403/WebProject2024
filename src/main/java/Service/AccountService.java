@@ -20,6 +20,10 @@ public class AccountService {
         return AccountDAO.accountByUsername(username);
     }
 
+    public Account getAccountByAccountId(int accountId) {
+        return AccountDAO.getAccountByAccountId(accountId);
+    }
+
     public Account accountByUsernameAndEmail(String username, String email) {
         return AccountDAO.accountByUsernameAndEmail(username, email);
     }

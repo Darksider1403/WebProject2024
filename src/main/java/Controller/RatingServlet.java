@@ -54,10 +54,8 @@ public class RatingServlet extends HttpServlet {
         int rowsAffected = feedbackService.saveRating(rating, idAccount, productId);
 
         if (rowsAffected > 0) {
-            // Rating saved successfully
             response.sendRedirect("./productDetail?id=" + productId);
         } else {
-            // Error saving rating
             response.sendRedirect("./productDetail?id=" + productId + "&error=ratingSave");
         }
     }
