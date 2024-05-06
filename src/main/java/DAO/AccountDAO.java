@@ -15,10 +15,20 @@ public class AccountDAO {
     public static Account accountByUsername(String username) {
         JDBI = ConnectJDBI.connector();
         Optional<Account> account = JDBI.withHandle(handle ->
-                handle.createQuery("Select id, username, password,email, fullname, numberPhone, status From accounts where username = ?")
+                handle.createQuery("Select id, username, password, email, fullname, numberPhone, status From accounts where username = ?")
                         .bind(0, username).mapToBean(Account.class).stream().findFirst()
         );
         return account.isEmpty() ? null : account.get();
+    }
+
+    public static Account getAccountByAccountId(int accountId) {
+        JDBI = ConnectJDBI.connector();
+        String sql = "SELECT id, username, password, email, fullname, numberPhone, status From accounts where id = ?";
+        Optional<Account> account = JDBI.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, accountId).mapToBean(Account.class).stream().findFirst()
+        );
+        return account.orElse(null);
     }
 
     public static Account accountByUsernameAndEmail(String username, String email) {

@@ -44,3 +44,5 @@ src/main/resources/db.properties.properties
 .idea/misc.xml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/jsLibraryMappings.xml
+.idea/discord.xml
+*.xml
