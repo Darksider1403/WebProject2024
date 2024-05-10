@@ -56,6 +56,7 @@
                     Account account = (Account) session.getAttribute("account");
                     List<Order> orderListSS = OrderService.getInstance().showOrder(account.getID());
 
+
                 %>
                 <div class="col-md-9">
                     <div class="tab-content">
@@ -163,10 +164,9 @@
                                                     <td><span class="badge bg-light text-dark">Đang giao hàng</span>
                                                     </td>
                                                     <td>
-                                                        <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-primary"
-                                                                style="font-size: 14px;" data-toggle="modal"
-                                                                data-target="#chitiet">
+                                                        <button type="button" class="btn btn-primary view-details-btn"
+                                                                data-toggle="modal" data-target="#orderDetailsModal"
+                                                                data-order-id="<%= order.getId() %>">
                                                             Xem Chi tiết
                                                         </button>
                                                     </td>
@@ -180,6 +180,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderDetailsModalLabel">Chi tiết đơn hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be dynamically populated here -->
+                <div id="orderDetailsContainer">
+                    <!-- Order details will be loaded here dynamically via JavaScript -->
                 </div>
             </div>
         </div>
@@ -237,6 +255,29 @@
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        // Handle click event on "Xem Chi tiết" button within the modal
+        $('#orderDetailsModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var orderId = button.data('order-id'); // Extract order ID from data attribute
+            var modal = $(this);
+
+            // Make AJAX request to fetch order details based on orderId
+            $.ajax({
+                url: 'OrderDetail.jsp', // URL to fetch order details (adjust this to your implementation)
+                method: 'GET',
+                data: { orderId: orderId },
+                success: function (response) {
+                    // Update modal content with fetched order details
+                    modal.find('.modal-body #orderDetailsContainer').html(response);
+                },
+                error: function () {
+                    // Handle error if AJAX request fails
+                    modal.find('.modal-body #orderDetailsContainer').html('Error loading order details.');
+                }
+            });
+        });
+    });
     document.getElementById('showFormButton').addEventListener('click', function () {
         document.getElementById('updateInfoForm').style.display = 'block';
     });
