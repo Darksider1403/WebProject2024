@@ -50,9 +50,8 @@ public class ServletOrder extends HttpServlet {
                 }
 
                 clearCart(session);
-
-                req.setAttribute("addOrder", addOrder);
-                req.getRequestDispatcher("./home").forward(req, resp);
+                System.out.println("hello world");
+                resp.sendRedirect("home");
             } else {
                 resp.sendRedirect("error.jsp");
             }

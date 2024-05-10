@@ -1,14 +1,13 @@
 package DAO;
 
-import Model.CartItems;
-import Model.Order;
-import Model.Order_detail;
-import Model.Product;
+import Model.*;
 import org.jdbi.v3.core.Jdbi;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class OrderDAO {
     private static Jdbi JDBI;
@@ -136,7 +135,7 @@ public class OrderDAO {
         return orderId;
     }
     public static   boolean addOrder(String address, int status, int id_account, Date datebuy, Date datearrival, String numberPhone){
-        String id=orderId();
+        String id= orderId();
         Jdbi jdbi = ConnectJDBI.connector();
         int execute = jdbi.withHandle(handle ->
                 handle.createUpdate("INSERT INTO orders (id, address, status, idAccount, dateBuy, dateArrival, numberPhone) " +
