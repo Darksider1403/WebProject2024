@@ -72,4 +72,8 @@ public class ProductService {
     public List<Slider> findAll() {
         return ProductDAO.findAll();
     }
+
+    public double getProductPrice(String productId) {
+        return ProductDAO.getPrice(productId);
+    }
 }

@@ -40,6 +40,7 @@ public class ServletOrder extends HttpServlet {
 
             Map<String, String> listImagesThumbnail = ps.selectImageThumbnail();
             req.getSession().setAttribute("listImagesThumbnail", listImagesThumbnail);
+
             if (addOrder) {
                 List<CartItems> cartItemsList = (List<CartItems>) session.getAttribute("list-sp");
                 for (CartItems cartItem : cartItemsList) {

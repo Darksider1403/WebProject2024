@@ -45,7 +45,10 @@
                 for (CartItems sp :sanPhams) {
 
             %>
-            <td> <input type="checkbox" name="isChecked-<%= sp.getProduct().getId()%>value="<%= checkValue %>"">
+            <td>
+                <input type="checkbox" name="isChecked-<%= sp.getProduct().getId() %>" onclick="updateGrandTotal(this)" />
+            </td>
+
             </td>
             <td><%= stt++ %></td>
             <td>
@@ -126,5 +129,22 @@
 <div id="footerContainer">
 
 </div>
+<script>
+    function updateGrandTotal(checkbox) {
+        var productId = checkbox.name.split('-')[1]; // Extract product ID from checkbox name
+
+        // AJAX request to servlet
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'UpdateGrandTotalServlet?productId=' + productId + '&checked=' + checkbox.checked, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Reload the page after successful update
+                location.reload();
+            }
+        };
+        xhr.send();
+    }
+</script>
+
 </body>
 </html>
