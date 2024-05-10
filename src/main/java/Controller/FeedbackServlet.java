@@ -22,7 +22,7 @@ import java.util.List;
 public class FeedbackServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         if (session != null) {
             Account account = (Account) session.getAttribute("account");
             if (account != null) {
