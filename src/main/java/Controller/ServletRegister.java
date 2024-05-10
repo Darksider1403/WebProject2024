@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Account;
 import Service.AccountService;
+import Service.EmailService;
+import Service.EncryptService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,36 +30,44 @@ public class ServletRegister extends HttpServlet {
         String password = req.getParameter("password") == null ? "" : req.getParameter("password");
         String repeatPassword = req.getParameter("repeatPassword") == null ? "" : req.getParameter("repeatPassword");
         String error = "";
+        String notify = "";
         AccountService as = AccountService.getInstance();
-        req.setAttribute("fullname", fullname);
-        req.setAttribute("email", email);
-        req.setAttribute("phone", phone);
-        req.setAttribute("username", username);
-        if (fullname.isEmpty() || email.isEmpty() || phone.isEmpty() || username.isEmpty()) {
-            req.getRequestDispatcher("Register.jsp").forward(req, resp);
+        if (fullname.isEmpty() || email.isEmpty() || phone.isEmpty()
+                || username.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
+            error = "Vui lòng nhập đầy đủ các trường dữ liệu";
         } else {
-            if (as.isPhoneValid(phone) && password.equals(repeatPassword)) {
-                if (as.accountByUsernameAndEmail(username, email) == null && as.accountByUsername(username) == null)  {
-                    if (as.createAccount(username, password, email, fullname, phone, 0) != 0) {
+            if (!as.isEmail(email)) {
+                error = "Vui lòng nhập đúng định dạng email";
+            } else if (!as.isPhoneValid(phone)) {
+                error = "Vui lòng nhập đúng định dạng số điện thoại";
+            } else if (!as.checkValidatePassword(password)) {
+                error = "Password không đủ mạnh";
+            } else if (username.contains(" ")) {
+                error = "Username không được chứa khoảng cách";
+            } else if (!password.equals(repeatPassword)) {
+                error = "Password không trùng nhau";
+            } else {
+                if (as.accountByUsername(username) == null && as.accountByUsernameAndEmail(username, email) == null) {
+                    EncryptService es = EncryptService.getInstance();
+                    String encryptPass = es.encryptMd5(password);
+                    if (as.createAccount(username,encryptPass,email, fullname, phone, 0) != 0) {
                         Account account = as.accountByUsername(username);
                         if (as.vertifyEmail(account)) {
-                            error = "Vui lòng xác minh email";
-                            req.setAttribute("error", error);
-                            req.getRequestDispatcher("Register.jsp").forward(req, resp);
+                            error = "Vui lòng xác minh lại email";
                         } else {
-                            req.getRequestDispatcher("Register.jsp").forward(req,resp);
+                            notify = "Đăng ký thành công";
+                            req.setAttribute("notify", notify);
+                            req.getRequestDispatcher("Register.jsp").forward(req, resp);
                         }
                     }
-                } else {
-                    error = "username hoặc email đã tồn tại";
-                    req.setAttribute("error", error);
-                    req.getRequestDispatcher("Register.jsp").forward(req, resp);
                 }
-            } else {
-                error = "vui lòng kiểm tra lại thông tin đã nhập";
-                req.setAttribute("error", error);
-                req.getRequestDispatcher("Register.jsp").forward(req, resp);
             }
         }
+
+        req.setAttribute("error", error);
+        req.setAttribute("fullname", fullname);
+        req.setAttribute("phone", phone);
+        req.setAttribute("username", username);
+        req.getRequestDispatcher("Register.jsp").forward(req, resp);
     }
 }

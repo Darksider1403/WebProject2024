@@ -20,6 +20,10 @@ public class AccountService {
         return AccountDAO.accountByUsername(username);
     }
 
+    public Account getAccountByAccountId(int accountId) {
+        return AccountDAO.getAccountByAccountId(accountId);
+    }
+
     public Account accountByUsernameAndEmail(String username, String email) {
         return AccountDAO.accountByUsernameAndEmail(username, email);
     }
@@ -46,6 +50,23 @@ public class AccountService {
         return matcher.matches();
     }
 
+    public boolean isEmail(String email) {
+        String regex = "^[\\w\\-.]+@([\\w\\-]+\\.)+[\\w\\-]{2,4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    public boolean checkValidatePassword(String password) {
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+.=!])(?!.*\\s).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(AccountService.getInstance().checkValidatePassword("Phuoc2611@"));
+    }
     public boolean vertifyEmail(Account account) {
         String code = EmailService.createCode();
         String mess = "http://localhost:8080/WebProject/verifyEmail?code=" + code ;
