@@ -50,3 +50,4 @@ src/main/resources/db.properties.properties
 *.xml
 .idea/misc.xml
 *.xml
+.idea/misc.xml

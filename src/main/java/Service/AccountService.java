@@ -104,6 +104,10 @@ public class AccountService {
         return AccountDAO.createAccount(username, password, email, fullname, number_phone, status);
     }
 
+    public int createAccountWithGoogleAndFacebook(String username, String email, String fullname) {
+        return AccountDAO.createAccountWithGoogleAndFacebook(username, email, fullname);
+    }
+
     public int deleteAccount(String username, String email) {
         return AccountDAO.deleteAccount(username, email);
     }
