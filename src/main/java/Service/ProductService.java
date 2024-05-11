@@ -73,7 +73,5 @@ public class ProductService {
         return ProductDAO.findAll();
     }
 
-    public double getProductPrice(String productId) {
-        return ProductDAO.getPrice(productId);
-    }
+
 }
