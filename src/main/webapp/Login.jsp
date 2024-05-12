@@ -1,3 +1,4 @@
+<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +10,7 @@
 </head>
 <body>
 <%
+    UserGoogle accountGoogle = request.getAttribute("user") == null ? new UserGoogle() : (UserGoogle) request.getAttribute("user");
     String error = (String) request.getAttribute("error");
     String username = request.getParameter("username") != null ? (String) request.getParameter("username") : "";
     String notify = (String) request.getAttribute("notify");
@@ -60,7 +62,6 @@
                     Login with Facebook
                 </a>
                 <a class="loginBtn loginBtn--google"
-
                    href="https://accounts.google.com/o/oauth2/auth?scope=openid%20profile%20email&redirect_uri=http://localhost:8080/LoginGoogleHandler&response_type=code&client_id=1009898544213-079sof1bo2lnn9a1hr0aaumie5kd7vvs.apps.googleusercontent.com&approval_prompt=force">
                     Login with Google
                 </a>

@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Model.Account" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,6 +14,7 @@
   <link rel="stylesheet" href="./css/admin.css">
 </head>
 <%
+  UserGoogle accountGoogle = request.getAttribute("user") == null ? new UserGoogle() : (UserGoogle) request.getAttribute("user");
   Account a = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
   int totalPage = request.getAttribute("totalPage") == null ? 0 : (int) request.getAttribute("totalPage");
   int pageCurrent = request.getAttribute("pageCurrent") == null ? 1 : Integer.parseInt(request.getAttribute("pageCurrent").toString());

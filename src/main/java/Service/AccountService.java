@@ -146,4 +146,8 @@ public class AccountService {
     public boolean updateUserInfo(String username, String newFullname) {
         return AccountDAO.updateUserInfo(username, newFullname);
     }
+
+    public boolean isAccountExist(String email) {
+        return AccountDAO.isAccountExist(email);
+    }
 }

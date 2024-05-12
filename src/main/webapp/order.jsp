@@ -5,6 +5,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="Model.Account" %>
 <%@ page import="DAO.OrderDAO" %>
+<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,6 +76,7 @@
     <div class="row">
         <div class="col-xl-8">
             <%
+                UserGoogle accountGoogle = request.getAttribute("user") == null ? new UserGoogle() : (UserGoogle) request.getAttribute("user");
                 Account account = (Account) session.getAttribute("account");
                 NumberFormat nf = NumberFormat.getInstance();
                 List<CartItems> sanPhams = (List<CartItems>) session.getAttribute("list-sp");

@@ -35,10 +35,25 @@ public class LoginGoogleHandler extends HttpServlet {
         String accessToken = getToken(code);
         UserGoogle user = getUserInfo(accessToken);
         AccountService as = AccountService.getInstance();
+        String name = user.getName();
+        String nameWithoutSpace = name.trim().replace(" ", "");
+
+
+        if (!as.isAccountExist(nameWithoutSpace)) {
+            as.createAccountWithGoogleAndFacebook(nameWithoutSpace, user.getEmail(), user.getName());
+            logActivity("User " + user.getId() + " Create account");
+            response.sendRedirect("/home");
+            System.out.println(user);
+        } else {
+            response.sendRedirect("/home");
+            logActivity("User " + user.getId() + " Already has an account");
+        }
 
         request.getSession().setAttribute("user", user);
-        response.sendRedirect("/home");
-        System.out.println(user);
+    }
+
+    private void logActivity(String message) {
+        System.out.println("Activity log: " + message);
     }
 
     public static String getToken(String code) throws ClientProtocolException, IOException {

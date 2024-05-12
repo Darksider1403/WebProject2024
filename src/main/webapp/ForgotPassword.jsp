@@ -1,3 +1,4 @@
+<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -7,6 +8,7 @@
 </head>
 <body>
 <%
+    UserGoogle accountGoogle = request.getAttribute("user") == null ? new UserGoogle() : (UserGoogle) request.getAttribute("user");
     String email = request.getAttribute("email") == null ? "" : request.getAttribute("email").toString();
     String username = request.getAttribute("username") == null ? "" : request.getAttribute("username").toString();
     boolean check = request.getAttribute("check") == null ? false : (boolean) request.getAttribute("check");

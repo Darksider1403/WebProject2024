@@ -5,6 +5,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="Model.Account" %>
+<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,7 @@
     <link rel="stylesheet" href="./css/admin.css">
 </head>
 <%
+    UserGoogle accountGoogle = request.getAttribute("user") == null ? new UserGoogle() : (UserGoogle) request.getAttribute("user");
     Account account = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
     String notify = request.getAttribute("notify") == null ? "" : request.getAttribute("notify").toString();
     ProductService ps = request.getAttribute("ps") == null ? ProductService.getInstance() : (ProductService) request.getAttribute("ps");

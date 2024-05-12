@@ -1,15 +1,13 @@
-<%@ page import="Model.Slider" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.Product" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="Model.ShoppingCart" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Model.Account" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="Model.Product" %>
+<%@ page import="Model.*" %>
 
 <%
+    UserGoogle accountGoogle = (UserGoogle) request.getAttribute("user");
     Account account = (Account) session.getAttribute("account");
     List<Slider> sliders = (List<Slider>) request.getAttribute("slider");
     ShoppingCart gh = (ShoppingCart) session.getAttribute("cart");

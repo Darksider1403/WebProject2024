@@ -6,6 +6,9 @@ public class UserGoogle {
     private String name;
     private boolean isVerified;
 
+    public UserGoogle() {
+    }
+
     public UserGoogle(String id, String email, String name, boolean isVerified) {
         this.id = id;
         this.email = email;
