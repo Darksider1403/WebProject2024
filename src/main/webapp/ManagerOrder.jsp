@@ -6,7 +6,6 @@
 <%@ page import="Service.ProductService" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
@@ -20,7 +19,6 @@
 </head>
 <body>
 <%
-    UserGoogle accountGoogle = request.getAttribute("user") == null ? new UserGoogle() : (UserGoogle) request.getAttribute("user");
     Order order = request.getAttribute("order") == null ? new Order() : (Order) request.getAttribute("order");
     Account account = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
     String id = request.getAttribute("id") == null ? "" : request.getAttribute("id").toString();

@@ -2,7 +2,6 @@
 <%@ page import="Service.AccountService" %>
 <%@ page import="Service.ProductService" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,7 +15,6 @@
 </head>
 <body>
 <%
-    UserGoogle accountGoogle = request.getAttribute("user") == null ? new UserGoogle() : (UserGoogle) request.getAttribute("user");
     Account account = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
     int totalAccounts = request.getAttribute("totalAccounts") == null ? 0 : (int) request.getAttribute("totalAccounts");
     int totalProducts = request.getAttribute("totalProducts") == null ? 0 : (int) request.getAttribute("totalProducts");

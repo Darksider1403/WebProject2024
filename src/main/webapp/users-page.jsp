@@ -67,6 +67,12 @@
                             <hr class="border-light m-0">
                             <div class="card-body">
                                 <div class="form-group">
+
+                                    <%
+                                        if (account.getFullname() == null) {
+                                            account.setFullname(account.getName());
+                                        }
+                                    %>
                                     <label class="form-label">Họ và tên: <%= account.getFullname() %>
                                     </label>
                                 </div>
@@ -75,16 +81,21 @@
                                     </label>
                                 </div>
                                 <div class="form-group">
+                                    <%
+                                        if (account.getNumberPhone() == null) {
+                                            account.setNumberPhone("Chưa cập nhật");
+                                        }
+                                    %>
                                     <label class="form-label">Số điện thoại: <%= account.getNumberPhone() %>
                                     </label>
                                 </div>
                                 <button id="showFormButton" class="btn btn-primary">
                                     <h5>
                                         Chỉnh sửa thông tin
-                                    </h5> </button>
+                                    </h5></button>
                                 <a data-toggle="modal" data-target="#logout" class="btn btn-primary">
                                     <div>
-                                        <div >
+                                        <div>
                                             <h5>Đăng xuất</h5>
                                         </div>
                                     </div>
@@ -151,15 +162,18 @@
                                                 <tbody>
                                                 <tr>
                                                     <%
-                                                        if(orderListSS==null){
+                                                        if (orderListSS == null) {
                                                             System.out.println("null");
                                                         }
                                                         for (Order order : orderListSS) {
                                                     %>
                                                     <td><%=order.getId()%>
-                                                    <td><%=order.getDateBuy()%></td>
-                                                    <td><%=order.getDateArrival()%></td>
-                                                    <td> <%=order.getNumberPhone()%></td>
+                                                    <td><%=order.getDateBuy()%>
+                                                    </td>
+                                                    <td><%=order.getDateArrival()%>
+                                                    </td>
+                                                    <td><%=order.getNumberPhone()%>
+                                                    </td>
                                                     <td><span class="badge bg-light text-dark">Đang giao hàng</span>
                                                     </td>
                                                     <td>
@@ -227,9 +241,13 @@
                 <div class="text-center">
                     <h4>Bạn có muốn đăng xuất</h4>
                     <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">Không</button>
-                    <a href="./ServletLogOut"><button
-                            type="button" class="btn btn-primary text-white">Có</button></a>
+                            data-dismiss="modal">Không
+                    </button>
+                    <a href="./ServletLogOut">
+                        <button
+                                type="button" class="btn btn-primary text-white">Có
+                        </button>
+                    </a>
                 </div>
             </div>
             <div class="modal-footer"></div>

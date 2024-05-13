@@ -2,7 +2,6 @@
 <%@ page import="Model.Slider" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Model.ShoppingCart" %>
-<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -31,7 +30,6 @@
 </head>
 <body>
 <%
-    UserGoogle accountGoogle = (UserGoogle) request.getAttribute("user");
     Account account = (Account) session.getAttribute("account");
     List<Slider> sliders = (List<Slider>) request.getAttribute("slider");
     ShoppingCart gh = (ShoppingCart) session.getAttribute("cart");

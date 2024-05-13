@@ -6,7 +6,6 @@
 <%@ page import="Service.FeedbackAndRatingService" %>
 <%@ page import="DAO.AccountDAO" %>
 <%@ page import="Service.AccountService" %>
-<%@ page import="Model.UserGoogle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
@@ -36,7 +35,6 @@
 <body>
 <jsp:include page="header.jsp"/>
 <%
-    UserGoogle accountGoogle = request.getAttribute("user") == null ? new UserGoogle() : (UserGoogle) request.getAttribute("user");
     Account account = (Account) session.getAttribute("account");
     Double productRating = (Double) request.getAttribute("productRating");
     ProductService

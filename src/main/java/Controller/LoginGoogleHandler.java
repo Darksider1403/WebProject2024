@@ -2,10 +2,14 @@ package Controller;
 
 
 import Constants.Constants;
-import Model.UserGoogle;
+import Model.Account;
 import Service.AccountService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.fluent.Form;
+import org.apache.http.client.fluent.Request;
+
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -13,10 +17,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Form;
 
 @WebServlet(name = "LoginGoogleHandler", value = "/LoginGoogleHandler")
 public class LoginGoogleHandler extends HttpServlet {
@@ -32,8 +34,10 @@ public class LoginGoogleHandler extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String code = request.getParameter("code");
+        HttpSession session = request.getSession(true);
+        Account account = (Account) session.getAttribute("account");
         String accessToken = getToken(code);
-        UserGoogle user = getUserInfo(accessToken);
+        Account user = getUserInfo(accessToken);
         AccountService as = AccountService.getInstance();
         String name = user.getName();
         String nameWithoutSpace = name.trim().replace(" ", "");
@@ -41,15 +45,15 @@ public class LoginGoogleHandler extends HttpServlet {
 
         if (!as.isAccountExist(nameWithoutSpace)) {
             as.createAccountWithGoogleAndFacebook(nameWithoutSpace, user.getEmail(), user.getName());
-            logActivity("User " + user.getId() + " Create account");
+            logActivity("User " + user.getID() + " Create account");
             response.sendRedirect("/home");
             System.out.println(user);
         } else {
             response.sendRedirect("/home");
-            logActivity("User " + user.getId() + " Already has an account");
+            logActivity("User " + user.getID() + " Already has an account");
         }
 
-        request.getSession().setAttribute("user", user);
+        session.setAttribute("account", user);
     }
 
     private void logActivity(String message) {
@@ -70,11 +74,11 @@ public class LoginGoogleHandler extends HttpServlet {
         return accessToken;
     }
 
-    public static UserGoogle getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
+    public static Account getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
 
-        UserGoogle googlePojo = new Gson().fromJson(response, UserGoogle.class);
+        Account googlePojo = new Gson().fromJson(response, Account.class);
 
         return googlePojo;
     }

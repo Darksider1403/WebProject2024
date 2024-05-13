@@ -102,6 +102,12 @@
       <artifactId>httpcore</artifactId>
       <version>4.4.16</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.restfb/restfb -->
+    <dependency>
+      <groupId>com.restfb</groupId>
+      <artifactId>restfb</artifactId>
+      <version>2024.3.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>untitled</finalName>
