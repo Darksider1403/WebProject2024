@@ -43,7 +43,7 @@ public class LoginGoogleHandler extends HttpServlet {
         String nameWithoutSpace = name.trim().replace(" ", "");
 
 
-        if (!as.isAccountExist(nameWithoutSpace)) {
+        if (as.isAccountExist(user.getEmail())) {
             as.createAccountWithGoogleAndFacebook(nameWithoutSpace, user.getEmail(), user.getName());
             logActivity("User " + user.getID() + " Create account");
             response.sendRedirect("/home");

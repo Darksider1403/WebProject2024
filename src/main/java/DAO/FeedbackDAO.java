@@ -14,7 +14,7 @@ public class FeedbackDAO {
     private static Jdbi JDBI;
 
     public static int saveCommentFeedback(String content, String productId, int idAccount) {
-        String SAVE_FEEDBACK_SQL = "INSERT INTO reviews (content, date_comment, idProduct, idAccount) VALUES (?, ?, ?, ?)";
+        String SAVE_FEEDBACK_SQL = "INSERT INTO reviews (content, dateComment, idProduct, idAccount) VALUES (?, ?, ?, ?)";
         String contentUTF8 = new String(content.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         LocalDate currentDate = LocalDate.now();
         JDBI = ConnectJDBI.connector();
@@ -32,7 +32,7 @@ public class FeedbackDAO {
     }
 
     public static List<Comment> getCommentsByProductId(String productId) {
-        String GET_COMMENTS_SQL = "SELECT content, date_comment, idAccount FROM reviews WHERE idProduct = ?";
+        String GET_COMMENTS_SQL = "SELECT content, dateComment, idAccount FROM reviews WHERE idProduct = ?";
         JDBI = ConnectJDBI.connector();
         List<Comment> comments = JDBI.withHandle(handle ->
                 handle.createQuery(GET_COMMENTS_SQL)
@@ -63,7 +63,6 @@ public class FeedbackDAO {
     }
 
     public static void main(String[] args) {
-
         System.out.println(getCommentsByProductId("Tl001").get(0).getAccount());
     }
 }

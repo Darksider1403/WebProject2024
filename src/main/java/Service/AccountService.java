@@ -148,6 +148,6 @@ public class AccountService {
     }
 
     public boolean isAccountExist(String email) {
-        return AccountDAO.isAccountExist(email);
+        return !AccountDAO.isAccountExist(email);
     }
 }

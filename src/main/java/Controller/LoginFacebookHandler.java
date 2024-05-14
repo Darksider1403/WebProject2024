@@ -3,6 +3,7 @@ package Controller;
 
 import Constants.Constants;
 import Model.Account;
+import Service.AccountService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.restfb.DefaultFacebookClient;
@@ -11,35 +12,46 @@ import com.restfb.Version;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Request;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "LoginFacebookHandler", value = "/LoginFacebookHandler")
 public class LoginFacebookHandler extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String code = request.getParameter("code");
-
-        if (code == null || code.isEmpty()) {
-            RequestDispatcher dis = request.getRequestDispatcher("/login");
-            dis.forward(request, response);
-        } else {
-            String accessToken = getToken(code);
-            Account user = getUserInfo(accessToken);
-            request.setAttribute("id", user.getID());
-            request.setAttribute("name", user.getName());
-            RequestDispatcher dis = request.getRequestDispatcher("/home");
-            dis.forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+        processRequest(request, response);
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String code = request.getParameter("code");
+        HttpSession session = request.getSession(true);
+        Account account = (Account) session.getAttribute("account");
+        String accessToken = getToken(code);
+        Account user = getUserInfo(accessToken);
+        AccountService as = AccountService.getInstance();
+        String name = user.getName();
+        String nameWithoutSpace = name.trim().replace(" ", "");
+
+
+        if (as.isAccountExist(user.getEmail())) {
+            as.createAccountWithGoogleAndFacebook(nameWithoutSpace, user.getEmail(), user.getName());
+            response.sendRedirect("/home");
+            System.out.println(user);
+        } else {
+            response.sendRedirect("/home");
+        }
+
+        session.setAttribute("account", user);
     }
 
     public static String getToken(final String code) throws ClientProtocolException, IOException {

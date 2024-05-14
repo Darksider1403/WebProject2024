@@ -42,8 +42,8 @@
             ProductService.getInstance() : (ProductService) request.getAttribute("ps");
     FeedbackAndRatingService
             feedbackAndRatingService = request.getAttribute("feedbackAndRatingService") == null
-            ? FeedbackAndRatingService.getInstance() : (FeedbackAndRatingService)
-            request.getAttribute("feedbackAndRatingService");
+            ? FeedbackAndRatingService.getInstance()
+            : (FeedbackAndRatingService) request.getAttribute("feedbackAndRatingService");
     Product
             selectedProduct = (Product) request.getAttribute("selectedProduct");
     String
@@ -51,8 +51,7 @@
     List<Comment> comments =
             feedbackAndRatingService.getCommentsByProductId(productId);
     Map<String, String> imageMap =
-            productService.selectImageProductDetail(selectedProduct != null ?
-                    selectedProduct.getId() : null);
+            productService.selectImageProductDetail(selectedProduct != null ? selectedProduct.getId() : null);
 %>
 <% if (selectedProduct != null) { %>
 <ol class="page-breadcrumb breadcrumb__list">
