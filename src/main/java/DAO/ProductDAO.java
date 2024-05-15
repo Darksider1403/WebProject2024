@@ -1,3 +1,4 @@
+
 package DAO;
 
 import Model.Product;
@@ -35,11 +36,55 @@ public class ProductDAO {
                 handle.createQuery("SELECT idProduct, source FROM images " +
                         "Where is_thumbnail_image=1").mapToMap().collectIntoList()
         );
+        return getStringMapForImageForThumbnail(maps);
+    }
+
+    public static Map<String, String> selectImageProductDetail(String productId) {
+        JDBI = ConnectJDBI.connector();
+        try {
+            List<Map<String, Object>> maps = JDBI.withHandle(handle ->
+                    handle.createQuery("SELECT idProduct, source FROM images WHERE idProduct = ?")
+                            .bind(0, productId)
+                            .mapToMap()
+                            .collectIntoList()
+            );
+            System.out.println("Number of image records retrieved: " + maps.size());  // Log the size of the list
+            if (!maps.isEmpty()) {
+                return getStringMapForProductDetail(maps);
+            } else {
+                System.out.println("No image data found for product ID: " + productId);
+                return null;
+            }
+        } catch (Exception e) {
+            System.err.println("Error retrieving image data: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        selectImageProductDetail("TL001");
+    }
+
+    private static Map<String, String> getStringMapForImageForThumbnail(List<Map<String, Object>> maps) {
         Map<String, String> listImages = new HashMap<>();
         for(int i = 0; i <maps.size(); i++ ) {
             String id = maps.get(i).get("idproduct").toString();
             String name = maps.get(i).get("source").toString();
-            listImages.put(id, name);
+            if (!listImages.containsKey(id)) { // Check if key already exists
+                listImages.put(id, name);
+            }
+        }
+        return listImages;
+    }
+
+    private static Map<String, String> getStringMapForProductDetail(List<Map<String, Object>> maps) {
+        Map<String, String> listImages = new HashMap<>();
+        for(int i = 0; i <maps.size(); i++ ) {
+            String id = maps.get(i).get("idproduct").toString();
+            String name = maps.get(i).get("source").toString();
+            if (!listImages.containsKey(id)) { // Check if key already exists
+                listImages.put(String.valueOf(i), name);
+            }
         }
         return listImages;
     }
@@ -52,28 +97,28 @@ public class ProductDAO {
 
         int execute=0;
         int i = 3;
-            String idw = "%"+i;
-            Product p = JDBI.withHandle(handle ->
-                    handle.createQuery("SELECT * FROM products Where ID like ?")
-                            .bind(0, idw).mapToBean(Product.class).first());
-            String idProduct = p.getId();
-            File[] files = file.listFiles((dir, name) -> name.startsWith(idProduct));
-            for (File f : files) {
-                int ID_image = index++;
-                String url = "./assets/images/product_img/" + f.getName();
-                int check;
-                if (f.getName().indexOf("(1)") != -1) check = 1;
-                else {
-                    check = 0;
-                }
-                execute+= JDBI.withHandle(handle ->
-                        handle.createUpdate("INSERT INTO images(ID, idProduct, source, is_thumbnail_image) " +
-                                "Values(?, ?, ?, ?)")
-                                .bind(0, ID_image)
-                                .bind(1, idProduct)
-                                .bind(2, url)
-                                .bind(3, check).execute());
+        String idw = "%"+i;
+        Product p = JDBI.withHandle(handle ->
+                handle.createQuery("SELECT * FROM products Where ID like ?")
+                        .bind(0, idw).mapToBean(Product.class).first());
+        String idProduct = p.getId();
+        File[] files = file.listFiles((dir, name) -> name.startsWith(idProduct));
+        for (File f : files) {
+            int ID_image = index++;
+            String url = "./assets/images/product_img/" + f.getName();
+            int check;
+            if (f.getName().indexOf("(1)") != -1) check = 1;
+            else {
+                check = 0;
             }
+            execute+= JDBI.withHandle(handle ->
+                    handle.createUpdate("INSERT INTO images(ID, idProduct, source, is_thumbnail_image) " +
+                                    "Values(?, ?, ?, ?)")
+                            .bind(0, ID_image)
+                            .bind(1, idProduct)
+                            .bind(2, url)
+                            .bind(3, check).execute());
+        }
 
         return execute;
     }
@@ -100,7 +145,7 @@ public class ProductDAO {
 
     public static List<Product> productList() {
         JDBI = ConnectJDBI.connector();
-         List<Product> productList= JDBI.withHandle(handle ->
+        List<Product> productList= JDBI.withHandle(handle ->
                 handle.createQuery("SELECT id, name, price, quantity, status " +
                         "FROM products Where status = 1").mapToBean(Product.class).stream().toList()
         );
@@ -121,7 +166,7 @@ public class ProductDAO {
         JDBI = ConnectJDBI.connector();
         int total = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT Count(id) " +
-                        "FROM products Where id like ? or name like ? and status = 1")
+                                "FROM products Where id like ? or name like ? and status = 1")
                         .bind(0, "%" + search + "%")
                         .bind(1, "%" + search + "%").mapTo(Integer.class).findOnly()
         );
@@ -132,7 +177,7 @@ public class ProductDAO {
         JDBI = ConnectJDBI.connector();
         int execute = JDBI.withHandle(handle ->
                 handle.createUpdate("INSERT INTO images(idProduct, source, is_thumbnail_image) " +
-                        "Values(?, ?, ?)")
+                                "Values(?, ?, ?)")
                         .bind(0, idProduct)
                         .bind(1, source)
                         .bind(2, isThumbnail).execute());

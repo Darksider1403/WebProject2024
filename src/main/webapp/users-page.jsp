@@ -55,8 +55,6 @@
                 <%
                     Account account = (Account) session.getAttribute("account");
                     List<Order> orderListSS = OrderService.getInstance().showOrder(account.getID());
-
-
                 %>
                 <div class="col-md-9">
                     <div class="tab-content">
@@ -105,6 +103,32 @@
                                 </form>
                             </div>
                         </div>
+
+                            <!-- Change Password Form -->
+<%--                            <div class="tab-pane fade" id="account-change-password">--%>
+<%--                                <!-- Change Password Form -->--%>
+<%--                                <div class="card-body pb-2">--%>
+<%--                                        <h5 class="card-title">Change Password</h5>--%>
+<%--                                        <form id="changePasswordForm" action="./ServletPassChanging" method="post">--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label for="currentPassword">Current Password</label>--%>
+<%--                                                <input type="password" name="currentPassword" id="currentPassword" class="form-control" required>--%>
+<%--                                            </div>--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label for="newPassword">New Password</label>--%>
+<%--                                                <input type="password" name="newPassword" id="newPassword" class="form-control" required>--%>
+<%--                                            </div>--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label for="confirmNewPassword">Confirm New Password</label>--%>
+<%--                                                <input type="password" name="confirmNewPassword" id="confirmNewPassword" class="form-control" required>--%>
+<%--                                            </div>--%>
+
+<%--                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verificationModal">--%>
+<%--                                                Change Password--%>
+<%--                                            </button>--%>
+<%--                                        </form>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                         <div class="tab-pane fade" id="account-change-password">
                             <form action="./ServletPassChanging" method="post">
                                 <div class="card-body pb-2">
@@ -128,8 +152,20 @@
                                                class="form-control" required>
                                         <span id="message"></span>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Mã xác nhận</label>
+                                        <input id="code" type="text" name="code"
+                                               class="form-control" required>
+                                        <span id="">Vui lòng ấn vào nút lấy mã xác nhận trước khi quý khách thực hiện đổi mật khẩu để nhận mã thông qua email</span>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Thay đổi mật khẩu </button>
+
                                 </div>
+                            </form>
+                            <form action="./ServletSendMail" method="post">
+                                <button type="submit" class="btn btn-primary">Lấy mã </button>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="shopping-order">
@@ -229,6 +265,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="logout" tabindex="-1"
      role="dialog" aria-labelledby="exampleModalCenterTitle"
      aria-hidden="true">
@@ -253,6 +290,27 @@
             <div class="modal-footer"></div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="verificationModal" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verificationModalLabel">Enter Verification Code</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="verificationCodeForm" action="./ServletVerifyCode" method="post">
+                    <div class="form-group">
+                        <label for="verificationCode">Verification Code</label>
+                        <input type="text" name="verificationCode" id="verificationCode" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Verify Code</button>
+                </form>
+            </div>
+        </div>
+        </div>
 </div>
 <script>
     $(document).ready(function () {

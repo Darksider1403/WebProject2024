@@ -1,11 +1,9 @@
+
 package Model;
 
 public class Slider {
-private int id;
-private String source;
-
-
-
+    private int id;
+    private String source;
     public Slider(int id, String source) {
         this.id = id;
         this.source = source;

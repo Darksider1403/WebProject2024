@@ -1,3 +1,4 @@
+
 package DAO;
 
 import Model.Account;
@@ -15,10 +16,20 @@ public class AccountDAO {
     public static Account accountByUsername(String username) {
         JDBI = ConnectJDBI.connector();
         Optional<Account> account = JDBI.withHandle(handle ->
-                handle.createQuery("Select id, username, password,email, fullname, numberPhone, status From accounts where username = ?")
+                handle.createQuery("Select id, username, password, email, fullname, numberPhone, status From accounts where username = ?")
                         .bind(0, username).mapToBean(Account.class).stream().findFirst()
         );
         return account.isEmpty() ? null : account.get();
+    }
+
+    public static Account getAccountByAccountId(int accountId) {
+        JDBI = ConnectJDBI.connector();
+        String sql = "SELECT id, username, password, email, fullname, numberPhone, status From accounts where id = ?";
+        Optional<Account> account = JDBI.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, accountId).mapToBean(Account.class).stream().findFirst()
+        );
+        return account.orElse(null);
     }
 
     public static Account accountByUsernameAndEmail(String username, String email) {
@@ -131,10 +142,10 @@ public class AccountDAO {
         JDBI = ConnectJDBI.connector();
         int execute = JDBI.withHandle(handle ->
                 handle.createUpdate("INSERT INTO access_levels(role, idAccount) " +
-                        "VALUES(?, ?)")
+                                "VALUES(?, ?)")
                         .bind(0, role)
                         .bind(1, account.getID()).execute()
-                );
+        );
 
         return execute;
     }
@@ -164,7 +175,7 @@ public class AccountDAO {
         JDBI = ConnectJDBI.connector();
         int total = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT COUNT(id) " +
-                                "FROM accounts where status = 1").mapTo(Integer.class).findOnly()
+                        "FROM accounts where status = 1").mapTo(Integer.class).findOnly()
         );
 
         return total;
@@ -175,7 +186,7 @@ public class AccountDAO {
         JDBI = ConnectJDBI.connector();
         List<Account> accountList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT a.id, a.username, a.email, a.fullname, a.numberPhone, al.role, a.status " +
-                        "From accounts a INNER JOIN access_levels al ON a.id = al.idAccount where a.username like ? And a.status > 0 ")
+                                "From accounts a INNER JOIN access_levels al ON a.id = al.idAccount where a.username like ? And a.status > 0 ")
                         .bind(0, "%"+username+"%").mapToBean(Account.class).stream().toList());
 
         return accountList;
@@ -185,7 +196,7 @@ public class AccountDAO {
         JDBI = ConnectJDBI.connector();
         int total = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT COUNT(id) " +
-                        "FROM accounts where username like ? and status = 1")
+                                "FROM accounts where username like ? and status = 1")
                         .bind(0, "%" + search + "%").mapTo(Integer.class).findOnly()
         );
 
