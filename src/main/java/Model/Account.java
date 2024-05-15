@@ -19,7 +19,7 @@ public class Account {
     private int status;
     private int role;
     private boolean isVerified;
-    private String accountType;
+
 
     public Account(int ID, String username, String password, String email, String fullname, String numberPhone, int status, int role) {
         this.ID = ID;
@@ -62,14 +62,6 @@ public class Account {
 
     public void setVerified(boolean verified) {
         isVerified = verified;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
     }
 
     public int getID() {
@@ -134,5 +126,21 @@ public class Account {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "ID=" + ID +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", numberPhone='" + numberPhone + '\'' +
+                ", status=" + status +
+                ", role=" + role +
+                ", isVerified=" + isVerified +
+                '}';
     }
 }

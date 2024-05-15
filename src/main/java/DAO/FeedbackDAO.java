@@ -1,11 +1,16 @@
 package DAO;
 
 
+import Model.Account;
 import Model.Comment;
 import Service.AccountService;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.PreparedBatch;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -63,7 +68,7 @@ public class FeedbackDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(getCommentsByProductId("Tl001").get(0).getAccount());
+//        System.out.println(getCommentsByProductId("Tl001").get(2).getAccount().getID());
     }
 }
 

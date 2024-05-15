@@ -37,19 +37,14 @@
 <%
     Account account = (Account) session.getAttribute("account");
     Double productRating = (Double) request.getAttribute("productRating");
-    ProductService
-            productService = request.getAttribute("ps") == null ?
+    ProductService productService = request.getAttribute("ps") == null ?
             ProductService.getInstance() : (ProductService) request.getAttribute("ps");
-    FeedbackAndRatingService
-            feedbackAndRatingService = request.getAttribute("feedbackAndRatingService") == null
+    FeedbackAndRatingService feedbackAndRatingService = request.getAttribute("feedbackAndRatingService") == null
             ? FeedbackAndRatingService.getInstance()
             : (FeedbackAndRatingService) request.getAttribute("feedbackAndRatingService");
-    Product
-            selectedProduct = (Product) request.getAttribute("selectedProduct");
-    String
-            productId = selectedProduct != null ? selectedProduct.getId() : "";
-    List<Comment> comments =
-            feedbackAndRatingService.getCommentsByProductId(productId);
+    Product selectedProduct = (Product) request.getAttribute("selectedProduct");
+    String productId = selectedProduct != null ? selectedProduct.getId() : "";
+    List<Comment> comments = feedbackAndRatingService.getCommentsByProductId(productId);
     Map<String, String> imageMap =
             productService.selectImageProductDetail(selectedProduct != null ? selectedProduct.getId() : null);
 %>
@@ -70,9 +65,8 @@
                     <% for (Map.Entry<String, String> entry :
                             imageMap.entrySet()) { %>
                     <li>
-                        <img src="<%= entry.getValue() %>"
-                             alt=""
-                             data-zoom-image="<%= entry.getValue() %>">
+                        <img src="<%=entry.getValue()%>" alt=""
+                             data-zoom-image="<%=entry.getValue()%>">
                     </li>
                     <% } %>
                 </ul>
@@ -80,15 +74,11 @@
                     <% String firstImageUrl = "";
                         if
                         (!imageMap.isEmpty()) {
-                            Map.Entry<String, String> firstEntry =
-                                    imageMap.entrySet().iterator().next();
-
+                            Map.Entry<String, String> firstEntry = imageMap.entrySet().iterator().next();
                             firstImageUrl = firstEntry.getValue();
                         }
                     %>
-                    <img src="<%=firstImageUrl%>"
-                         id="main-image" alt="Main Image">
-
+                    <img src="<%=firstImageUrl%>" id="main-image" alt="Main Image">
                 </div>
             </div>
             <% } else { %>
@@ -97,123 +87,80 @@
         </div>
 
         <div class="col-md-6 p-5 border bg-white">
-            <h2>
-                <%= selectedProduct.getName() %>
+            <h2><%=selectedProduct.getName()%>
             </h2>
             <div class="d-flex flex-row my-3">
                 <div class="text-warning mb-1 me-2">
                     <div class="rating-container">
-                                                                            <span class="rating-stars">
-                                                                                <% for (int i = 1; i
-                                                                                        <= Math.floor(productRating); i++) {
-                                                                                %>
-                                                                                    <i
-                                                                                            class="fa fa-star text-primary"></i>
-                                                                                    <% } %>
-                                                                                        <% if (productRating % 1 > 0) {
-                                                                                        %>
-                                                                                            <i
-                                                                                                    class="fas fa-star-half-alt text-primary"></i>
-                                                                                            <% } %>
-                                                                                                <% for (int i = (int)
-                                                                                                        (Math.ceil(productRating)
-                                                                                                                + 1); i <= 5; i++) {
-                                                                                                %>
-                                                                                                    <i
-                                                                                                            class="fa-regular fa-star"></i>
-                                                                                                    <% } %>
-                                                                            </span>
-                        <span class="rating-value ms-1">
-                                                                                <%= productRating %>
-                                                                            </span>
+                        <span class="rating-stars">
+                            <% for (int i = 1; i <= Math.floor(productRating); i++) {
+                            %>
+                            <i class="fa fa-star text-primary"></i>
+                            <% } %>
+                            <% if (productRating % 1 > 0) {
+                            %>
+                            <i class="fas fa-star-half-alt text-primary"></i>
+                            <% } %>
+                            <% for (int i = (int) (Math.ceil(productRating) + 1); i <= 5; i++) {
+                            %>
+                            <i class="fa-regular fa-star"></i>
+                            <% } %>
+                        </span>
+                        <span class="rating-value ms-1"><%=productRating%></span>
                     </div>
                 </div>
             </div>
-            <p class="text-justify">Số lượng hàng: <%=
-                                                                        selectedProduct.getQuantity() %>
-            <p class="price">Giá: <%=
-            selectedProduct.getPrice() %>đ</p>
-
+            <p class="text-justify">Số lượng hàng: <%=selectedProduct.getQuantity() %>
+            <p class="price">Giá: <%=selectedProduct.getPrice() %>đ</p>
             <p class="text-justify">Mô tả sản phẩm:</p>
-            <p class="text-justify">
-                    <%= selectedProduct.getMaterial() %>
-            <p class="text-justify">
-                    <%= selectedProduct.getGender() %>
+            <p class="text-justify"><%=selectedProduct.getMaterial() %>
+            <p class="text-justify"><%=selectedProduct.getGender() %>
 
             <div class="order">
-                <form
-                        action="AddToCartServlet"
-                        method="post">
+                <form action="AddToCartServlet" method="post">
                     <a class="btn btn-primary btn-lg"
                        href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
-                        <i
-                                class="fas fa-cart-plus"></i>Thêm
-                        sản phẩm
+                        <i class="fas fa-cart-plus"></i>Thêm sản phẩm
                     </a>
                 </form>
             </div>
         </div>
 
         <%--Feedback Form--%>
-        <form id="feedbackForm" action="./submitFeedback"
-              method="post">
+        <form id="feedbackForm" action="./submitFeedback" method="post">
             <div class="mb-3">
-                <label for="feedbackText" class="form-label"
-                       style="font-size: 2.1rem;">Đánh giá sản
-                    phẩm:</label>
-                <textarea class="form-control" id="feedbackText"
-                          rows="5" cols="33"
-                          name="content"></textarea>
+                <label for="feedbackText" class="form-label" style="font-size: 2.1rem;">Đánh giá sản phẩm:</label>
+                <textarea class="form-control" id="feedbackText" rows="5" cols="33" name="content"></textarea>
             </div>
             <input type="hidden" id="productId" name="productId"
-                   value="<%= selectedProduct.getId() %>">
-            <input type="hidden" id="isLoggedIn"
-                   value="<%=(account != null) ? " true" : "false"
-                                                                        %>">
+                   value="<%=selectedProduct.getId() %>">
+            <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? "true" : "false"%>">
 
             <div class="button-container">
-                <button type="submit"
-                        class="btn btn-primary btn-lg"
-                        id="submitButton">Gửi phản hồi
+                <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi
                 </button>
             </div>
         </form>
 
         <div class="rating-container"
              style="position: relative; left: 212px; top: -195px; transition: none 0s ease 0s;">
-            <form id="ratingForm" action="./rateProduct"
-                  method="post">
-                <input type="hidden" name="productId"
-                       value="<%= selectedProduct.getId() %>">
-                <input type="hidden" id="selectedRating"
-                       name="selectedRating" value="">
+            <form id="ratingForm" action="./rateProduct" method="post">
+                <input type="hidden" name="productId" value="<%= selectedProduct.getId() %>">
+                <input type="hidden" id="selectedRating" name="selectedRating" value="">
                 <div class="rating" id="starRating">
-                    <i class="star" data-rating="1"
-                       onmouseover="highlightStars(1)"
-                       onmouseout="resetStars()">★</i>
-                    <i class="star" data-rating="2"
-                       onmouseover="highlightStars(2)"
-                       onmouseout="resetStars()">★</i>
-                    <i class="star" data-rating="3"
-                       onmouseover="highlightStars(3)"
-                       onmouseout="resetStars()">★</i>
-                    <i class="star" data-rating="4"
-                       onmouseover="highlightStars(4)"
-                       onmouseout="resetStars()">★</i>
-                    <i class="star" data-rating="5"
-                       onmouseover="highlightStars(5)"
-                       onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="1" onmouseover="highlightStars(1)" onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="2" onmouseover="highlightStars(2)" onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="3" onmouseover="highlightStars(3)" onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="4" onmouseover="highlightStars(4)" onmouseout="resetStars()">★</i>
+                    <i class="star" data-rating="5" onmouseover="highlightStars(5)" onmouseout="resetStars()">★</i>
                 </div>
             </form>
         </div>
 
-
         <%-- Comments Section --%>
-        <h3>Các lượt đánh giá sản phẩm (<%= (comments
-                != null) ? comments.size() : 0 %>)</h3>
+        <h3>Các lượt đánh giá sản phẩm (<%= (comments != null) ? comments.size() : 0 %>)</h3>
         <% if (comments != null && !comments.isEmpty()) {
-            for
-            (Comment comment : comments) { %>
+            for (Comment comment : comments) { %>
         <div class="comment-item d-flex mb-3">
             <div class="profile-pic">
                 <img src="./assets/images/facebook-user-icon-19.jpg"
@@ -222,11 +169,9 @@
 
             <div class="comment-content flex-grow-1">
                 <p class="comment-author">
-                    <% int
-                            accountId = comment.getIdAccount();
+                    <% int accountId = comment.getIdAccount();
                         if (accountId > 0) {
-                            Account commenterAccount =
-                                    AccountService.getInstance().getAccountByAccountId(accountId);
+                            Account commenterAccount = AccountService.getInstance().getAccountByAccountId(accountId);
                             if (commenterAccount != null) {
                     %>
                     <%= commenterAccount.getUsername()
