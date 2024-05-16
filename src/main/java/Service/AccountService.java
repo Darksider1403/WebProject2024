@@ -110,6 +110,10 @@ public class AccountService {
         return AccountDAO.createAccount(username, password, email, fullname, number_phone, status);
     }
 
+    public int createAccountWithGoogleAndFacebook(String username, String email, String fullname) {
+        return AccountDAO.createAccountWithGoogleAndFacebook(username, email, fullname);
+    }
+
     public int deleteAccount(String username, String email) {
         return AccountDAO.deleteAccount(username, email);
     }
@@ -147,5 +151,9 @@ public class AccountService {
 
     public boolean updateUserInfo(String username, String newFullname) {
         return AccountDAO.updateUserInfo(username, newFullname);
+    }
+
+    public boolean isAccountExist(String email) {
+        return !AccountDAO.isAccountExist(email);
     }
 }

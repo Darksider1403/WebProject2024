@@ -1,13 +1,10 @@
-<%@ page import="Model.Slider" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.Product" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="Model.ShoppingCart" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Model.Account" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="Model.Product" %>
+<%@ page import="Model.*" %>
 
 <%
     Account account = (Account) session.getAttribute("account");
@@ -96,7 +93,7 @@
                     <div class="product-item">
                         <div class="product">
 
-                            <a href="#"><img class="product-img" style="width: 270px;height: 300px"
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img" style="width: 270px;height: 300px"
                                              src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
                             <p class="product-title">
                                 <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
@@ -142,7 +139,7 @@
                     <% for (Product product : productVai) { %>
                     <div class="product-item">
                         <div class="product">
-                            <a href="#"><img class="product-img" style="width: 270px;height: 300px"
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img" style="width: 270px;height: 300px"
                                              src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
                             <p class="product-title">
                                 <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
@@ -185,7 +182,7 @@
                     <% for (Product product : Nu) { %>
                     <div class="product-item">
                         <div class="product">
-                            <a href="#"><img class="product-img" style="width: 270px;height: 300px"
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img" style="width: 270px;height: 300px"
                                              src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
                             <p class="product-title">
                                 <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
@@ -228,7 +225,7 @@
                     <% for (Product product : Nam) { %>
                     <div class="product-item">
                         <div class="product">
-                            <a href="#"><img class="product-img" style="width: 270px;height: 300px"
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img" style="width: 270px;height: 300px"
                                              src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
                             <p class="product-title">
                                 <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>

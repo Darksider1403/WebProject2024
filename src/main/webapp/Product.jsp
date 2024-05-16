@@ -88,7 +88,7 @@
                     <% for (Product product : listProduct) { %>
                     <div class="product-item">
                         <div class="product">
-                            <a href="productDetail"><img class="product-img"
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img"
                                                          src="<%=listImageThumbnail.get(product.getId())%>"
                                                          alt=""></a>
                             <div class="product-container__tittle">

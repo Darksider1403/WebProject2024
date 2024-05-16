@@ -13,6 +13,7 @@ import java.util.StringTokenizer;
 
 public class AccountDAO {
     private static Jdbi JDBI;
+
     public static Account accountByUsername(String username) {
         JDBI = ConnectJDBI.connector();
         Optional<Account> account = JDBI.withHandle(handle ->
@@ -76,7 +77,7 @@ public class AccountDAO {
         return execute;
     }
 
-    public static int createVerifyEmail(String code, String dateCreate, String dateExpired,boolean status, int idAccount) {
+    public static int createVerifyEmail(String code, String dateCreate, String dateExpired, boolean status, int idAccount) {
         JDBI = ConnectJDBI.connector();
         int execute = JDBI.withHandle(handle ->
                 handle.createUpdate("INSERT INTO verify_emails(code, dateCreated, dateExpired, status, idAccount) " +
@@ -119,6 +120,7 @@ public class AccountDAO {
                         .bind(0, code).execute());
         return execute;
     }
+
     public static int updatePasswordAccount(int id, String password) {
         JDBI = ConnectJDBI.connector();
         int execute = JDBI.withHandle(handle ->
@@ -138,6 +140,7 @@ public class AccountDAO {
         );
         return execute;
     }
+
     public static int createRoleAccount(Account account, int role) {
         JDBI = ConnectJDBI.connector();
         int execute = JDBI.withHandle(handle ->
@@ -154,7 +157,7 @@ public class AccountDAO {
         JDBI = ConnectJDBI.connector();
         int index = 283;
         int execute = 0;
-        for (int i = 500 ; i<=636; i++) {
+        for (int i = 500; i <= 636; i++) {
             int finalI = i;
             int finalIndex = index;
             execute += JDBI.withHandle(handle ->
@@ -187,7 +190,7 @@ public class AccountDAO {
         List<Account> accountList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT a.id, a.username, a.email, a.fullname, a.numberPhone, al.role, a.status " +
                                 "From accounts a INNER JOIN access_levels al ON a.id = al.idAccount where a.username like ? And a.status > 0 ")
-                        .bind(0, "%"+username+"%").mapToBean(Account.class).stream().toList());
+                        .bind(0, "%" + username + "%").mapToBean(Account.class).stream().toList());
 
         return accountList;
     }
@@ -220,6 +223,7 @@ public class AccountDAO {
                         .execute());
         return execute > 0;
     }
+
     public static boolean updateUserInfo(String username, String newFullname) {
         JDBI = ConnectJDBI.connector();
         int execute = JDBI.withHandle(handle ->
@@ -230,4 +234,27 @@ public class AccountDAO {
         return execute > 0;
     }
 
+    public static int createAccountWithGoogleAndFacebook(String username, String email, String fullname) {
+        JDBI = ConnectJDBI.connector();
+        int execute = JDBI.withHandle(handle ->
+                handle.createUpdate("INSERT INTO accounts(username, email, fullname) " +
+                                "VALUES (?, ?, ?)")
+                        .bind(0, username)
+                        .bind(1, email)
+                        .bind(2, fullname)
+                        .execute());
+        return execute;
+    }
+
+    public static boolean isAccountExist(String email) {
+        JDBI = ConnectJDBI.connector();
+        String sql = "SELECT 1 FROM accounts WHERE email = ? LIMIT 1";
+
+        return JDBI.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, email)
+                        .mapTo(Boolean.class)
+                        .findFirst()
+                        .orElse(false));
+    }
 }
