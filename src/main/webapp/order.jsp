@@ -79,7 +79,7 @@
                     NumberFormat nf = NumberFormat.getInstance();
                     List<CartItems> sanPhams = (List<CartItems>) session.getAttribute("list-sp");
                     double tongGiaTri = 0;
-                    Map<String, String> listImagesThumbnail = session.getAttribute("listImagesThumbnail") == null ? new HashMap<>() : (Map<String, String>) session.getAttribute("listImagesThumbnail");
+                    Map<String, String> listImagesThumbnail = request.getAttribute("listImagesThumbnail") == null ? new HashMap<>() : (Map<String, String>) request.getAttribute("listImagesThumbnail");
                     for (CartItems sp : sanPhams) {
                         tongGiaTri += sp.getTotalPrice();
                 %>
@@ -198,6 +198,12 @@
                         </div>
                     </div>
                 </div>
+                <form action="/vnpay_payment" method="post">
+                    <input type="text" name="orderId" value="<%=OrderDAO.orderId()%>" placeholder="Order ID"/>
+                    <input type="text" name="amount" placeholder="Amount"/>
+                    <button type="submit">Pay with VNPay</button>
+                </form>
+
                 <div class="card border shadow-none mt-4">
                     <div class="card-header bg-transparent border-bottom py-3 px-4">
                         <h5 class="font-size-16 mb-0">Phương thức thanh toán</h5>
