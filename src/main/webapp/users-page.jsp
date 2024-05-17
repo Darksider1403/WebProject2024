@@ -55,7 +55,6 @@
                 <%
                     Account account = (Account) session.getAttribute("account");
                     List<Order> orderListSS = OrderService.getInstance().showOrder(account.getID());
-
                 %>
                 <div class="col-md-9">
                     <div class="tab-content">
@@ -67,6 +66,12 @@
                             <hr class="border-light m-0">
                             <div class="card-body">
                                 <div class="form-group">
+
+                                    <%
+                                        if (account.getFullname() == null) {
+                                            account.setFullname(account.getName());
+                                        }
+                                    %>
                                     <label class="form-label">Họ và tên: <%= account.getFullname() %>
                                     </label>
                                 </div>
@@ -75,16 +80,21 @@
                                     </label>
                                 </div>
                                 <div class="form-group">
+                                    <%
+                                        if (account.getNumberPhone() == null) {
+                                            account.setNumberPhone("Chưa cập nhật");
+                                        }
+                                    %>
                                     <label class="form-label">Số điện thoại: <%= account.getNumberPhone() %>
                                     </label>
                                 </div>
                                 <button id="showFormButton" class="btn btn-primary">
                                     <h5>
                                         Chỉnh sửa thông tin
-                                    </h5> </button>
+                                    </h5></button>
                                 <a data-toggle="modal" data-target="#logout" class="btn btn-primary">
                                     <div>
-                                        <div >
+                                        <div>
                                             <h5>Đăng xuất</h5>
                                         </div>
                                     </div>
@@ -104,6 +114,32 @@
                                 </form>
                             </div>
                         </div>
+
+                            <!-- Change Password Form -->
+<%--                            <div class="tab-pane fade" id="account-change-password">--%>
+<%--                                <!-- Change Password Form -->--%>
+<%--                                <div class="card-body pb-2">--%>
+<%--                                        <h5 class="card-title">Change Password</h5>--%>
+<%--                                        <form id="changePasswordForm" action="./ServletPassChanging" method="post">--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label for="currentPassword">Current Password</label>--%>
+<%--                                                <input type="password" name="currentPassword" id="currentPassword" class="form-control" required>--%>
+<%--                                            </div>--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label for="newPassword">New Password</label>--%>
+<%--                                                <input type="password" name="newPassword" id="newPassword" class="form-control" required>--%>
+<%--                                            </div>--%>
+<%--                                            <div class="form-group">--%>
+<%--                                                <label for="confirmNewPassword">Confirm New Password</label>--%>
+<%--                                                <input type="password" name="confirmNewPassword" id="confirmNewPassword" class="form-control" required>--%>
+<%--                                            </div>--%>
+
+<%--                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verificationModal">--%>
+<%--                                                Change Password--%>
+<%--                                            </button>--%>
+<%--                                        </form>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                         <div class="tab-pane fade" id="account-change-password">
                             <form action="./ServletPassChanging" method="post">
                                 <div class="card-body pb-2">
@@ -127,8 +163,20 @@
                                                class="form-control" required>
                                         <span id="message"></span>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Mã xác nhận</label>
+                                        <input id="code" type="text" name="code"
+                                               class="form-control" required>
+                                        <span id="">Vui lòng ấn vào nút lấy mã xác nhận trước khi quý khách thực hiện đổi mật khẩu để nhận mã thông qua email</span>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Thay đổi mật khẩu </button>
+
                                 </div>
+                            </form>
+                            <form action="./ServletSendMail" method="post">
+                                <button type="submit" class="btn btn-primary">Lấy mã </button>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="shopping-order">
@@ -151,22 +199,24 @@
                                                 <tbody>
                                                 <tr>
                                                     <%
-                                                        if(orderListSS==null){
+                                                        if (orderListSS == null) {
                                                             System.out.println("null");
                                                         }
                                                         for (Order order : orderListSS) {
                                                     %>
                                                     <td><%=order.getId()%>
-                                                    <td><%=order.getDateBuy()%></td>
-                                                    <td><%=order.getDateArrival()%></td>
-                                                    <td> <%=order.getNumberPhone()%></td>
+                                                    <td><%=order.getDateBuy()%>
+                                                    </td>
+                                                    <td><%=order.getDateArrival()%>
+                                                    </td>
+                                                    <td><%=order.getNumberPhone()%>
+                                                    </td>
                                                     <td><span class="badge bg-light text-dark">Đang giao hàng</span>
                                                     </td>
                                                     <td>
-                                                        <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-primary"
-                                                                style="font-size: 14px;" data-toggle="modal"
-                                                                data-target="#chitiet">
+                                                        <button type="button" class="btn btn-primary view-details-btn"
+                                                                data-toggle="modal" data-target="#orderDetailsModal"
+                                                                data-order-id="<%= order.getId() %>">
                                                             Xem Chi tiết
                                                         </button>
                                                     </td>
@@ -180,6 +230,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderDetailsModalLabel">Chi tiết đơn hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be dynamically populated here -->
+                <div id="orderDetailsContainer">
+                    <!-- Order details will be loaded here dynamically via JavaScript -->
                 </div>
             </div>
         </div>
@@ -211,6 +279,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="logout" tabindex="-1"
      role="dialog" aria-labelledby="exampleModalCenterTitle"
      aria-hidden="true">
@@ -227,16 +296,64 @@
                 <div class="text-center">
                     <h4>Bạn có muốn đăng xuất</h4>
                     <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">Không</button>
-                    <a href="./ServletLogOut"><button
-                            type="button" class="btn btn-primary text-white">Có</button></a>
+                            data-dismiss="modal">Không
+                    </button>
+                    <a href="./ServletLogOut">
+                        <button
+                                type="button" class="btn btn-primary text-white">Có
+                        </button>
+                    </a>
                 </div>
             </div>
             <div class="modal-footer"></div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="verificationModal" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verificationModalLabel">Enter Verification Code</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="verificationCodeForm" action="./ServletVerifyCode" method="post">
+                    <div class="form-group">
+                        <label for="verificationCode">Verification Code</label>
+                        <input type="text" name="verificationCode" id="verificationCode" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Verify Code</button>
+                </form>
+            </div>
+        </div>
+        </div>
+</div>
 <script>
+    $(document).ready(function () {
+        // Handle click event on "Xem Chi tiết" button within the modal
+        $('#orderDetailsModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var orderId = button.data('order-id'); // Extract order ID from data attribute
+            var modal = $(this);
+
+            // Make AJAX request to fetch order details based on orderId
+            $.ajax({
+                url: 'OrderDetail.jsp', // URL to fetch order details (adjust this to your implementation)
+                method: 'GET',
+                data: { orderId: orderId },
+                success: function (response) {
+                    // Update modal content with fetched order details
+                    modal.find('.modal-body #orderDetailsContainer').html(response);
+                },
+                error: function () {
+                    // Handle error if AJAX request fails
+                    modal.find('.modal-body #orderDetailsContainer').html('Error loading order details.');
+                }
+            });
+        });
+    });
     document.getElementById('showFormButton').addEventListener('click', function () {
         document.getElementById('updateInfoForm').style.display = 'block';
     });

@@ -1,3 +1,4 @@
+
 package Service;
 
 import DAO.AccountDAO;
@@ -20,10 +21,14 @@ public class AccountService {
         return AccountDAO.accountByUsername(username);
     }
 
+    public Account getAccountByAccountId(int accountId) {
+        return AccountDAO.getAccountByAccountId(accountId);
+    }
+
     public Account accountByUsernameAndEmail(String username, String email) {
         return AccountDAO.accountByUsernameAndEmail(username, email);
     }
-        // Chức năng đăng nhập
+    // Chức năng đăng nhập
     public Account checkLogin(String username, String password) {
         Account account = AccountDAO.accountByUsername(username);
         if (account != null) {
@@ -38,7 +43,7 @@ public class AccountService {
     public boolean isLoginSuccess(Account account) {
         return account.getStatus() == 1;
     }
-        // Chức năng đăng ký
+    // Chức năng đăng ký
     public boolean isPhoneValid(String phone) {
         String regex = "^0[0-9]{9}$";
         Pattern pattern = Pattern.compile(regex);
@@ -46,6 +51,23 @@ public class AccountService {
         return matcher.matches();
     }
 
+    public boolean isEmail(String email) {
+        String regex = "^[\\w\\-.]+@([\\w\\-]+\\.)+[\\w\\-]{2,4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    public boolean checkValidatePassword(String password) {
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+.=!])(?!.*\\s).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(AccountService.getInstance().checkValidatePassword("Phuoc2611@"));
+    }
     public boolean vertifyEmail(Account account) {
         String code = EmailService.createCode();
         String mess = "http://localhost:8080/WebProject/verifyEmail?code=" + code ;
@@ -78,9 +100,18 @@ public class AccountService {
     public Account isVerifyEmailSuccess(String code) {
         return AccountDAO.isVerifyEmailSuccess(code);
     }
+    public boolean isVerificationCodeValid(String code) {
+        Account account = AccountDAO.isVerifyEmailSuccess(code);
+        return account != null; // Return true if account is found (valid code)
+    }
+
 
     public int createAccount(String username, String password, String email, String fullname, String number_phone, int status) {
         return AccountDAO.createAccount(username, password, email, fullname, number_phone, status);
+    }
+
+    public int createAccountWithGoogleAndFacebook(String username, String email, String fullname) {
+        return AccountDAO.createAccountWithGoogleAndFacebook(username, email, fullname);
     }
 
     public int deleteAccount(String username, String email) {
@@ -120,5 +151,9 @@ public class AccountService {
 
     public boolean updateUserInfo(String username, String newFullname) {
         return AccountDAO.updateUserInfo(username, newFullname);
+    }
+
+    public boolean isAccountExist(String email) {
+        return !AccountDAO.isAccountExist(email);
     }
 }

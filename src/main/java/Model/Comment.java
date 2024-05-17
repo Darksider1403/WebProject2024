@@ -9,6 +9,7 @@ public class Comment {
     private LocalDate dateComment;
     private String idProduct;
     private int idAccount;
+    private Account account;
 
     public Comment() {
         this.id = 0;
@@ -66,6 +67,13 @@ public class Comment {
         this.idAccount = idAccount;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     @Override
     public String toString() {

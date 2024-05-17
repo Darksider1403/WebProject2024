@@ -2,6 +2,7 @@ package Controller;
 
 import DAO.RatingDAO;
 import Model.Account;
+import Service.AccountService;
 import Service.FeedbackAndRatingService;
 import Service.ProductService;
 
@@ -20,16 +21,17 @@ public class RatingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
+        Account account = (Account) session.getAttribute("account");
+        int idAccount = account.getID();
+        String username = account.getUsername();
 
-        int idAccount = 0;
-        if (session != null) {
-            Account account = (Account) session.getAttribute("account");
-            if (account != null) {
-                idAccount = account.getID();
+        if (username == null && idAccount == 0) {
+            username = account.getName().trim().replace(" ", "");
+            AccountService accountService = AccountService.getInstance();
+            Account foundAccount = accountService.accountByUsername(username);
+            if (foundAccount != null) {
+                idAccount = foundAccount.getID();
             }
-        } else {
-            response.sendRedirect("./login");
-            return;
         }
 
         String selectedRatingString = request.getParameter("selectedRating");
@@ -54,10 +56,8 @@ public class RatingServlet extends HttpServlet {
         int rowsAffected = feedbackService.saveRating(rating, idAccount, productId);
 
         if (rowsAffected > 0) {
-            // Rating saved successfully
             response.sendRedirect("./productDetail?id=" + productId);
         } else {
-            // Error saving rating
             response.sendRedirect("./productDetail?id=" + productId + "&error=ratingSave");
         }
     }

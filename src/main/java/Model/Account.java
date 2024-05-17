@@ -1,14 +1,26 @@
+
 package Model;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class Account {
+    private static final Log log = LogFactory.getLog(Account.class);
     private int ID;
     private String username;
     private String password;
     private String email;
+    private String name;
     private String fullname;
     private String numberPhone;
     private int status;
     private int role;
+    private boolean isVerified;
+
 
     public Account(int ID, String username, String password, String email, String fullname, String numberPhone, int status, int role) {
         this.ID = ID;
@@ -21,6 +33,13 @@ public class Account {
         this.role = role;
     }
 
+    public Account(int ID, String email, String name, boolean isVerified) {
+        this.ID = ID;
+        this.email = email;
+        this.name = name;
+        this.isVerified = isVerified;
+    }
+
     public Account() {
     }
 
@@ -28,6 +47,22 @@ public class Account {
         this.username = username;
         this.password = password;
         this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 
     public int getID() {
@@ -85,11 +120,28 @@ public class Account {
     public void setStatus(int status) {
         this.status = status;
     }
+
     public int getRole() {
         return role;
     }
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "ID=" + ID +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", numberPhone='" + numberPhone + '\'' +
+                ", status=" + status +
+                ", role=" + role +
+                ", isVerified=" + isVerified +
+                '}';
     }
 }

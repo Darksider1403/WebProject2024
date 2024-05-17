@@ -1,6 +1,7 @@
 package Controller;
 
 import Service.AccountService;
+import Service.FeedbackAndRatingService;
 import Service.OrderService;
 import Service.ProductService;
 
@@ -27,10 +28,12 @@ public class ServletAdmin extends HttpServlet {
         AccountService as = AccountService.getInstance();
         ProductService ps = ProductService.getInstance();
         OrderService or = OrderService.getInstance();
+        FeedbackAndRatingService totalReview = FeedbackAndRatingService.getInstance();
         int totalAccounts = as.totalAcount();
         int totalProducts = ps.totalQuantityProduct();
         int totalOrders = or.totalOrder();
-        int totalReviews = 82;
+        // TODO: quan: fix totalReviews
+        int totalReviews = totalReview.getTotalNumberOfComments();;
         int year = Calendar.getInstance().getTime().getYear() + 1900;
         String date = req.getParameter("date") == null ? year + "-01-01" : req.getParameter("date");
         Map<String, String> categorys = ps.selectCategory();
