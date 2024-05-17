@@ -57,7 +57,7 @@
             <div class="image-carousel">
                 <ul class="image-list">
                     <% for (Map.Entry<String, String> entry : imageMap.entrySet()) { %>
-                    <li>
+                    <li style="width: calc(100%/<%=imageMap.size()%>)">
                         <img src="<%= entry.getValue() %>" alt="" data-zoom-image="<%= entry.getValue() %>">
                     </li>
                     <% } %>
@@ -106,17 +106,10 @@
             <p class="text-justify">Số lượng hàng: <%= selectedProduct.getQuantity() %>
             </p>
             <p class="price">Giá: <%= selectedProduct.getPrice() %>đ</p>
-            <div class="product--size">
-                <span>s</span>
-                <span class="active">m</span>
-                <span>l</span>
-                <span>xl</span>
-            </div>
 
             <p class="text-justify">Mô tả sản phẩm:</p>
-            <p class="">
-                <%= selectedProduct.getMaterial() %>
-            </p>
+            <p class="product--description">Chất liệu: <%=selectedProduct.getMaterial()%>, Kích thước: <%=selectedProduct.getSize()%>
+            , màu sắc: <%=selectedProduct.getColor()%></p>
 
             <div class="order">
                 <form action="AddToCartServlet" method="post">
@@ -218,11 +211,6 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    const sizes = jQuery(".product--size").find("span");
-    sizes.click(function () {
-        sizes.removeClass("active");
-        $(this).addClass("active");
-    });
 
     $(document).ready(function () {
         const imageCarousel = $('.image-carousel');
@@ -231,7 +219,7 @@
 
         imageCarousel.on('click', '.image-list li img', function (event) {
             const zoomImage = $(this).data('zoomImage');
-            mainImage.attr('src', zoomImage);
+            mainImage.attr('src', '');
             imageDisplay.addClass('active');
         });
 

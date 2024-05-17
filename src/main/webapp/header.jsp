@@ -7,12 +7,14 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="css/base.css">
-    <!--    Font-->
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
+<%
+    String content = request.getAttribute("content") == null ? "" : request.getAttribute("content").toString();
+%>
 <div id="header">
     <div class="container">
         <nav>
@@ -22,59 +24,10 @@
             </ul>
 
             <div class="header-contain__search">
-                <input class="header__search" name = "search" placeholder="Tìm kiếm sản phẩm" type="text">
+                <input oninput="searchProduct(this)" value="<%=content%>" class="header__search" name = "search" placeholder="Tìm kiếm sản phẩm" type="text">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <div class="header-contain__display-product">
-                    <ul class="list-products">
-                        <li class="product-item">
-                            <div class="product__infor">
-                                <a href="">Đầu khóa thắt lưng Minh Tâm , kiểu khóa lăn trượt</a>
-                                <span>139.000</span>
-                            </div>
-                            <a href="" class="product-img"><img src="./DK049(1).jpg" alt=""></a>
-                        </li>
-                        <li class="product-item">
-                            <div class="product__infor">
-                                <a href="">Đầu khóa thắt lưng Minh Tâm , kiểu khóa lăn trượt</a>
-                                <span>139.000</span>
-                            </div>
-                            <a href="" class="product-img"><img src="./DK049(1).jpg" alt=""></a>
-                        </li>
-                        <li class="product-item">
-                            <div class="product__infor">
-                                <a href="">Đầu khóa thắt lưng Minh Tâm , kiểu khóa lăn trượt</a>
-                                <span>139.000</span>
-                            </div>
-                            <a href="" class="product-img"><img src="./DK049(1).jpg" alt=""></a>
-                        </li>
-                        <li class="product-item">
-                            <div class="product__infor">
-                                <a href="">Đầu khóa thắt lưng Minh Tâm , kiểu khóa lăn trượt</a>
-                                <span>139.000</span>
-                            </div>
-                            <a href="" class="product-img"><img src="./DK049(1).jpg" alt=""></a>
-                        </li>
-                        <li class="product-item">
-                            <div class="product__infor">
-                                <a href="">Đầu khóa thắt lưng Minh Tâm , kiểu khóa lăn trượt</a>
-                                <span>139.000</span>
-                            </div>
-                            <a href="" class="product-img"><img src="./DK049(1).jpg" alt=""></a>
-                        </li>
-                        <li class="product-item">
-                            <div class="product__infor">
-                                <a href="">Đầu khóa thắt lưng Minh Tâm , kiểu khóa lăn trượt</a>
-                                <span>139.000</span>
-                            </div>
-                            <a href="" class="product-img"><img src="./DK049(1).jpg" alt=""></a>
-                        </li>
-                        <li class="product-item">
-                            <div class="product__infor">
-                                <a href="">Đầu khóa thắt lưng Minh Tâm , kiểu khóa lăn trượt</a>
-                                <span>139.000</span>
-                            </div>
-                            <a href="" class="product-img"><img src="./DK049(1).jpg" alt=""></a>
-                        </li>
+                <div id="header-contain__display-product">
+                    <ul id="header__list-products">
 
                     </ul>
                 </div>
@@ -88,5 +41,29 @@
     </div>
 </div>
 </body>
+
+<script>
+    function searchProduct(input) {
+        let content = input.value;
+        let displaySearch = document.getElementById("header-contain__display-product");
+        if (content.isEmpty()) {
+            console.log("1")
+            displaySearch.style.display = "none"
+        } else {
+            displaySearch.style.display = "block"
+        }
+        $.ajax({
+            url: "search",
+            type: "POST",
+            data: {
+                content: content
+            },
+            success: function (data) {
+                let listProduct = document.getElementById("header__list-products");
+                listProduct.innerHTML = data;
+            }
+        })
+    }
+</script>
 </html>
 
