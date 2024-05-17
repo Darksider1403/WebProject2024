@@ -8,6 +8,10 @@
     font-size: 1.4rem;
 }
 
+a {
+    text-decoration: none!important;
+}
+
 .container {
     width: 1260px;
     margin: 0 auto;

@@ -19,12 +19,13 @@
     <div class="container">
         <nav>
             <ul class="list-item">
-                <li class="item">Trang chủ</li>
-                <li class="item">Sản phẩm</li>
+                <li class="item"><a href="./home">Trang chủ</a></li>
+                <li class="item"><a href="./product">Sản phẩm nam</a></li>
+                <li class="item"><a href="./product">Sản phẩm nữ</a></li>
             </ul>
 
             <div class="header-contain__search">
-                <input oninput="searchProduct(this)" value="<%=content%>" class="header__search" name = "search" placeholder="Tìm kiếm sản phẩm" type="text">
+                <input autocomplete="off" oninput="searchProduct(this)" value="<%=content%>" class="header__search" name = "search" placeholder="Tìm kiếm sản phẩm" type="text">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <div id="header-contain__display-product">
                     <ul id="header__list-products">
@@ -32,7 +33,9 @@
                     </ul>
                 </div>
             </div>
-
+            <ul class="list-item">
+                <li class="item"><a href="">Liên hệ</a></li>
+            </ul>
             <div class="header-contain__method">
                 <a href="" class="header_cart"><i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i></a>
                 <a href="" class="header__login"><i class="fa fa-fw fa-user text-dark mr-3"></i></a>
@@ -46,7 +49,7 @@
     function searchProduct(input) {
         let content = input.value;
         let displaySearch = document.getElementById("header-contain__display-product");
-        if (content.isEmpty()) {
+        if (content == "") {
             console.log("1")
             displaySearch.style.display = "none"
         } else {

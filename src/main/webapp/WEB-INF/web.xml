@@ -4,7 +4,19 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>Controller.HomeServlet</servlet-class>
+  </servlet>
+
+  <!-- Map the servlet to a URL pattern -->
+  <servlet-mapping>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+
+  <!-- Update welcome file list to map to the servlet URL pattern -->
   <welcome-file-list>
-    <welcome-file>home.jsp</welcome-file>
+    <welcome-file>home</welcome-file>
   </welcome-file-list>
 </web-app>

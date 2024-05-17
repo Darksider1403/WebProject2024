@@ -7,6 +7,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 80px;
 }
 
 .list-item {
@@ -14,18 +15,25 @@ nav {
     color: #fff;
     height: 80px;
     align-items: center;
+    padding: 0;
+    margin: 0;
 }
 
 .list-item .item {
     margin-right: 20px;
-    font-size: 20px;
     padding: 5px;
 }
-
+.list-item .item a {
+    color: #fff;
+    font-size: 20px;
+}
 .list-item .item:hover {
     background-color: #fff;
-    color: #000;
     cursor: pointer;
+}
+
+.list-item .item:hover a {
+    color: #000;
 }
 
 .header-contain__search {
@@ -114,4 +122,9 @@ a.header_cart i, a.header__login i {
 }
 .header__product-img img {
     width: 60px;
+}
+
+.header__cart i, header__login i {
+    font-size: 20px;
+    color: #fff;
 }

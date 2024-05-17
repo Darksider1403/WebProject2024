@@ -27,12 +27,13 @@ public class SearchController extends HttpServlet {
                 req.setAttribute("content", content);
                 resp.setContentType("text/html;charset=UTF-8");
                 PrintWriter pw = resp.getWriter();
+                NumberFormat nf = NumberFormat.getInstance();
                 for (Product p : productList) {
                     String source = ProductDAO.imageThumbByIdProduct(p.getId());
                     pw.println("<li class=\"header__product-item\">\n" +
                             "<div class=\"header__product-infor\">\n" +
-                            "<a href=\"\">" + p.getName() + "</a>\n" +
-                            "<span>"+p.getPrice()+"</span>\n" +
+                            "<a href=\"productDetail?id="+p.getId()+"\">" + p.getName() + "</a>\n" +
+                            "<span>Giá: "+nf.format(p.getPrice())+"</span>\n" +
                             "</div>\n" +
                             "<a href=\"\" class=\"header__product-img\"><img src=\" " + source +  "\" alt=\"\"></a>\n" +
                             "</li>");
