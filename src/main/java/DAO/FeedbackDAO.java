@@ -2,6 +2,7 @@ package DAO;
 
 
 import Model.Comment;
+import Service.AccountService;
 import org.jdbi.v3.core.Jdbi;
 
 import java.nio.charset.StandardCharsets;
@@ -13,7 +14,11 @@ public class FeedbackDAO {
     private static Jdbi JDBI;
 
     public static int saveCommentFeedback(String content, String productId, int idAccount) {
+<<<<<<< HEAD
         String SAVE_FEEDBACK_SQL = "INSERT INTO reviews (content, dateComment, idProduct, idAccount) VALUES (?, ?, ?, ?)";
+=======
+        String SAVE_FEEDBACK_SQL = "INSERT INTO reviews (content, datecomment, idProduct, idAccount) VALUES (?, ?, ?, ?)";
+>>>>>>> d0163c58dce3b6f567f80dd3987823f783a5f866
         String contentUTF8 = new String(content.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         LocalDate currentDate = LocalDate.now();
         JDBI = ConnectJDBI.connector();
@@ -31,13 +36,23 @@ public class FeedbackDAO {
     }
 
     public static List<Comment> getCommentsByProductId(String productId) {
+<<<<<<< HEAD
         String GET_COMMENTS_SQL = "SELECT content, dateComment, idAccount FROM reviews WHERE idProduct = ?";
+=======
+
+        String GET_COMMENTS_SQL = "SELECT content, datecomment, idAccount FROM reviews WHERE idProduct = ?";
+>>>>>>> d0163c58dce3b6f567f80dd3987823f783a5f866
         JDBI = ConnectJDBI.connector();
         List<Comment> comments = JDBI.withHandle(handle ->
                 handle.createQuery(GET_COMMENTS_SQL)
                         .bind(0, productId)
                         .mapToBean(Comment.class).stream().toList()
         );
+
+        AccountService as = AccountService.getInstance();
+        for (Comment comment : comments) {
+            comment.setAccount(as.getAccountByAccountId(comment.getIdAccount()));
+        }
         System.out.println("Number of comments retrieved: " + comments.size());
 
         return comments;
@@ -54,6 +69,10 @@ public class FeedbackDAO {
         );
 
         return totalComments;
+    }
+    public static void main(String[] args) {
+
+        System.out.println(getCommentsByProductId("Tl001").get(0).getAccount());
     }
 }
 
