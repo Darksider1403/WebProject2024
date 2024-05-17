@@ -6,12 +6,53 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="en">
 <head>
     <title>Title</title>
+  <meta charset="UTF-8">
   <!-- CSS Files -->
   <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/contacts/contact-1/assets/css/contact-1.css" />
+  <style>
+    .social-icons {
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .contact-span {
+      font-size: 1.25rem;
+      text-align: center;
+      display: block;
+      margin-top: 10px;
+    }
+    .warning{
+      font-size: 14px;
+      color: red;
+
+    }
+
+    .contact-form-section {
+      background: rgba(255, 255, 255, 0.8); /* Nền trắng với độ trong suốt */
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .social-icons {
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .contact-span {
+      font-size: 1.25rem;
+      text-align: center;
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+
 </head>
 <body>
 <!-- Contact 1 - Bootstrap Brain Component -->
@@ -19,8 +60,10 @@
   <div class="container">
     <div class="row justify-content-md-center">
       <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-        <h2 class="mb-4 display-5 text-center">Contact</h2>
-        <p class="text-secondary mb-5 text-center">Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque et neque id ligula mattis commodo.</p>
+        <h2 class="mb-4 display-5 text-center">Liên Hệ</h2>
+        <p class="text-secondary mb-5 text-center">
+        Những phản hồi của bạn là rất quan trọng đối với chúng tôi.
+        Vui lòng điền thông tin vào biểu mẫu dưới đây và chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
         <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
       </div>
     </div>
@@ -31,14 +74,14 @@
       <div class="col-12 col-lg-9">
         <div class="bg-white border rounded shadow-sm overflow-hidden">
 
-          <form action="#!">
+          <form action="./contract" method="post">
             <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
               <div class="col-12">
-                <label for="fullname" class="form-label">Full Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="fullname" name="fullname" value="" required>
+                <label for="fullName" class="form-label">Tên <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="fullName" name="fullname" value="" required>
               </div>
               <div class="col-12 col-md-6">
-                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
                 <div class="input-group">
                   <span class="input-group-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
@@ -46,10 +89,11 @@
                     </svg>
                   </span>
                   <input type="email" class="form-control" id="email" name="email" value="" required>
+                  <p class="warning">Vui lòng nhập 1 địa chỉ mail đúng để chúng tôi có thể liên hệ bạn</p>
                 </div>
               </div>
               <div class="col-12 col-md-6">
-                <label for="phone" class="form-label">Phone Number</label>
+                <label for="phone" class="form-label">Số điện thoại</label>
                 <div class="input-group">
                   <span class="input-group-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
@@ -60,12 +104,26 @@
                 </div>
               </div>
               <div class="col-12">
-                <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
+                <label for="message" class="form-label">Nội dung <span class="text-danger">*</span></label>
                 <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
               </div>
               <div class="col-12">
                 <div class="d-grid">
                   <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                </div>
+                <div class="col-12">
+                  <span class="contact-span">Hoặc bạn có thể liên hệ chúng tôi qua:</span>
+                  <div class="social-icons">
+                    <a href="https://www.facebook.com" target="_blank">
+                      <img src="https://img.icons8.com/ios-filled/50/000000/facebook.png" alt="Facebook" />
+                    </a>
+                    <a href="https://zalo.me" target="_blank">
+                      <img src="https://img.icons8.com/ios-filled/50/000000/zalo.png" alt="Zalo" />
+                    </a>
+                    <a href="https://telegram.org" target="_blank">
+                      <img src="https://img.icons8.com/ios-filled/50/000000/telegram-app.png" alt="Telegram" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -74,6 +132,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </section>
 

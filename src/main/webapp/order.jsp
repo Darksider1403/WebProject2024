@@ -5,6 +5,7 @@
     <%@ page import="java.util.HashMap" %>
     <%@ page import="Model.Account" %>
     <%@ page import="DAO.OrderDAO" %>
+    <%@ page import="Service.ProductService" %>
     <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <!DOCTYPE html>
     <html lang="en">
@@ -79,7 +80,7 @@
                     NumberFormat nf = NumberFormat.getInstance();
                     List<CartItems> sanPhams = (List<CartItems>) session.getAttribute("list-sp");
                     double tongGiaTri = 0;
-                    Map<String, String> listImagesThumbnail = request.getAttribute("listImagesThumbnail") == null ? new HashMap<>() : (Map<String, String>) request.getAttribute("listImagesThumbnail");
+                    Map<String, String> listImagesThumbnail = ProductService.getInstance().selectImageThumbnail();
                     for (CartItems sp : sanPhams) {
                         tongGiaTri += sp.getTotalPrice();
                 %>
