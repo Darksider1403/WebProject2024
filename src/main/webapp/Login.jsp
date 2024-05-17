@@ -7,6 +7,23 @@
     <link rel="stylesheet" href="./css/account.css">
     <link rel="stylesheet" href="./css/base.css">
     <style>
+        .third-party-login .or-text {
+            padding-bottom: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .third-party-login .thin-line {
+            background-color: #dbdbdb;
+            flex: 1;
+            height: 1px;
+            width: 100%;
+        }
+
+        .third-party-login .upercase-text {
+            text-transform: uppercase;
+        }
+
         .loginBtn {
             box-sizing: border-box;
             display: inline-block;
@@ -122,12 +139,10 @@
                 <div class="forgot-password"><a href="./forgot">Quên mật khẩu?</a></div>
             </form>
             <div class="third-party-login">
-                <div class="or-text" style="padding-bottom: 14px;display: flex;align-items: center;">
-                    <div class="thin-line"
-                         style="background-color: #dbdbdb;flex: 1;height: 1px;width: 100%;"></div>
-                    <span class="upercase-text" style=" text-transform: uppercase;">Hoặc</span>
-                    <div class="thin-line"
-                         style="background-color: #dbdbdb;flex: 1;height: 1px;width: 100%;"></div>
+                <div class="or-text">
+                    <div class="thin-line"></div>
+                    <span class="upercase-text">Hoặc</span>
+                    <div class="thin-line"></div>
                 </div>
                 <a class="loginBtn loginBtn--facebook"
                    href="https://www.facebook.com/dialog/oauth?client_id=3242053589264809&redirect_uri=https://localhost:8080/LoginFacebookHandler">
