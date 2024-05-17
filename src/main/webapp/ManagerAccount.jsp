@@ -96,6 +96,11 @@
                   <th><%=account.getUsername()%></th>
                   <th><%=account.getEmail()%></th>
                   <th><%=account.getFullname()%></th>
+                  <%
+                    if (account.getNumberPhone().equals("0")) {
+                      account.setNumberPhone("Chưa cập nhật");
+                    }
+                  %>
                   <th><%=account.getNumberPhone()%></th>
                   <form action="./managerAccount" method="post">
                     <input type="hidden" name ="idAccount" value="<%=account.getID()%>">

@@ -5,6 +5,7 @@ import Model.Account;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,6 +28,11 @@ public class AccountService {
     public Account accountByUsernameAndEmail(String username, String email) {
         return AccountDAO.accountByUsernameAndEmail(username, email);
     }
+
+    public int getRoleByAccountId(int accountId) {
+        return AccountDAO.getRoleByAccountId(accountId);
+    }
+
         // Chức năng đăng nhập
     public Account checkLogin(String username, String password) {
         Account account = AccountDAO.accountByUsername(username);

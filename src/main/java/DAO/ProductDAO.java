@@ -61,10 +61,6 @@ public class ProductDAO {
         }
     }
 
-    public static void main(String[] args) {
-        selectImageProductDetail("TL001");
-    }
-
     private static Map<String, String> getStringMapForImageForThumbnail(List<Map<String, Object>> maps) {
         Map<String, String> listImages = new HashMap<>();
         for (int i = 0; i < maps.size(); i++) {

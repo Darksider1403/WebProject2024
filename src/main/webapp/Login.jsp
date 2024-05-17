@@ -57,8 +57,8 @@
         }
 
         .third-party-login .loginBtn--facebook {
-            top: 4px;
-            left: -23px;
+            top: 0;
+            left: -12px;
             background-color: #4C69BA;
             background-image: linear-gradient(#4C69BA, #3B55A0);
             font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -77,8 +77,8 @@
         }
 
         .loginBtn--google {
-            left: 167px;
-            top: -39px;
+            left: 194px;
+            top: -40px;
             transform: translate(0px, 4px);
             transition: none 0s ease 0s;
             font-family: "Roboto", Roboto, arial, sans-serif;

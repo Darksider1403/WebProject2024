@@ -39,11 +39,26 @@ public class LoginGoogleHandler extends HttpServlet {
         String accessToken = getToken(code);
         Account user = getUserInfo(accessToken);
         AccountService as = AccountService.getInstance();
+        int defaultRole = 1;
         String name = user.getName();
         String nameWithoutSpace = name.trim().replace(" ", "");
 
         if (as.isAccountExist(user.getEmail())) {
             as.createAccountWithGoogleAndFacebook(nameWithoutSpace, user.getEmail(), user.getName());
+
+            int idAccount = user.getID();
+            String username = user.getUsername();
+            if (username == null && idAccount == 0) {
+                username = user.getName().trim().replace(" ", "");
+                AccountService accountService = AccountService.getInstance();
+                Account foundAccount = accountService.accountByUsername(username);
+                if (foundAccount != null) {
+                    idAccount = foundAccount.getID();
+                    user.setID(idAccount);
+                }
+            }
+
+            as.createRoleAccount(user, defaultRole);
             logActivity("User " + user.getID() + " Create account");
             response.sendRedirect("/home");
         } else {
@@ -75,7 +90,6 @@ public class LoginGoogleHandler extends HttpServlet {
     public static Account getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
-
         Account googlePojo = new Gson().fromJson(response, Account.class);
 
         return googlePojo;

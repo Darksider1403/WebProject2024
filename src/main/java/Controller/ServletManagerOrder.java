@@ -31,7 +31,7 @@ public class ServletManagerOrder extends HttpServlet {
         String id = req.getParameter("id");
         String pageCurrent = req.getParameter("page") == null ? "1" : req.getParameter("page");
         String search = req.getParameter("search");
-        int page = Integer.valueOf(pageCurrent) - 1;
+        int page = Integer.parseInt(pageCurrent) - 1;
         int totalOrder;
         System.out.println(id);
         List<Order> orderList;
