@@ -104,11 +104,19 @@
                 </div>
             </div>
             <p class="text-justify">Số lượng hàng: <%= selectedProduct.getQuantity() %>
+            </p>
             <p class="price">Giá: <%= selectedProduct.getPrice() %>đ</p>
+            <div class="product--size">
+                <span>s</span>
+                <span class="active">m</span>
+                <span>l</span>
+                <span>xl</span>
+            </div>
 
             <p class="text-justify">Mô tả sản phẩm:</p>
-            <p class="text-justify"><%= selectedProduct.getMaterial() %>
-            <p class="text-justify"><%= selectedProduct.getGender() %>
+            <p class="">
+                <%= selectedProduct.getMaterial() %>
+            </p>
 
             <div class="order">
                 <form action="AddToCartServlet" method="post">

@@ -32,6 +32,7 @@ public class FeedbackDAO {
     }
 
     public static List<Comment> getCommentsByProductId(String productId) {
+
         String GET_COMMENTS_SQL = "SELECT content, datecomment, idAccount FROM reviews WHERE idProduct = ?";
         JDBI = ConnectJDBI.connector();
         List<Comment> comments = JDBI.withHandle(handle ->
@@ -61,7 +62,6 @@ public class FeedbackDAO {
 
         return totalComments;
     }
-
     public static void main(String[] args) {
 
         System.out.println(getCommentsByProductId("Tl001").get(0).getAccount());
