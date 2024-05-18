@@ -191,16 +191,21 @@
                                 </tr>
                                 <tr class="bg-light">
                                     <th>Thanh toán :</th>
+                                    <% if(discount != null && discount > 0) {
+                                        Double grandTotal = (tongGiaTri + 30000) * discount;
+                                    %>
                                     <td class="text-end">
-                                        <span class="fw-bold"><%
-                                        if(discount!=null&&discount>0){
-                                            System.out.println(nf.format(tongGiaTri*(discount) + 30000));
-                                        }
-                                        else{
-                                            nf.format(tongGiaTri + 30000);
-                                        }
-                                        %>đ</span>
+        <span class="fw-bold">
+            <%= nf.format(grandTotal) %>
+        </span>
                                     </td>
+                                    <% } else { %>
+                                    <td class="text-end">
+        <span class="fw-bold">
+            <%= nf.format(tongGiaTri + 30000) %>
+        </span>
+                                    </td>
+                                    <% } %>
                                 </tr>
                                 </tbody>
                             </table>
