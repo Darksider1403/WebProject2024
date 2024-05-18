@@ -135,6 +135,22 @@
 
   </div>
 </section>
+<section class="bg-light py-3 py-md-5">
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 col-lg-9">
+        <div class="bg-white border rounded shadow-sm overflow-hidden p-4">
+          <h3 class="mb-4">Thông tin liên hệ</h3>
+          <p><strong>Website:</strong> thuongmaidientu.ndfresh.vn</p>
+          <p><strong>Địa chỉ:</strong> 266 Đội Cấn, Ba Đình, Hà Nội</p>
+          <p><strong>Điện thoại:</strong> 19006750</p>
+          <p><strong>Email:</strong> support@sapo.vn</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 </body>
 </html>
