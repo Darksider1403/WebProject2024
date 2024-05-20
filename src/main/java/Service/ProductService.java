@@ -77,4 +77,6 @@ public class ProductService {
     public List<Slider> findAll() {
         return ProductDAO.findAll();
     }
+
+
 }

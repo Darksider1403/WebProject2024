@@ -1,23 +1,20 @@
 package DAO;
 
-import Model.CartItems;
-import Model.Order;
-import Model.Order_detail;
-import Model.Product;
+import Model.*;
 import org.jdbi.v3.core.Jdbi;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class OrderDAO {
     private static Jdbi JDBI;
+
     public static int totalOrder() {
         JDBI = ConnectJDBI.connector();
         int total = JDBI.withHandle(handle ->
                 handle.createQuery("Select COUNT(id) From orders").mapTo(Integer.class).findOnly());
         return total;
     }
+
     public static int totalProductSoldByCategory(String id_category, String date) {
         JDBI = ConnectJDBI.connector();
         try {
@@ -65,7 +62,7 @@ public class OrderDAO {
         JDBI = ConnectJDBI.connector();
         Order order = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT o.id, a.fullname, o.dateBuy, o.dateArrival, o.address, o.numberPhone, o.status" +
-                        " From accounts a INNER JOIN orders o ON a.id = o.idAccount Where o.id = ?")
+                                " From accounts a INNER JOIN orders o ON a.id = o.idAccount Where o.id = ?")
                         .bind(0, idOrder).mapToBean(Order.class).first());
         return order;
     }
@@ -74,7 +71,7 @@ public class OrderDAO {
         JDBI = ConnectJDBI.connector();
         List<Order_detail> orderDetailList = JDBI.withHandle(handle ->
                 handle.createQuery("Select idOrder, idProduct, quantity, price From order_details " +
-                        "Where idOrder = ?")
+                                "Where idOrder = ?")
                         .bind(0, idOrder).mapToBean(Order_detail.class).stream().toList());
         return orderDetailList;
     }
@@ -108,6 +105,7 @@ public class OrderDAO {
             throw new RuntimeException("Error retrieving order with details for ID", e);
         }
     }
+
     public static List<Order_detail> getProductsForUserAndOrder(int userId, String orderId) {
         Jdbi jdbi = ConnectJDBI.connector();
         try {
@@ -128,6 +126,7 @@ public class OrderDAO {
             throw new RuntimeException("Error retrieving products for user and order IDs", e);
         }
     }
+
     public static String orderId() {
         Jdbi jdbi = ConnectJDBI.connector();
         String orderId = "OR0" + jdbi.withHandle(handle -> {
@@ -135,8 +134,9 @@ public class OrderDAO {
         });
         return orderId;
     }
-    public static   boolean addOrder(String address, int status, int id_account, Date datebuy, Date datearrival, String numberPhone){
-        String id=orderId();
+
+    public static boolean addOrder(String address, int status, int id_account, Date datebuy, Date datearrival, String numberPhone) {
+        String id = orderId();
         Jdbi jdbi = ConnectJDBI.connector();
         int execute = jdbi.withHandle(handle ->
                 handle.createUpdate("INSERT INTO orders (id, address, status, idAccount, dateBuy, dateArrival, numberPhone) " +
@@ -149,15 +149,17 @@ public class OrderDAO {
                         .bind(5, datearrival)
                         .bind(6, numberPhone)
                         .execute());
-        return execute>0;
+        return execute > 0;
     }
+
     public static String orderIdDetail() {
         Jdbi jdbi = ConnectJDBI.connector();
         String orderId = "OR0" + jdbi.withHandle(handle -> {
-            return handle.createQuery("select count(id) from orders").mapTo(Integer.class).first() ;
+            return handle.createQuery("select count(id) from orders").mapTo(Integer.class).first();
         });
         return orderId;
     }
+
     public static List<CartItems> addProductToOrder(String idprodcut, int quantity, int price) {
         Jdbi jdbi = ConnectJDBI.connector();
 
@@ -190,5 +192,35 @@ public class OrderDAO {
         }
 
         return cartItemsList;
+    }
+
+    public static List<Order_detail> showOrderDetail(String idOrder) {
+        Jdbi jdbi = ConnectJDBI.connector();
+        try {
+            return jdbi.withHandle(handle -> {
+                String sql = "SELECT od.idOrder, od.idProduct, od.quantity, od.price " +
+                        "FROM order_details od " +
+                        "WHERE od.idOrder = :idOrder";
+                return handle.createQuery(sql)
+                        .bind("idOrder", idOrder)
+                        .mapToBean(Order_detail.class)
+                        .list();
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving order details", e);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        OrderDAO od = new OrderDAO();
+        List<Order_detail> orderDetails = od.showOrderDetail("OR050");
+        for (Order_detail orderDetail : orderDetails) {
+            System.out.println("Order ID: " + orderDetail.getIdOrder());
+            System.out.println("Product ID: " + orderDetail.getIdProduct());
+            System.out.println("Quantity: " + orderDetail.getQuantity());
+            System.out.println("Price: " + orderDetail.getPrice());
+            // Additional processing as needed...
+        }
     }
 }

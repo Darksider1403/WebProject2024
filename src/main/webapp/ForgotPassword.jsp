@@ -20,10 +20,12 @@
         <form action="./forgot" method="post">
             <div class="email-forgotpassword">
                 <% if (!notify.isEmpty()) {%>
-                    <p class="notification-error"><%=notify%></p>
+                <p class="notification-error"><%=notify%>
+                </p>
                 <%}%>
                 <% if (!success.isEmpty()) {%>
-                 <p class="notification-success"><%=success%></p>
+                <p class="notification-success"><%=success%>
+                </p>
                 <%}%>
                 <% if (!check) {%>
                 <div class="">

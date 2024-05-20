@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="css/base.css">
     <!--    Font-->
     <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 </head>
 <body>
@@ -22,7 +24,7 @@
             </ul>
 
             <div class="header-contain__search">
-                <input class="header__search" name = "search" placeholder="Tìm kiếm sản phẩm" type="text">
+                <input class="header__search" name="search" placeholder="Tìm kiếm sản phẩm" type="text">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <div class="header-contain__display-product">
                     <ul class="list-products">

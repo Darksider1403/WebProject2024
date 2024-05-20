@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.util.List;
 
 
-// ... (imports)
-
 @WebServlet("/submitFeedback")
 public class FeedbackServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -25,10 +23,23 @@ public class FeedbackServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if (session != null) {
             Account account = (Account) session.getAttribute("account");
+
             if (account != null) {
                 String content = request.getParameter("content");
                 String productId = request.getParameter("productId");
                 int idAccount = account.getID();
+                String username = account.getUsername();
+
+                if (username == null && idAccount == 0) {
+                    username = account.getName().trim().replace(" ", "");
+                    AccountService accountService = AccountService.getInstance();
+                    Account foundAccount = accountService.accountByUsername(username);
+                    if (foundAccount != null) {
+                        idAccount = foundAccount.getID();
+                        String name = foundAccount.getName();
+                        name = account.getName();
+                    }
+                }
 
                 FeedbackAndRatingService feedbackService = FeedbackAndRatingService.getInstance();
                 int updateCount = feedbackService.saveCommentFeedback(content, productId, idAccount);
@@ -42,12 +53,12 @@ public class FeedbackServlet extends HttpServlet {
                     }
 
                     request.setAttribute("comments", comments);
-                    request.setAttribute("username", account.getUsername());
+                    request.setAttribute("username", username);
 
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("productDetail.jsp");
-                    dispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() +
+                            "./productDetail?id=" + productId + "&feedbackError=true");
                 } else {
-                    response.sendRedirect("./productDetail?id=" + productId + "&feedbackError=true");
+                    response.sendRedirect("./productDetail?id=" + productId + "&feedbackError=false");
                 }
             } else {
                 response.sendRedirect("./login");
