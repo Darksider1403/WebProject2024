@@ -37,7 +37,7 @@
     <script src="js/templatemo.js"></script>
 </head>
 <body>
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="header.jsp"/>
 <div class="wraperContent">
     <div class="container light-style flex-grow-1 container-p-y">
         <div class="card overflow-hidden">

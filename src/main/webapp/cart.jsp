@@ -15,11 +15,13 @@
     <title>Title</title>
     <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
-<jsp:include page="header.jsp" />
+<jsp:include page="header.jsp"/>
 
 <div class="container">
     <div class="small-container cart-page">
@@ -39,11 +41,12 @@
                 List<CartItems> sanPhams = (List<CartItems>) session.getAttribute("list-sp");
                 double tongGiaTri = 0;
                 Map<String, String> listImagesThumbnail = ProductService.getInstance().selectImageThumbnail();
-                int stt=1;
-                for (CartItems sp :sanPhams) {
+                int stt = 1;
+                for (CartItems sp : sanPhams) {
                     tongGiaTri += sp.getTotalPrice();
             %>
-            <td><%= stt++ %></td>
+            <td><%= stt++ %>
+            </td>
             <td>
                 <div>
                     <p>
@@ -68,7 +71,7 @@
             <td>
                 <div class="cart-info">
                     <%
-                        String productId =sp.getProduct().getId();
+                        String productId = sp.getProduct().getId();
                         String imageSource = listImagesThumbnail.get(productId);
                     %>
                     <img src="<%=imageSource%>" alt="">
@@ -76,7 +79,8 @@
             </td>
             <td>
                 <div>
-                    <p><%= sp.getProduct().getId() %></p>
+                    <p><%= sp.getProduct().getId() %>
+                    </p>
                 </div>
             </td>
             <td>
@@ -86,9 +90,13 @@
             </td>
             <td>
                 <div class="change-quantity">
-                    <a href="QuantityServlet?thuchien=tang&masanpham=<%= sp.getProduct().getId()%>" class="cart-btn-plus" style="font-size: 2.4rem; padding: 8px; border: 4px; cursor: pointer;">+</a>
+                    <a href="QuantityServlet?thuchien=tang&masanpham=<%= sp.getProduct().getId()%>"
+                       class="cart-btn-plus"
+                       style="font-size: 2.4rem; padding: 8px; border: 4px; cursor: pointer;">+</a>
                     <input type="number" value="<%= sp.getQuantity()%>" name="quantity" disabled>
-                    <a href="QuantityServlet?thuchien=giam&masanpham=<%= sp.getProduct().getId()%>" class="cart-btn-minus" style="font-size: 2.4rem; padding: 8px;border: 4px; cursor: pointer; font-weight: 800;">-</a>
+                    <a href="QuantityServlet?thuchien=giam&masanpham=<%= sp.getProduct().getId()%>"
+                       class="cart-btn-minus"
+                       style="font-size: 2.4rem; padding: 8px;border: 4px; cursor: pointer; font-weight: 800;">-</a>
                 </div>
             </td>
             <td class="totalPricePerItem"><%= nf.format(sp.getTotalPrice()) %>đ</td>
@@ -108,7 +116,7 @@
                 <td>
                     Tổng số tiền
                 </td>
-                <td id="grandTotal"> <%= nf.format(tongGiaTri)%>đ</td>
+                <td id="grandTotal"><%= nf.format(tongGiaTri)%>đ</td>
             </tr>
         </table>
     </div>

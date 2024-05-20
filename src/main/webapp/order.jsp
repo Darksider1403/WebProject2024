@@ -16,8 +16,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-        body{
-            margin-top:20px;
+        body {
+            margin-top: 20px;
             background-color: #f1f3f7;
         }
 
@@ -27,7 +27,7 @@
         }
 
         .font-size-18 {
-            font-size: 18px!important;
+            font-size: 18px !important;
         }
 
         .text-truncate {
@@ -37,7 +37,7 @@
         }
 
         a {
-            text-decoration: none!important;
+            text-decoration: none !important;
         }
 
         .w-xl {
@@ -69,7 +69,9 @@
     </style>
 </head>
 <body>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
+      integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous"/>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 <div class="container">
     <div class="row">
@@ -97,10 +99,12 @@
                         <div class="flex-grow-1 align-self-center overflow-hidden">
                             <div>
                                 <h5 class="text-truncate font-size-18">
-                                    <a href="#" class="text-dark"><%= sp.getProduct().getName() %></a>
+                                    <a href="#" class="text-dark"><%= sp.getProduct().getName() %>
+                                    </a>
 
                                 </h5>
-                                <p class="mb-0 mt-1">ID : <span class="fw-medium"><%=sp.getProduct().getId()%></span></p>
+                                <p class="mb-0 mt-1">ID : <span class="fw-medium"><%=sp.getProduct().getId()%></span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -119,13 +123,15 @@
                             <div class="col-md-5">
                                 <div class="mt-3">
                                     <p class="text-muted mb-2">Số lượng</p>
-                                    <h5><%=sp.getQuantity()%></h5>
+                                    <h5><%=sp.getQuantity()%>
+                                    </h5>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="mt-3">
                                     <p class="text-muted mb-2">Total</p>
-                                    <h5><%= nf.format(sp.getProduct().getPrice() * sp.getQuantity()) %></h5>
+                                    <h5><%= nf.format(sp.getProduct().getPrice() * sp.getQuantity()) %>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -140,16 +146,19 @@
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Số Điện Thoại</span>
-                    <input type="text" name="phoneNumber" required class="form-control" id="phoneNumber" placeholder="Nhập số điện thoại" aria-label="Số điện thoại" aria-describedby="basic-addon1" pattern="[0-9]{1,10}">
+                    <input type="text" name="phoneNumber" required class="form-control" id="phoneNumber"
+                           placeholder="Nhập số điện thoại" aria-label="Số điện thoại" aria-describedby="basic-addon1"
+                           pattern="[0-9]{1,10}">
                 </div>
                 <div class="input-group">
                     <span class="input-group-text">Địa chỉ giao hàng</span>
-                    <textarea name="addressInput" required id="addressInput" class="form-control" aria-label="With textarea"></textarea>
+                    <textarea name="addressInput" required id="addressInput" class="form-control"
+                              aria-label="With textarea"></textarea>
                 </div>
                 <div class="row my-4">
                     <div class="col-sm-6">
                         <a href="home.jsp" class="btn btn-link text-muted">
-                            <i class="mdi mdi-arrow-left me-1"></i>  Tiếp tục mua hàng
+                            <i class="mdi mdi-arrow-left me-1"></i> Tiếp tục mua hàng
                         </a>
                     </div>
                     <div class="col-sm-6">
@@ -164,7 +173,8 @@
             <div class="mt-5 mt-lg-0 total-price">
                 <div class="card border shadow-none">
                     <div class="card-header bg-transparent border-bottom py-3 px-4">
-                        <h5 class="font-size-16 mb-0">Mã đơn hàng <span class="float-end"><%=OrderDAO.orderId()%></span></h5>
+                        <h5 class="font-size-16 mb-0">Mã đơn hàng <span class="float-end"><%=OrderDAO.orderId()%></span>
+                        </h5>
                     </div>
                     <div class="card-body p-4 pt-2">
                         <div class="table-responsive">
@@ -188,7 +198,7 @@
                                     <th>Thanh toán :</th>
                                     <td class="text-end">
 <span class="fw-bold">
-<%=nf.format(tongGiaTri+30000)%>đ
+<%=nf.format(tongGiaTri + 30000)%>đ
 </span>
                                     </td>
                                 </tr>
@@ -218,7 +228,8 @@
                         <!-- Your card input fields -->
                         <div class="mb-3">
                             <label for="cardHolderName" class="form-label">Tên trên thẻ:</label>
-                            <input type="text" required class="form-control" id="cardHolderName" placeholder="Nhập tên trên thẻ">
+                            <input type="text" required class="form-control" id="cardHolderName"
+                                   placeholder="Nhập tên trên thẻ">
                         </div>
                         <div class="mb-3">
                             <label for="cardNumber" class="form-label">Số thẻ:</label>

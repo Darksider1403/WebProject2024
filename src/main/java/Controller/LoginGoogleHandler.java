@@ -46,27 +46,42 @@ public class LoginGoogleHandler extends HttpServlet {
         if (as.isAccountExist(user.getEmail())) {
             as.createAccountWithGoogleAndFacebook(nameWithoutSpace, user.getEmail(), user.getName());
 
-            int idAccount = user.getID();
-            String username = user.getUsername();
-            if (username == null && idAccount == 0) {
-                username = user.getName().trim().replace(" ", "");
-                AccountService accountService = AccountService.getInstance();
-                Account foundAccount = accountService.accountByUsername(username);
-                if (foundAccount != null) {
-                    idAccount = foundAccount.getID();
-                    user.setID(idAccount);
-                }
-            }
+            setIdAndUsername(user);
 
             as.createRoleAccount(user, defaultRole);
             logActivity("User " + user.getID() + " Create account");
             response.sendRedirect("/home");
         } else {
-            response.sendRedirect("/home");
+            setIdAndUsername(user);
+            if (user.getRole() == 0) {
+                defaultRole = as.getRoleByAccountId(user.getID());
+                user.setRole(defaultRole);
+            }
+
+            if (user.getRole() == 2) {
+                response.sendRedirect("/admin");
+            } else {
+                response.sendRedirect("/home");
+            }
             logActivity("User " + user.getID() + " Already has an account");
         }
         System.out.println(user);
         session.setAttribute("account", user);
+    }
+
+    private void setIdAndUsername(Account user) {
+        int idAccount = user.getID();
+        String username = user.getUsername();
+        if (username == null && idAccount == 0) {
+            username = user.getName().trim().replace(" ", "");
+            AccountService accountService = AccountService.getInstance();
+            Account foundAccount = accountService.accountByUsername(username);
+            if (foundAccount != null) {
+                idAccount = foundAccount.getID();
+                user.setUsername(username);
+                user.setID(idAccount);
+            }
+        }
     }
 
     private void logActivity(String message) {
