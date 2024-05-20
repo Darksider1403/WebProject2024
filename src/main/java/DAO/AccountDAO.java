@@ -33,6 +33,18 @@ public class AccountDAO {
         return account.orElse(null);
     }
 
+    public static int getRoleByAccountId(int accountId) {
+        JDBI = ConnectJDBI.connector();
+        String sql = "SELECT role FROM access_levels WHERE idAccount = ?";
+        return JDBI.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, accountId)
+                        .mapTo(int.class)
+                        .findFirst()
+                        .orElse(1)
+        );
+    }
+
     public static Account accountByUsernameAndEmail(String username, String email) {
         JDBI = ConnectJDBI.connector();
         Optional<Account> account = JDBI.withHandle(handle ->
@@ -171,7 +183,7 @@ public class AccountDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(test());
+        System.out.println(getRoleByAccountId(2));
     }
 
     public static int totalAccount() {
@@ -236,9 +248,9 @@ public class AccountDAO {
 
     public static int createAccountWithGoogleAndFacebook(String username, String email, String fullname) {
         JDBI = ConnectJDBI.connector();
+        String sql = "INSERT INTO accounts(username, email, fullname) VALUES (?, ?, ?)";
         int execute = JDBI.withHandle(handle ->
-                handle.createUpdate("INSERT INTO accounts(username, email, fullname) " +
-                                "VALUES (?, ?, ?)")
+                handle.createUpdate(sql)
                         .bind(0, username)
                         .bind(1, email)
                         .bind(2, fullname)

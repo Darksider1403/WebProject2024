@@ -28,7 +28,7 @@ public class ServletManagerAccount extends HttpServlet {
         String status = req.getParameter("status");
         String pageCurrent = req.getParameter("page") == null ? "1" : req.getParameter("page");
         String search = req.getParameter("search");
-        int page = Integer.valueOf(pageCurrent) - 1;
+        int page = Integer.parseInt(pageCurrent) - 1;
         int totalAccount;
 
         if (role != null) {

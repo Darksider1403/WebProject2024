@@ -66,7 +66,6 @@ public class FeedbackDAO {
 
         return totalComments;
     }
-
     public static void main(String[] args) {
 //        System.out.println(getCommentsByProductId("Tl001").get(2).getAccount().getID());
     }

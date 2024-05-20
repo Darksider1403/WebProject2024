@@ -22,7 +22,7 @@
     Order order = request.getAttribute("order") == null ? new Order() : (Order) request.getAttribute("order");
     Account account = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
     String id = request.getAttribute("id") == null ? "" : request.getAttribute("id").toString();
-    List<Order_detail> orderDetailList = request.getAttribute("orderDetailList") == null ? new ArrayList<>() :(List<Order_detail>) request.getAttribute("orderDetailList");
+    List<Order_detail> orderDetailList = request.getAttribute("orderDetailList") == null ? new ArrayList<>() : (List<Order_detail>) request.getAttribute("orderDetailList");
     int totalPrice = request.getAttribute("totalPrice") == null ? 0 : (int) request.getAttribute("totalPrice");
     int totalPage = request.getAttribute("totalPage") == null ? 0 : (int) request.getAttribute("totalPage");
     int pageCurrent = request.getAttribute("pageCurrent") == null ? 1 : Integer.parseInt(request.getAttribute("pageCurrent").toString());
@@ -40,7 +40,8 @@
                     <h2 class="shop-name">PLQ SHOP</h2>
                 </div>
                 <div class="shop-user">
-                    <p>Xin chào, <%=account.getFullname()%></p>
+                    <p>Xin chào, <%=account.getFullname()%>
+                    </p>
                 </div>
                 <div class="menu-item">
                     <a href="./admin">
@@ -61,7 +62,7 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerOrder?page=1" class ="active">
+                    <a href="./managerOrder?page=1" class="active">
                         <div class="icon"><i class="fa-solid fa-clipboard"></i></div>
                         <p class="menu-content">Quản lý đơn hàng</p>
                     </a>
@@ -82,8 +83,10 @@
                     <div class="manager-search">
                         <form action="./managerOrder" method="post">
                             <div class="search">
-                                <input type="text" name = "search" class="search" autocomplete ="off" placeholder="Tìm kiếm">
-                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <input type="text" name="search" class="search" autocomplete="off"
+                                       placeholder="Tìm kiếm">
+                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -102,31 +105,37 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <% for (Order o : orderList) {%>
-                                <tr>
-                                <th><%=o.getId()%></th>
-                                <th><%=o.getFullname()%></th>
-                                <th><%=o.getDateBuy()%></th>
-                                <th><%=o.getDateArrival()%></th>
-                                <th><%=o.getAddress()%></th>
-                                <th><%=o.getNumberPhone()%></th>
+                            <% for (Order o : orderList) {%>
+                            <tr>
+                                <th><%=o.getId()%>
+                                </th>
+                                <th><%=o.getFullname()%>
+                                </th>
+                                <th><%=o.getDateBuy()%>
+                                </th>
+                                <th><%=o.getDateArrival()%>
+                                </th>
+                                <th><%=o.getAddress()%>
+                                </th>
+                                <th><%=o.getNumberPhone()%>
+                                </th>
                                 <th>
                                     <%if (o.getStatus() == 0) {%>
-                                        Chưa giao hàng
+                                    Chưa giao hàng
                                     <%} else if (o.getStatus() == 1) {%>
-                                        Đang giao hàng
+                                    Đang giao hàng
                                     <%} else {%>
-                                        Đã giao hàng
+                                    Đã giao hàng
                                     <%}%>
                                 </th>
                                 <th>
                                     <form action="./managerOrder" method="post">
-                                        <input type="hidden" value= "<%=o.getId()%>" name = "id">
+                                        <input type="hidden" value="<%=o.getId()%>" name="id">
                                         <button type="submit" class="btn-xemChiTiet">Xem chi tiết</button>
                                     </form>
                                 </th>
-                                </tr>
-                                <%}%>
+                            </tr>
+                            <%}%>
                             </tbody>
                         </table>
                     </div>
@@ -138,7 +147,8 @@
 
                         <% for (int i = 1; i <= totalPage; i++) {%>
                         <% if (i == pageCurrent) {%>
-                        <a href="./managerOrder?page=<%=i%><%=search%>" style = "color: red;" class="other-page"><span><%=i%></span></a>
+                        <a href="./managerOrder?page=<%=i%><%=search%>" style="color: red;"
+                           class="other-page"><span><%=i%></span></a>
                         <%} else {%>
                         <a href="./managerOrder?page=<%=i%><%=search%>" class="other-page"><span><%=i%></span></a>
                         <%}%>
@@ -159,8 +169,10 @@
     <div class="modal-content" style="width: 600px;">
         <div class="btn-close" onclick="closeModal()"><span class="close">&times;</span></div>
         <div style="margin-top: 40px">
-            <h4>Tên khách hàng: <%=order.getFullname()%></h4>
-            <h4>Mã đơn hàng: <%=order.getId()%></h4>
+            <h4>Tên khách hàng: <%=order.getFullname()%>
+            </h4>
+            <h4>Mã đơn hàng: <%=order.getId()%>
+            </h4>
             <table>
                 <thead>
                 <tr>
@@ -171,19 +183,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <% for (Order_detail od : orderDetailList) {%>
-                    <tr>
-                        <th><%=od.getIdProduct()%></th>
-                        <th>
-                            <div class="product-img"><img src="<%=listImageThumbnail.get(od.getIdProduct())%>" alt=""></div>
-                        </th>
-                        <th><%=od.getQuantity()%></th>
-                        <th><%=nf.format(od.getPrice())%></th>
-                    </tr>
+                <% for (Order_detail od : orderDetailList) {%>
+                <tr>
+                    <th><%=od.getIdProduct()%>
+                    </th>
+                    <th>
+                        <div class="product-img"><img src="<%=listImageThumbnail.get(od.getIdProduct())%>" alt=""></div>
+                    </th>
+                    <th><%=od.getQuantity()%>
+                    </th>
+                    <th><%=nf.format(od.getPrice())%>
+                    </th>
+                </tr>
                 <%}%>
                 </tbody>
             </table>
-            <div><p style="margin-top: 40px; float: right;">Tổng giá đơn hàng: <%=nf.format(totalPrice)%></p></div>
+            <div><p style="margin-top: 40px; float: right;">Tổng giá đơn hàng: <%=nf.format(totalPrice)%>
+            </p></div>
         </div>
     </div>
 </div>

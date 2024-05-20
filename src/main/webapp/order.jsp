@@ -36,7 +36,7 @@
             width: 5rem;
         }
         .font-size-18 {
-            font-size: 18px!important;
+            font-size: 18px !important;
         }
         .text-truncate {
             overflow: hidden;
@@ -44,7 +44,7 @@
             white-space: nowrap;
         }
         a {
-            text-decoration: none!important;
+            text-decoration: none !important;
         }
         .w-xl {
             min-width: 160px;
@@ -135,7 +135,8 @@
                             <div class="col-md-3">
                                 <div class="mt-3">
                                     <p class="text-muted mb-2">Total</p>
-                                    <h5><%= nf.format(sp.getProduct().getPrice() * sp.getQuantity()) %></h5>
+                                    <h5><%= nf.format(sp.getProduct().getPrice() * sp.getQuantity()) %>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -149,11 +150,14 @@
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Số Điện Thoại</span>
-                    <input type="text" name="phoneNumber" required class="form-control" id="phoneNumber" placeholder="Nhập số điện thoại" aria-label="Số điện thoại" aria-describedby="basic-addon1" pattern="[0-9]{1,10}">
+                    <input type="text" name="phoneNumber" required class="form-control" id="phoneNumber"
+                           placeholder="Nhập số điện thoại" aria-label="Số điện thoại" aria-describedby="basic-addon1"
+                           pattern="[0-9]{1,10}">
                 </div>
                 <div class="input-group">
                     <span class="input-group-text">Địa chỉ giao hàng</span>
-                    <textarea name="addressInput" required id="addressInput" class="form-control" aria-label="With textarea"></textarea>
+                    <textarea name="addressInput" required id="addressInput" class="form-control"
+                              aria-label="With textarea"></textarea>
                 </div>
                 <div class="row my-4">
                     <div class="col-sm-6">

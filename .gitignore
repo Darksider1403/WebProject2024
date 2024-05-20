@@ -52,3 +52,6 @@ src/main/resources/db.properties.properties
 *.xml
 .idea/misc.xml
 .idea/inspectionProfiles/Project_Default.xml
+src/main/resources/db.properties
+/src/main/resources
+.idea/webContexts.xml

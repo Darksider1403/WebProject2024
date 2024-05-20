@@ -44,7 +44,8 @@
                     <div class="user">
                         <img src="./assets/images/logo/icon.jpg" alt="">
                     </div>
-                    <p>Xin chào, <%=account.getFullname()%></p>
+                    <p>Xin chào, <%=account.getFullname()%>
+                    </p>
                 </div>
                 <div class="menu-item">
                     <a href="./admin">
@@ -86,8 +87,10 @@
                     <div class="manager-search">
                         <form action="./managerProduct" method="post">
                             <div class="search">
-                                <input type="text" name = "search" class="search" autocomplete ="off" placeholder="Tìm kiếm">
-                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <input type="text" name="search" class="search" autocomplete="off"
+                                       placeholder="Tìm kiếm">
+                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -107,36 +110,45 @@
                             </thead>
 
                             <tbody>
-                            <% for (Product p:listProduct){%>
+                            <% for (Product p : listProduct) {%>
                             <tr>
-                                <th><%=p.getId()%></th>
-                                <th style="width: 600px"><%=p.getName()%></th>
-                                <th><div class="product-img"><img src="<%=listImageThumbnail.get(p.getId())%>" alt=""></div></th>
-                                <th><%=nf.format(p.getPrice())%></th>
-                                <th><%=p.getQuantity()%></th>
+                                <th><%=p.getId()%>
+                                </th>
+                                <th style="width: 600px"><%=p.getName()%>
+                                </th>
+                                <th>
+                                    <div class="product-img"><img src="<%=listImageThumbnail.get(p.getId())%>" alt="">
+                                    </div>
+                                </th>
+                                <th><%=nf.format(p.getPrice())%>
+                                </th>
+                                <th><%=p.getQuantity()%>
+                                </th>
                                 <form action="./managerProduct" method="post">
-                                <th>
-                                    <select class="status" name = "status">
-                                        <% if (p.isStatus()) {%>
-                                        <option value="1" selected>Đang bán</option>
-                                        <option value="0">Ngưng bán</option>
-                                        <%} else {%>
-                                        <option value="1">Đang bán</option>
-                                        <option value="0" selected>Ngưng bán</option>
-                                        <%}%>
-                                    </select>
-                                </th>
-                                <th>
-                                        <input type="hidden" name = "updateProduct" value="<%=p.getId()%>">
-                                        <button class="btn-repair"style="padding: 5px 10px; margin-right: 5px">Lưu</button>
+                                    <th>
+                                        <select class="status" name="status">
+                                            <% if (p.isStatus()) {%>
+                                            <option value="1" selected>Đang bán</option>
+                                            <option value="0">Ngưng bán</option>
+                                            <%} else {%>
+                                            <option value="1">Đang bán</option>
+                                            <option value="0" selected>Ngưng bán</option>
+                                            <%}%>
+                                        </select>
+                                    </th>
+                                    <th>
+                                        <input type="hidden" name="updateProduct" value="<%=p.getId()%>">
+                                        <button class="btn-repair" style="padding: 5px 10px; margin-right: 5px">Lưu
+                                        </button>
 
-                                </th>
+                                    </th>
                                 </form>
                                 <th>
-                                        <form action="./managerProduct" method="post" style="display: inline-block">
-                                            <input type="hidden" name = "deleteProduct" value="<%=p.getId()%>">
-                                            <button class="btn-delete" style="padding: 5px 10px;"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
-                                        </form>
+                                    <form action="./managerProduct" method="post" style="display: inline-block">
+                                        <input type="hidden" name="deleteProduct" value="<%=p.getId()%>">
+                                        <button class="btn-delete" style="padding: 5px 10px;"><i
+                                                class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                                    </form>
                                 </th>
                             </tr>
                             <%}%>
@@ -153,7 +165,8 @@
 
                         <% for (int i = 1; i <= totalPage; i++) {%>
                         <% if (i == pageCurrent) {%>
-                        <a href="./managerProduct?page=<%=i%><%=search%>" style = "color: red;" class="other-page"><span><%=i%></span></a>
+                        <a href="./managerProduct?page=<%=i%><%=search%>" style="color: red;"
+                           class="other-page"><span><%=i%></span></a>
                         <%} else {%>
                         <a href="./managerProduct?page=<%=i%><%=search%>" class="other-page"><span><%=i%></span></a>
                         <%}%>
@@ -205,14 +218,15 @@
             </div>
             <div class="modal-content__input">
                 <div class="description"><span>Giới tính*: </span></div>
-                <input type="radio" name="gender" value="Nam" > Nam
-                <input type="radio" name="gender" value="Nữ"style="margin-left: 10px;"> Nữ
+                <input type="radio" name="gender" value="Nam"> Nam
+                <input type="radio" name="gender" value="Nữ" style="margin-left: 10px;"> Nữ
             </div>
             <div class="modal-content__input">
                 <div class="description"><span>Loại sản phẩm: </span></div>
-                <select class="idCategory" name = "idCategory">
-                    <% for(Map.Entry<String, String> entry : categorys.entrySet()) {%>
-                    <option value="<%=entry.getKey()%>"><%=entry.getValue()%></option>
+                <select class="idCategory" name="idCategory">
+                    <% for (Map.Entry<String, String> entry : categorys.entrySet()) {%>
+                    <option value="<%=entry.getKey()%>"><%=entry.getValue()%>
+                    </option>
                     <%}%>
                 </select>
             </div>
@@ -222,7 +236,7 @@
             </div>
             <div class="modal-content__input">
                 <span>Các hình ảnh chi tiết*: </span>
-                <input type="file"  name="files[]" multiple>
+                <input type="file" name="files[]" multiple>
             </div>
             <button type="submit" class="btn-addProduct">Thêm sản phẩm</button>
         </form>
@@ -236,12 +250,14 @@
 <div id="updateModal" style="display: flex" class="modal">
     <div class="modal-content">
         <div class="btn-close" onclick="closeDeleteModal()"><span class="close">&times;</span></div>
-        <p style="text-align: center;margin: 40px 0px;font-size: 20px;">Bạn có muốn xóa sản phẩm có mã sản phẩm <%=deleteProduct%></p>
+        <p style="text-align: center;margin: 40px 0px;font-size: 20px;">Bạn có muốn xóa sản phẩm có mã sản
+            phẩm <%=deleteProduct%>
+        </p>
         <div style="text-align: center">
             <form action="./managerProduct" method="post" style="display: inline-block">
-                <input type="hidden" name ="check">
-                <input type="hidden" name ="deleteProduct" value="<%=deleteProduct%>">
-                <button class = "btn-repair" onclick="closeDeleteModal()" >Đồng ý</button>
+                <input type="hidden" name="check">
+                <input type="hidden" name="deleteProduct" value="<%=deleteProduct%>">
+                <button class="btn-repair" onclick="closeDeleteModal()">Đồng ý</button>
             </form>
             <button class="btn-delete" onclick="closeDeleteModal()">Từ chối</button>
         </div>
@@ -250,11 +266,12 @@
 <%}%>
 
 <%--Modal thông báo--%>
-<% if (!notify.isEmpty()){%>
+<% if (!notify.isEmpty()) {%>
 <div id="notifyModal" style="display: flex" class="modal">
     <div class="modal-content">
         <div class="btn-close" onclick="closeNotifyModal()"><span class="close">&times;</span></div>
-        <p style="text-align: center; margin: 40px 0px; font-size: 20px;"><%=notify%></p>
+        <p style="text-align: center; margin: 40px 0px; font-size: 20px;"><%=notify%>
+        </p>
     </div>
 </div>
 <%}%>
@@ -267,6 +284,7 @@
         value = new Intl.NumberFormat('en-US').format(parseFloat(value));
         input.value = value;
     }
+
     function openModal() {
         document.getElementById("myModal").style.display = "flex";
     }
@@ -278,6 +296,7 @@
     function closeNotifyModal() {
         document.getElementById("notifyModal").style.display = "none";
     }
+
     function closeDeleteModal() {
         document.getElementById("updateModal").style.display = "none";
     }
