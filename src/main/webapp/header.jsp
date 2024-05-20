@@ -58,7 +58,7 @@
                         <a class="nav-link" href="#">Giới thiệu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Liên hệ</a>
+                        <a class="nav-link" href="ContractPage.jsp">Liên hệ</a>
                     </li>
                 </ul>
             </div>
