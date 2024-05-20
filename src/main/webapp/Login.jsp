@@ -6,79 +6,6 @@
     <title>Title</title>
     <link rel="stylesheet" href="./css/account.css">
     <link rel="stylesheet" href="./css/base.css">
-    <style>
-        .loginBtn {
-            box-sizing: border-box;
-            display: inline-block;
-            padding: 10px 15px 10px 45px;
-            border: none;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 10px;
-            font-size: 13px;
-            color: #FFF;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .loginBtn:before {
-            content: "";
-            box-sizing: border-box;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 40px;
-            height: 100%;
-        }
-
-        .loginBtn:focus {
-            outline: none;
-        }
-
-        .loginBtn:active {
-            box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .third-party-login .loginBtn--facebook {
-            top: 4px;
-            left: -23px;
-            background-color: #4C69BA;
-            background-image: linear-gradient(#4C69BA, #3B55A0);
-            font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;
-            text-shadow: 0 -1px 0 #354C8C;
-        }
-
-        .third-party-login .loginBtn--facebook:before {
-            border-right: #364e92 1px solid;
-            background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
-        }
-
-        .third-party-login .loginBtn--facebook:hover,
-        .third-party-login .loginBtn--facebook:focus {
-            background-color: #5B7BD5;
-            background-image: linear-gradient(#5B7BD5, #4864B1);
-        }
-
-        .loginBtn--google {
-            left: 167px;
-            top: -39px;
-            transform: translate(0px, 4px);
-            transition: none 0s ease 0s;
-            font-family: "Roboto", Roboto, arial, sans-serif;
-            background: #DD4B39;
-        }
-
-        .loginBtn--google:before {
-            border-right: #BB3F30 1px solid;
-            background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.png') 6px 6px no-repeat;
-        }
-
-        .loginBtn--google:hover,
-        .loginBtn--google:focus {
-            background: #E74B37;
-        }
-    </style>
-
 </head>
 <body>
 <%
@@ -122,12 +49,10 @@
                 <div class="forgot-password"><a href="./forgot">Quên mật khẩu?</a></div>
             </form>
             <div class="third-party-login">
-                <div class="or-text" style="padding-bottom: 14px;display: flex;align-items: center;">
-                    <div class="thin-line"
-                         style="background-color: #dbdbdb;flex: 1;height: 1px;width: 100%;"></div>
-                    <span class="upercase-text" style=" text-transform: uppercase;">Hoặc</span>
-                    <div class="thin-line"
-                         style="background-color: #dbdbdb;flex: 1;height: 1px;width: 100%;"></div>
+                <div class="or-text">
+                    <div class="thin-line"></div>
+                    <span class="upercase-text">Hoặc</span>
+                    <div class="thin-line"></div>
                 </div>
                 <a class="loginBtn loginBtn--facebook"
                    href="https://www.facebook.com/dialog/oauth?client_id=3242053589264809&redirect_uri=https://localhost:8080/LoginFacebookHandler">

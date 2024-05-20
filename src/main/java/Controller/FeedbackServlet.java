@@ -36,6 +36,8 @@ public class FeedbackServlet extends HttpServlet {
                     Account foundAccount = accountService.accountByUsername(username);
                     if (foundAccount != null) {
                         idAccount = foundAccount.getID();
+                        String name = foundAccount.getName();
+                        name = account.getName();
                     }
                 }
 
@@ -56,7 +58,7 @@ public class FeedbackServlet extends HttpServlet {
                     response.sendRedirect(request.getContextPath() +
                             "./productDetail?id=" + productId + "&feedbackError=true");
                 } else {
-                    response.sendRedirect("./productDetail?id=" + productId + "&feedbackError=true");
+                    response.sendRedirect("./productDetail?id=" + productId + "&feedbackError=false");
                 }
             } else {
                 response.sendRedirect("./login");

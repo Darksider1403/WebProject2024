@@ -43,13 +43,10 @@
                 double tongGiaTri = 0;
                 Map<String, String> listImagesThumbnail = ProductService.getInstance().selectImageThumbnail();
                 int stt = 1;
-                boolean checkValue = false;
                 for (CartItems sp : sanPhams) {
                     tongGiaTri += sp.getTotalPrice();
 
             %>
-            <td><input type="checkbox" name="isChecked-<%= sp.getProduct().getId()%>value="<%= checkValue %>"">
-            </td>
             <td><%= stt++ %>
             </td>
             <td>
@@ -124,10 +121,7 @@
                 <td>
                     Tổng số tiền
                 </td>
-                <td id="grandTotal"><%
-                    nf.format(tongGiaTri);
-                %>đ
-                </td>
+                <td id="grandTotal"><%= nf.format(tongGiaTri)%>đ</td>
             </tr>
         </table>
     </div>

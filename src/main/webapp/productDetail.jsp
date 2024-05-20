@@ -12,9 +12,8 @@
 
 <head>
     <title>Document</title>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"
-            rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
           integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
@@ -34,26 +33,24 @@
 
 <body>
 <jsp:include page="header.jsp"/>
-<%
-    Account account = (Account) session.getAttribute("account");
+<% Account account = (Account) session.getAttribute("account");
     Double productRating = (Double) request.getAttribute("productRating");
     ProductService productService = request.getAttribute("ps") == null ?
             ProductService.getInstance() : (ProductService) request.getAttribute("ps");
     FeedbackAndRatingService feedbackAndRatingService = request.getAttribute("feedbackAndRatingService") == null
-            ? FeedbackAndRatingService.getInstance()
-            : (FeedbackAndRatingService) request.getAttribute("feedbackAndRatingService");
+            ? FeedbackAndRatingService.getInstance() : (FeedbackAndRatingService)
+            request.getAttribute("feedbackAndRatingService");
     Product selectedProduct = (Product) request.getAttribute("selectedProduct");
     String productId = selectedProduct != null ? selectedProduct.getId() : "";
     List<Comment> comments = feedbackAndRatingService.getCommentsByProductId(productId);
     Map<String, String> imageMap =
-            productService.selectImageProductDetail(selectedProduct != null ? selectedProduct.getId() : null);
+            productService.selectImageProductDetail(selectedProduct != null ?
+                    selectedProduct.getId() : null);
 %>
 <% if (selectedProduct != null) { %>
 <ol class="page-breadcrumb breadcrumb__list">
     <li><a href="./home" class="breadcrumb__item">Trang chủ</a></li>
-    <li><a href="" class="breadcrumb__item">/ <%=
-    selectedProduct.getId() %>
-    </a></li>
+    <li><a href="" class="breadcrumb__item">/ <%=selectedProduct.getId() %></a></li>
 </ol>
 
 <div class="container p-3">
@@ -62,18 +59,15 @@
             <% if (imageMap != null) { %>
             <div class="image-carousel">
                 <ul class="image-list">
-                    <% for (Map.Entry<String, String> entry :
-                            imageMap.entrySet()) { %>
+                    <% for (Map.Entry<String, String> entry : imageMap.entrySet()) { %>
                     <li>
-                        <img src="<%=entry.getValue()%>" alt=""
-                             data-zoom-image="<%=entry.getValue()%>">
+                        <img src="<%=entry.getValue()%>" alt="" data-zoom-image="<%=entry.getValue()%>">
                     </li>
                     <% } %>
                 </ul>
                 <div class="image-display">
                     <% String firstImageUrl = "";
-                        if
-                        (!imageMap.isEmpty()) {
+                        if (!imageMap.isEmpty()) {
                             Map.Entry<String, String> firstEntry = imageMap.entrySet().iterator().next();
                             firstImageUrl = firstEntry.getValue();
                         }
@@ -110,8 +104,8 @@
                     </div>
                 </div>
             </div>
-            <p class="text-justify">Số lượng hàng: <%=selectedProduct.getQuantity() %>
-            <p class="price">Giá: <%=selectedProduct.getPrice() %>đ</p>
+            <p class="text-justify">Số lượng hàng:<%=selectedProduct.getQuantity() %>
+            <p class="price">Giá:<%=selectedProduct.getPrice() %>đ</p>
             <p class="text-justify">Mô tả sản phẩm:</p>
             <p class="text-justify"><%=selectedProduct.getMaterial() %>
             <p class="text-justify"><%=selectedProduct.getGender() %>
@@ -132,19 +126,18 @@
                 <label for="feedbackText" class="form-label" style="font-size: 2.1rem;">Đánh giá sản phẩm:</label>
                 <textarea class="form-control" id="feedbackText" rows="5" cols="33" name="content"></textarea>
             </div>
-            <input type="hidden" id="productId" name="productId"
-                   value="<%=selectedProduct.getId() %>">
-            <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? "true" : "false"%>">
+            <input type="hidden" id="productId" name="productId" value="<%=selectedProduct.getId() %>">
+            <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? " true" : "false"%>">
 
             <div class="button-container">
-                <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi
-                </button>
+                <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi</button>
             </div>
         </form>
 
         <div class="rating-container"
              style="position: relative; left: 212px; top: -195px; transition: none 0s ease 0s;">
-            <form id="ratingForm" action="./rateProduct" method="post">
+            <form id="ratingForm" action="./rateProduct"
+                  method="post">
                 <input type="hidden" name="productId" value="<%= selectedProduct.getId() %>">
                 <input type="hidden" id="selectedRating" name="selectedRating" value="">
                 <div class="rating" id="starRating">
@@ -181,14 +174,9 @@
                     Anonymous User
                     <% } %>
                 </p>
-                <p class="comment-text">
-                    <%= comment.getContent() %>
-                </p>
+                <p class="comment-text"><%= comment.getContent() %></p>
                 <% if (comment.getDateComment() != null) { %>
-                <p class="comment-date">
-                    <%= comment.getDateComment().toString()
-                    %>
-                </p>
+                <p class="comment-date"><%= comment.getDateComment().toString()%></p>
                 <% } %>
             </div>
         </div>
@@ -290,5 +278,9 @@
         });
     });
 </script>
+<<<<<<< HEAD
+</html>
+=======
 
 </html>
+>>>>>>> main
