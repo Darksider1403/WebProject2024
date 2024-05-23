@@ -69,7 +69,6 @@
 <% } else { %>
 <p>No slider available.</p>
 <% } %>
-</section>
 <%
     List<Product> productListNam = request.getAttribute("listProduct") == null ? new ArrayList<>() : (List<Product>) request.getAttribute("listProduct");
     NumberFormat nf = NumberFormat.getInstance();
@@ -96,8 +95,10 @@
                     <div class="product-item">
                         <div class="product">
 
-                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img" style="width: 270px;height: 300px"
-                                             src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img"
+                                                                                   style="width: 270px;height: 300px"
+                                                                                   src="<%=listImagesThumbnail.get(product.getId())%>"
+                                                                                   alt=""></a>
                             <p class="product-title">
                                 <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
                             </p>
@@ -142,8 +143,10 @@
                     <% for (Product product : productVai) { %>
                     <div class="product-item">
                         <div class="product">
-                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img" style="width: 270px;height: 300px"
-                                             src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img"
+                                                                                   style="width: 270px;height: 300px"
+                                                                                   src="<%=listImagesThumbnail.get(product.getId())%>"
+                                                                                   alt=""></a>
                             <p class="product-title">
                                 <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
                             </p>
@@ -185,8 +188,10 @@
                     <% for (Product product : Nu) { %>
                     <div class="product-item">
                         <div class="product">
-                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img" style="width: 270px;height: 300px"
-                                             src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img"
+                                                                                   style="width: 270px;height: 300px"
+                                                                                   src="<%=listImagesThumbnail.get(product.getId())%>"
+                                                                                   alt=""></a>
                             <p class="product-title">
                                 <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
                             </p>
@@ -211,7 +216,7 @@
     </div>
         <%
    List<Product> Nam = request.getAttribute("productNu") == null ? new ArrayList<>() : (List<Product>) request.getAttribute("productNam");
-%>
+        %>
     <div class="container" id="Nam-Container">
         <div class="top-prodcut">
             <div class="title">Thắt lưng Nam</div>
@@ -228,8 +233,10 @@
                     <% for (Product product : Nam) { %>
                     <div class="product-item">
                         <div class="product">
-                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img" style="width: 270px;height: 300px"
-                                             src="<%=listImagesThumbnail.get(product.getId())%>" alt=""></a>
+                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img"
+                                                                                   style="width: 270px;height: 300px"
+                                                                                   src="<%=listImagesThumbnail.get(product.getId())%>"
+                                                                                   alt=""></a>
                             <p class="product-title">
                                 <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
                             </p>
@@ -253,40 +260,44 @@
             </div>
         </div>
     </div>
-    <script>
-        $('.slider-product').slick({
-            dots: true,
-            infinite: false,
-            speed: 300,
-            slidesToShow: 3,
-            slidesToScroll: 3,
-            responsive: [
-                {
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        infinite: true,
-                        dots: true
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
-        });
+</div>
 
-    </script>
+<jsp:include page="footer.jsp"/>
 </body>
+
+<script>
+    $('.slider-product').slick({
+        dots: true,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
+
+</script>
 </html>

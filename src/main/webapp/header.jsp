@@ -20,8 +20,7 @@
         <nav>
             <ul class="list-item">
                 <li class="item"><a href="./home">Trang chủ</a></li>
-                <li class="item"><a href="./product">Sản phẩm nam</a></li>
-                <li class="item"><a href="./product">Sản phẩm nữ</a></li>
+                <li class="item"><a href="./product?category=1&page=1">Danh sách sản phẩm</a></li>
             </ul>
 
             <div class="header-contain__search">

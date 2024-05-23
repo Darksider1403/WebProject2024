@@ -10,7 +10,7 @@ nav {
     height: 80px;
 }
 
-.list-item {
+nav .list-item {
     display: flex;
     color: #fff;
     height: 80px;
@@ -19,20 +19,20 @@ nav {
     margin: 0;
 }
 
-.list-item .item {
+nav .list-item .item {
     margin-right: 20px;
     padding: 5px;
 }
-.list-item .item a {
+nav .list-item .item a {
     color: #fff;
     font-size: 20px;
 }
-.list-item .item:hover {
+nav .list-item .item:hover {
     background-color: #fff;
     cursor: pointer;
 }
 
-.list-item .item:hover a {
+nav .list-item .item:hover a {
     color: #000;
 }
 

@@ -14,6 +14,7 @@
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="./css/base.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 <%
@@ -33,7 +34,7 @@
     <div class="container">
         <div class="gird">
             <div class="menu__category">
-                <h3 class="menu__category--title">Thắt lưng nam</h3>
+                <h3 class="menu__category--title">Thắt lưng</h3>
                 <ul class="list__category">
                     <% for (Map.Entry<String, String> entry : listCategory.entrySet()) {
                         String id = entry.getKey();
@@ -128,5 +129,6 @@
         </div>
     </div>
 </div>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>
