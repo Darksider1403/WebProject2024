@@ -36,6 +36,22 @@
                     <h2 class="shop-name">PLQ SHOP</h2>
                 </div>
                 <div class="shop-user">
+                    <%
+                        if (account.getFullname() == null) {
+                            int idAccount = account.getID();
+                            String username = account.getUsername();
+                            if (username == null && idAccount == 0) {
+                                username = account.getName().trim().replace(" ", "");
+                                AccountService accountService = AccountService.getInstance();
+                                Account foundAccount = accountService.accountByUsername(username);
+                                if (foundAccount != null) {
+                                    idAccount = foundAccount.getID();
+                                    account.setUsername(username);
+                                    account.setID(idAccount);
+                                }
+                            }
+                        }
+                    %>
                     <p>Xin chào, <%=account.getFullname()%></p>
                 </div>
                 <div class="menu-item">
@@ -130,12 +146,12 @@
 <script>
     var xValues = [
         <%for(String name: nameCategorys) {%>
-            "<%=name%>",
+        "<%=name%>",
         <%}%>
     ];
     var yValues = [
         <% for(int revenue: revenueOfCategorys) {%>
-            <%=revenue%>,
+        <%=revenue%>,
         <%}%>
     ];
     var barColors = ['Red', 'Green', 'Blue', 'Yellow', 'Orange',

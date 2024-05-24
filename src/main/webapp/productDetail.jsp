@@ -9,44 +9,47 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
+
 <head>
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
           integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
           integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous">
     <link rel="stylesheet" href="css/productDetail.css">
 </head>
+
 <body>
 <jsp:include page="header.jsp"/>
-<%
-    Account account = (Account) session.getAttribute("account");
+<% Account account = (Account) session.getAttribute("account");
     Double productRating = (Double) request.getAttribute("productRating");
     ProductService productService = request.getAttribute("ps") == null ?
-            ProductService.getInstance() :
-            (ProductService) request.getAttribute("ps");
-
-    FeedbackAndRatingService feedbackAndRatingService =
-            request.getAttribute("feedbackAndRatingService") == null ?
-                    FeedbackAndRatingService.getInstance() :
-                    (FeedbackAndRatingService) request.getAttribute("feedbackAndRatingService");
-
+            ProductService.getInstance() : (ProductService) request.getAttribute("ps");
+    FeedbackAndRatingService feedbackAndRatingService = request.getAttribute("feedbackAndRatingService") == null
+            ? FeedbackAndRatingService.getInstance() : (FeedbackAndRatingService)
+            request.getAttribute("feedbackAndRatingService");
     Product selectedProduct = (Product) request.getAttribute("selectedProduct");
-
     String productId = selectedProduct != null ? selectedProduct.getId() : "";
     List<Comment> comments = feedbackAndRatingService.getCommentsByProductId(productId);
-    Map<String, String> imageMap = productService.selectImageProductDetail(selectedProduct != null ? selectedProduct.getId() : null);
+    Map<String, String> imageMap =
+            productService.selectImageProductDetail(selectedProduct != null ?
+                    selectedProduct.getId() : null);
 %>
 <% if (selectedProduct != null) { %>
 <ol class="page-breadcrumb breadcrumb__list">
     <li><a href="./home" class="breadcrumb__item">Trang chủ</a></li>
-    <li><a href="" class="breadcrumb__item">/ <%= selectedProduct.getId() %>
-    </a></li>
+    <li><a href="" class="breadcrumb__item">/ <%=selectedProduct.getId() %></a></li>
 </ol>
 
 <div class="container p-3">
@@ -56,22 +59,19 @@
             <div class="image-carousel">
                 <ul class="image-list">
                     <% for (Map.Entry<String, String> entry : imageMap.entrySet()) { %>
-                    <li style="width: calc(100%/<%=imageMap.size()%>)">
-                        <img src="<%= entry.getValue() %>" alt="" data-zoom-image="<%= entry.getValue() %>">
+                    <li>
+                        <img src="<%=entry.getValue()%>" alt="" data-zoom-image="<%=entry.getValue()%>">
                     </li>
                     <% } %>
                 </ul>
                 <div class="image-display">
-                    <%
-                        String firstImageUrl = "";
+                    <% String firstImageUrl = "";
                         if (!imageMap.isEmpty()) {
                             Map.Entry<String, String> firstEntry = imageMap.entrySet().iterator().next();
-
                             firstImageUrl = firstEntry.getValue();
                         }
                     %>
                     <img src="<%=firstImageUrl%>" id="main-image" alt="Main Image">
-
                 </div>
             </div>
             <% } else { %>
@@ -80,25 +80,26 @@
         </div>
 
         <div class="col-md-6 p-5 border bg-white">
-            <h2><%= selectedProduct.getName() %>
+            <h2><%=selectedProduct.getName()%>
             </h2>
             <div class="d-flex flex-row my-3">
                 <div class="text-warning mb-1 me-2">
                     <div class="rating-container">
-    <span class="rating-stars">
-        <% for (int i = 1; i <= Math.floor(productRating); i++) { %>
-            <i class="fa fa-star text-primary"></i>
-        <% } %>
-        <% if (productRating % 1 > 0) { %>
-            <i class="fas fa-star-half-alt text-primary"></i>
-        <% } %>
-        <% for (int i = (int) (Math.ceil(productRating) + 1); i <= 5; i++) { %>
-            <i class="fa-regular fa-star"></i>
-        <% } %>
-    </span>
-                        <span class="rating-value ms-1">
-        <%= productRating %>
-    </span>
+                        <span class="rating-stars">
+                            <% for (int i = 1; i <= Math.floor(productRating); i++) {
+                            %>
+                            <i class="fa fa-star text-primary"></i>
+                            <% } %>
+                            <% if (productRating % 1 > 0) {
+                            %>
+                            <i class="fas fa-star-half-alt text-primary"></i>
+                            <% } %>
+                            <% for (int i = (int) (Math.ceil(productRating) + 1); i <= 5; i++) {
+                            %>
+                            <i class="fa-regular fa-star"></i>
+                            <% } %>
+                        </span>
+                        <span class="rating-value ms-1"><%=productRating%></span>
                     </div>
                 </div>
             </div>
@@ -112,7 +113,8 @@
 
             <div class="order">
                 <form action="AddToCartServlet" method="post">
-                    <a class="btn btn-primary btn-lg" href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
+                    <a class="btn btn-primary btn-lg"
+                       href="AddToCartServlet?masanpham=<%=selectedProduct.getId()%>">
                         <i class="fas fa-cart-plus"></i>Thêm sản phẩm
                     </a>
                 </form>
@@ -125,8 +127,8 @@
                 <label for="feedbackText" class="form-label" style="font-size: 2.1rem;">Đánh giá sản phẩm:</label>
                 <textarea class="form-control" id="feedbackText" rows="5" cols="33" name="content"></textarea>
             </div>
-            <input type="hidden" id="productId" name="productId" value="<%= selectedProduct.getId() %>">
-            <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? "true" : "false"%>">
+            <input type="hidden" id="productId" name="productId" value="<%=selectedProduct.getId() %>">
+            <input type="hidden" id="isLoggedIn" value="<%=(account != null) ? " true" : "false"%>">
 
             <div class="button-container">
                 <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Gửi phản hồi</button>
@@ -135,7 +137,8 @@
 
         <div class="rating-container"
              style="position: relative; left: 212px; top: -195px; transition: none 0s ease 0s;">
-            <form id="ratingForm" action="./rateProduct" method="post">
+            <form id="ratingForm" action="./rateProduct"
+                  method="post">
                 <input type="hidden" name="productId" value="<%= selectedProduct.getId() %>">
                 <input type="hidden" id="selectedRating" name="selectedRating" value="">
                 <div class="rating" id="starRating">
@@ -148,64 +151,61 @@
             </form>
         </div>
 
-
         <%-- Comments Section --%>
         <h3>Các lượt đánh giá sản phẩm (<%= (comments != null) ? comments.size() : 0 %>)</h3>
-        <%
-            if (comments != null && !comments.isEmpty()) {
-                for (Comment comment : comments) {
-        %>
+        <% if (comments != null && !comments.isEmpty()) {
+            for (Comment comment : comments) { %>
         <div class="comment-item d-flex mb-3">
             <div class="profile-pic">
-                <img src="./assets/images/facebook-user-icon-19.jpg" alt="User Avatar">
+                <img src="./assets/images/facebook-user-icon-19.jpg"
+                     alt="User Avatar">
             </div>
 
             <div class="comment-content flex-grow-1">
                 <p class="comment-author">
-                    <%
-                        int accountId = comment.getIdAccount();
+                    <% int accountId = comment.getIdAccount();
                         if (accountId > 0) {
                             Account commenterAccount = AccountService.getInstance().getAccountByAccountId(accountId);
                             if (commenterAccount != null) {
                     %>
-                    <%= commenterAccount.getUsername() %>
-                    <%
-                        }
-                    } else {
+                    <%= commenterAccount.getUsername()
                     %>
+                    <% }
+                    } else { %>
                     Anonymous User
-                    <%
-                        }
-                    %>
+                    <% } %>
                 </p>
                 <p class="comment-text"><%= comment.getContent() %></p>
                 <% if (comment.getDateComment() != null) { %>
-                <p class="comment-date"><%= comment.getDateComment().toString() %></p>
+                <p class="comment-date"><%= comment.getDateComment().toString()%></p>
                 <% } %>
             </div>
         </div>
-        <%
-            }
-        } else {
-        %>
-        <p>Chưa có đánh giá nào. Hãy là người đầu tiên để lại bình luận!</p>
-        <%
-            }
-        %>
+        <% }
+        } else { %>
+        <p>Chưa có đánh giá nào. Hãy là người đầu
+            tiên để lại bình luận!</p>
+        <% } %>
     </div>
         <% } %>
 
 </body>
-<script src="https://use.fontawesome.com/releases/v6.4.2/js/all.js" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+<script src="https://use.fontawesome.com/releases/v6.4.2/js/all.js"
+        crossorigin="anonymous"></script>
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
         integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!--    Slider-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous">
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
@@ -274,4 +274,4 @@
         });
     });
 </script>
-</html>                                                             
+</html>

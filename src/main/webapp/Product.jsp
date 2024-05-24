@@ -90,8 +90,8 @@
                     <div class="product-item">
                         <div class="product">
                             <a href="productDetail?id=<%= product.getId() %>"><img class="product-img"
-                                                         src="<%=listImageThumbnail.get(product.getId())%>"
-                                                         alt=""></a>
+                                                                                   src="<%=listImageThumbnail.get(product.getId())%>"
+                                                                                   alt=""></a>
                             <div class="product-container__tittle">
                                 <p class="product-title"><%=product.getName()%>
                                 </p>

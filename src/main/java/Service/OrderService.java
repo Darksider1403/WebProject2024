@@ -43,5 +43,8 @@ public class OrderService {
     public List<CartItems> addProductToOrder(String idprodcut, int quanlity, int price){
         return OrderDAO.addProductToOrder(idprodcut,quanlity,price);
     }
+    public List<Order_detail> showOrderDetail(String idOrder) {
+        return OrderDAO.showOrderDetail(idOrder);
+    }
 }
 

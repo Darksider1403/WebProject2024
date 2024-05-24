@@ -1,3 +1,4 @@
+
 package DAO;
 
 import Model.Product;
@@ -15,13 +16,14 @@ import java.util.stream.Collectors;
 public class ProductDAO {
     private static final Logger LOGGER = Logger.getLogger(ProductDAO.class.getName());
     private static Jdbi JDBI;
+
     public static Map<String, String> selectCategory() {
         JDBI = ConnectJDBI.connector();
         List<Map<String, Object>> maps = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT id, name FROM categorys").mapToMap().collectIntoList()
         );
         Map<String, String> listCategorys = new HashMap<>();
-        for(int i = 0; i <maps.size(); i++ ) {
+        for (int i = 0; i < maps.size(); i++) {
             String id = maps.get(i).get("id").toString();
             String name = maps.get(i).get("name").toString();
             listCategorys.put(id, name);
@@ -33,7 +35,7 @@ public class ProductDAO {
         JDBI = ConnectJDBI.connector();
         List<Map<String, Object>> maps = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT idProduct, source FROM images " +
-                        "Where is_thumbnail_image=1").mapToMap().collectIntoList()
+                        "Where is_thumbnail_image = 1").mapToMap().collectIntoList()
         );
         return getStringMapForImageForThumbnail(maps);
     }
@@ -59,11 +61,9 @@ public class ProductDAO {
             return null;
         }
     }
-
-
     private static Map<String, String> getStringMapForImageForThumbnail(List<Map<String, Object>> maps) {
         Map<String, String> listImages = new HashMap<>();
-        for(int i = 0; i <maps.size(); i++ ) {
+        for (int i = 0; i < maps.size(); i++) {
             String id = maps.get(i).get("idproduct").toString();
             String name = maps.get(i).get("source").toString();
             if (!listImages.containsKey(id)) { // Check if key already exists
@@ -75,7 +75,7 @@ public class ProductDAO {
 
     private static Map<String, String> getStringMapForProductDetail(List<Map<String, Object>> maps) {
         Map<String, String> listImages = new HashMap<>();
-        for(int i = 0; i <maps.size(); i++ ) {
+        for (int i = 0; i < maps.size(); i++) {
             String id = maps.get(i).get("idproduct").toString();
             String name = maps.get(i).get("source").toString();
             if (!listImages.containsKey(id)) { // Check if key already exists
@@ -91,30 +91,30 @@ public class ProductDAO {
         int index = 8;
         File file = new File("C:\\Users\\Hieu\\Desktop\\New folder (3)\\WebProject\\src\\main\\webapp\\assets\\images\\product_img");
 
-        int execute=0;
+        int execute = 0;
         int i = 3;
-            String idw = "%"+i;
-            Product p = JDBI.withHandle(handle ->
-                    handle.createQuery("SELECT * FROM products Where ID like ?")
-                            .bind(0, idw).mapToBean(Product.class).first());
-            String idProduct = p.getId();
-            File[] files = file.listFiles((dir, name) -> name.startsWith(idProduct));
-            for (File f : files) {
-                int ID_image = index++;
-                String url = "./assets/images/product_img/" + f.getName();
-                int check;
-                if (f.getName().indexOf("(1)") != -1) check = 1;
-                else {
-                    check = 0;
-                }
-                execute+= JDBI.withHandle(handle ->
-                        handle.createUpdate("INSERT INTO images(ID, idProduct, source, is_thumbnail_image) " +
-                                "Values(?, ?, ?, ?)")
-                                .bind(0, ID_image)
-                                .bind(1, idProduct)
-                                .bind(2, url)
-                                .bind(3, check).execute());
+        String idw = "%" + i;
+        Product p = JDBI.withHandle(handle ->
+                handle.createQuery("SELECT * FROM products Where ID like ?")
+                        .bind(0, idw).mapToBean(Product.class).first());
+        String idProduct = p.getId();
+        File[] files = file.listFiles((dir, name) -> name.startsWith(idProduct));
+        for (File f : files) {
+            int ID_image = index++;
+            String url = "./assets/images/product_img/" + f.getName();
+            int check;
+            if (f.getName().indexOf("(1)") != -1) check = 1;
+            else {
+                check = 0;
             }
+            execute += JDBI.withHandle(handle ->
+                    handle.createUpdate("INSERT INTO images(ID, idProduct, source, is_thumbnail_image) " +
+                                    "Values(?, ?, ?, ?)")
+                            .bind(0, ID_image)
+                            .bind(1, idProduct)
+                            .bind(2, url)
+                            .bind(3, check).execute());
+        }
 
         return execute;
     }
@@ -141,13 +141,14 @@ public class ProductDAO {
 
     public static List<Product> productList() {
         JDBI = ConnectJDBI.connector();
-         List<Product> productList= JDBI.withHandle(handle ->
+        List<Product> productList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT id, name, price, quantity, status " +
                         "FROM products Where status = 1").mapToBean(Product.class).stream().toList()
         );
 
         return productList;
     }
+
     public static int totalProduct() {
         JDBI = ConnectJDBI.connector();
         int total = JDBI.withHandle(handle ->
@@ -162,7 +163,7 @@ public class ProductDAO {
         JDBI = ConnectJDBI.connector();
         int total = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT Count(id) " +
-                        "FROM products Where id like ? or name like ? and status = 1")
+                                "FROM products Where id like ? or name like ? and status = 1")
                         .bind(0, "%" + search + "%")
                         .bind(1, "%" + search + "%").mapTo(Integer.class).findOnly()
         );
@@ -173,7 +174,7 @@ public class ProductDAO {
         JDBI = ConnectJDBI.connector();
         int execute = JDBI.withHandle(handle ->
                 handle.createUpdate("INSERT INTO images(idProduct, source, is_thumbnail_image) " +
-                        "Values(?, ?, ?)")
+                                "Values(?, ?, ?)")
                         .bind(0, idProduct)
                         .bind(1, source)
                         .bind(2, isThumbnail).execute());
@@ -211,6 +212,7 @@ public class ProductDAO {
                         .bind(0, idProduct).execute());
         return execute;
     }
+
     public static int deleteProduct(String id) {
         if (deleteImages(id) > 0) {
             int execute = JDBI.withHandle(handle ->
@@ -246,7 +248,8 @@ public class ProductDAO {
         }
         return products;
     }
-    public static double getRating(String id_product){
+
+    public static double getRating(String id_product) {
         Jdbi jdbi = ConnectJDBI.connector();
         try {
             Double averageRating = jdbi.withHandle(handle -> {
@@ -301,6 +304,7 @@ public class ProductDAO {
         }
 
     }
+
     public static List<Slider> findAll() {
         JDBI = ConnectJDBI.connector();
         List<Slider> sliders = JDBI.withHandle(handle -> {
