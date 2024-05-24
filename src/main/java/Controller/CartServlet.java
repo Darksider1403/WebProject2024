@@ -19,11 +19,16 @@ public class CartServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ShoppingCart gioHang = (ShoppingCart) req.getSession().getAttribute("cart");
         ProductService ps = new ProductService();
+        String errorMessage = req.getParameter("errorMessage");
+        String deletedProductId = req.getParameter("deletedProductId");
+
         if (gioHang == null) {
             gioHang = new ShoppingCart();
             req.getSession().setAttribute("cart", gioHang);
         }
         Map<String, String> listImagesThumbnail = ps.selectImageThumbnail();
+        req.setAttribute("errorMessage", errorMessage);
+        req.setAttribute("deletedProductId", deletedProductId);
         List<CartItems> danhSachSanPham = gioHang.getDanhSachSanPham();
         req.getSession().setAttribute("list-sp", danhSachSanPham);
         req.setAttribute("listImagesThumbnail", listImagesThumbnail);
