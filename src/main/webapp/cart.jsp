@@ -39,6 +39,7 @@
         <%= request.getAttribute("errorMessage") %>
     </div>
     <% } %>
+
     <div class="small-container cart-page">
         <table class="cart-table">
             <tr>
