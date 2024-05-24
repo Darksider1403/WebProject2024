@@ -28,13 +28,12 @@ public class ServletLogin extends HttpServlet {
         String username = req.getParameter("username") == null ? "" : req.getParameter("username");
         String password = req.getParameter("password") == null ? "" : req.getParameter("password");
         AccountService as = AccountService.getInstance();
-        Account account = as.checkLogin(username, password);
+        String hashPass = EncryptService.getInstance().encryptMd5(password);
+        Account account = as.checkLogin(username, hashPass);
         if (username.isEmpty() || password.isEmpty()) {
             req.getRequestDispatcher("Login.jsp").forward(req, resp);
         } else {
             if (account != null) {
-                String hashPass = EncryptService.getInstance().encryptMd5(account.getPassword());
-                account.setPassword(hashPass);
                 if (as.isLoginSuccess(account)) {
                     HttpSession session = req.getSession();
                     session.setAttribute("account", account);

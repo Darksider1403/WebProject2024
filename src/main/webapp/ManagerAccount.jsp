@@ -79,7 +79,7 @@
                         </form>
                     </div>
                     <div class="manager-infor">
-                        <table>
+                        <table id="myTable">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -169,4 +169,6 @@
 </div>
 </body>
 <script src="./js/account.js"></script>
+<script>
+</script>
 </html>
