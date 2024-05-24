@@ -71,9 +71,6 @@ public class AccountService {
         return matcher.matches();
     }
 
-    public static void main(String[] args) {
-        System.out.println(AccountService.getInstance().checkValidatePassword("Phuoc2611@"));
-    }
     public boolean vertifyEmail(Account account) {
         String code = EmailService.createCode();
         String mess = "http://localhost:8080/WebProject/verifyEmail?code=" + code ;

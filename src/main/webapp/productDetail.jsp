@@ -27,7 +27,6 @@
             rel="stylesheet"
             integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
             crossorigin="anonymous">
-
     <link rel="stylesheet" href="css/productDetail.css">
 </head>
 
@@ -104,11 +103,13 @@
                     </div>
                 </div>
             </div>
-            <p class="text-justify">Số lượng hàng:<%=selectedProduct.getQuantity() %>
-            <p class="price">Giá:<%=selectedProduct.getPrice() %>đ</p>
+            <p class="text-justify">Số lượng hàng: <%= selectedProduct.getQuantity() %>
+            </p>
+            <p class="price">Giá: <%= selectedProduct.getPrice() %>đ</p>
+
             <p class="text-justify">Mô tả sản phẩm:</p>
-            <p class="text-justify"><%=selectedProduct.getMaterial() %>
-            <p class="text-justify"><%=selectedProduct.getGender() %>
+            <p class="product--description">Chất liệu: <%=selectedProduct.getMaterial()%>, Kích thước: <%=selectedProduct.getSize()%>
+            , màu sắc: <%=selectedProduct.getColor()%></p>
 
             <div class="order">
                 <form action="AddToCartServlet" method="post">
@@ -209,11 +210,6 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    const sizes = jQuery(".product--size").find("span");
-    sizes.click(function () {
-        sizes.removeClass("active");
-        $(this).addClass("active");
-    });
 
     $(document).ready(function () {
         const imageCarousel = $('.image-carousel');
@@ -222,7 +218,7 @@
 
         imageCarousel.on('click', '.image-list li img', function (event) {
             const zoomImage = $(this).data('zoomImage');
-            mainImage.attr('src', zoomImage);
+            mainImage.attr('src', '');
             imageDisplay.addClass('active');
         });
 
@@ -278,9 +274,4 @@
         });
     });
 </script>
-<<<<<<< HEAD
 </html>
-=======
-
-</html>
->>>>>>> main

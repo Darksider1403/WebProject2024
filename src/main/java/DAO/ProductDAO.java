@@ -61,7 +61,6 @@ public class ProductDAO {
             return null;
         }
     }
-
     private static Map<String, String> getStringMapForImageForThumbnail(List<Map<String, Object>> maps) {
         Map<String, String> listImages = new HashMap<>();
         for (int i = 0; i < maps.size(); i++) {
@@ -314,6 +313,28 @@ public class ProductDAO {
         });
         return sliders;
     }
+    public static List<Product> findProductBySearch(String content) {
+        JDBI = ConnectJDBI.connector();
+        List<Product> products = JDBI.withHandle(handle ->
+                handle.createQuery("SELECT id, name, price " +
+                                "FROM products Where name like ? and status = 1")
+                        .bind(0,  content + "%").mapToBean(Product.class).list());
+        return products;
+    }
 
+    public static String imageThumbByIdProduct(String idProduct) {
+        JDBI = ConnectJDBI.connector();
+        String image = JDBI.withHandle(handle ->
+            handle.createQuery("Select source from images where idProduct = ? AND" +
+                    " is_thumbnail_image = 1").bind(0, idProduct).mapTo(String.class).first()
+        );
 
+        return image;
+    }
+
+    public static void main(String[] args) {
+        for (Product p : findProductBySearch("T")) {
+            System.out.println(imageThumbByIdProduct(p.getId()));
+        }
+    }
 }
