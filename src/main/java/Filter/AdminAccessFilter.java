@@ -44,7 +44,14 @@ public class AdminAccessFilter implements Filter {
                 httpResponse.sendRedirect("/home");
                 return;
             }
+        } else if (account.getRole() == 2 || account.getRole() == 3) {
+            if (url.endsWith("/managerAccount")
+                    || url.endsWith("/managerComment")) {
+                httpResponse.sendRedirect("/admin");
+                return;
+            }
         }
+
 
         chain.doFilter(request, response);
     }

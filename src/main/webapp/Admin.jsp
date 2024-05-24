@@ -27,6 +27,7 @@
     int[] quantityProductSoldByCategorys = request.getAttribute("quantityProductSoldByCategorys") == null ? new int[0] : (int[]) request.getAttribute("quantityProductSoldByCategorys");
     int[] revenueOfCategorys = request.getAttribute("revenueOfCategorys") == null ? new int[0] : (int[]) request.getAttribute("revenueOfCategorys");
     NumberFormat nf = NumberFormat.getInstance();
+    System.out.println("admin page " + account);
 %>
 <div id="main">
     <div id="admin">
@@ -37,20 +38,9 @@
                 </div>
                 <div class="shop-user">
                     <%
-                        if (account.getFullname() == null) {
-                            int idAccount = account.getID();
-                            String username = account.getUsername();
-                            if (username == null && idAccount == 0) {
-                                username = account.getName().trim().replace(" ", "");
-                                AccountService accountService = AccountService.getInstance();
-                                Account foundAccount = accountService.accountByUsername(username);
-                                if (foundAccount != null) {
-                                    idAccount = foundAccount.getID();
-                                    account.setUsername(username);
-                                    account.setID(idAccount);
-                                }
-                            }
-                        }
+                    if (account.getFullname() == null) {
+                        account.setFullname(account.getName());
+                    }
                     %>
                     <p>Xin chào, <%=account.getFullname()%></p>
                 </div>
@@ -76,6 +66,12 @@
                     <a href="./managerOrder?page=1">
                         <div class="icon"><i class="fa-solid fa-clipboard"></i></div>
                         <p class="menu-content">Quản lý đơn hàng</p>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a href="./managerComment?page=1">
+                        <div class="icon"><i class="fa-solid fa-comment"></i></div>
+                        <p class="menu-content">Quản lý bình luận</p>
                     </a>
                 </div>
                 <div class="menu-item">

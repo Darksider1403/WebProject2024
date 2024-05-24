@@ -10,6 +10,7 @@ public class Comment {
     private String idProduct;
     private int idAccount;
     private Account account;
+    private int status;
 
     public Comment() {
         this.id = 0;
@@ -19,12 +20,22 @@ public class Comment {
         this.idAccount = 0;
     }
 
-    public Comment(int id, String content, LocalDate dateComment, String idProduct, int idAccount) {
+    public Comment(int id, String content, LocalDate dateComment, String idProduct, int idAccount, Account account, int status) {
         this.id = id;
         this.content = content;
         this.dateComment = dateComment;
         this.idProduct = idProduct;
         this.idAccount = idAccount;
+        this.account = account;
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getIdProduct() {
@@ -81,8 +92,10 @@ public class Comment {
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", dateComment=" + dateComment +
-                ", idProduct=" + idProduct +
+                ", idProduct='" + idProduct + '\'' +
                 ", idAccount=" + idAccount +
+                ", account=" + account +
+                ", status=" + status +
                 '}';
     }
 }

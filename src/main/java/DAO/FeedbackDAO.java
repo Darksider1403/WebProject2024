@@ -66,8 +66,67 @@ public class FeedbackDAO {
 
         return totalComments;
     }
+
+    public static List<Comment> getCommentsByAccountId(int idAccount) {
+        String GET_COMMENTS_SQL = "SELECT content, dateComment, idProduct FROM reviews WHERE idAccount = ?";
+        JDBI = ConnectJDBI.connector();
+        List<Comment> comments = JDBI.withHandle(handle ->
+                handle.createQuery(GET_COMMENTS_SQL)
+                        .bind(0, idAccount)
+                        .mapToBean(Comment.class).stream().toList()
+        );
+
+        return comments;
+    }
+
+    public static int getTotalComment() {
+        String GET_TOTAL_COMMENTS_SQL = "SELECT COUNT(*) as total FROM reviews";
+
+        JDBI = ConnectJDBI.connector();
+        int totalComments = JDBI.withHandle(handle ->
+                handle.createQuery(GET_TOTAL_COMMENTS_SQL)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+
+        return totalComments;
+    }
+
+    public static int totalCommentBySearch(String search) {
+        JDBI = ConnectJDBI.connector();
+        String sql = "SELECT COUNT(review.id) FROM reviews " +
+                "JOIN products ON reviews.idProduct = products.id " +
+                "JOIN accounts ON reviews.idAccount = accounts.id " +
+                "WHERE reviews.content LIKE ?";
+        int total = JDBI.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, "%" + search + "%")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+
+        return total;
+    }
+
+    public static int getStatusComment(int idAccount) {
+        String GET_STATUS_COMMENT_SQL = "SELECT status FROM reviews WHERE idAccount = ?";
+        JDBI = ConnectJDBI.connector();
+        int status = JDBI.withHandle(handle ->
+                handle.createQuery(GET_STATUS_COMMENT_SQL)
+                        .bind(0, idAccount)
+                        .mapTo(Integer.class)
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalStateException("No status found"))
+        );
+
+        return status;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(getCommentsByProductId("Tl001").get(2).getAccount().getID());
+//        System.out.println(getCommentsByAccountId(19));
+//        System.out.println(getTotalComment());
+        System.out.println(getStatusComment(19));
     }
 }
 

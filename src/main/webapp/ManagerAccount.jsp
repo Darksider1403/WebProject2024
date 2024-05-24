@@ -56,6 +56,12 @@
                     </a>
                 </div>
                 <div class="menu-item">
+                    <a href="./managerComment?page=1">
+                        <div class="icon"><i class="fa-solid fa-comment"></i></div>
+                        <p class="menu-content">Quản lý bình luận</p>
+                    </a>
+                </div>
+                <div class="menu-item">
                     <a href="./ServletLogOut">
                         <p class="menu-content">Đăng xuất</p>
                     </a>
@@ -113,27 +119,44 @@
                                 <form action="./managerAccount" method="post">
                                     <input type="hidden" name="idAccount" value="<%=account.getID()%>">
                                     <th>
-                                        <select class="role" name="role">
-                                            <% if (account.getRole() == 1) {%>
-                                            <option value="1" selected>Người dùng</option>
-                                            <option value="2">Admin</option>
-                                            <%} else {%>
-                                            <option value="1">Người dùng</option>
-                                            <option value="2" selected>Admin</option>
-                                            <%}%>
-                                        </select>
+                                        <label>
+                                            <select class="role" name="role">
+                                                <% if (account.getRole() == 1) {%>
+                                                <option value="1" selected>Người dùng</option>
+                                                <option value="2">Quản lý đơn hàng</option>
+                                                <option value="3">Quản lí sản phẩm</option>
+                                                <option value="4">Admin</option>
+                                                <%} else if (account.getRole() == 2) {%>
+                                                <option value="1">Người dùng</option>
+                                                <option value="2" selected>Quản lý đơn hàng</option>
+                                                <option value="3">Quản lí sản phẩm</option>
+                                                <option value="4">Admin</option>
+                                                <%} else if (account.getRole() == 3) {%>
+                                                <option value="1">Người dùng</option>
+                                                <option value="2">Quản lý đơn hàng</option>
+                                                <option value="3" selected>Quản lí sản phẩm</option>
+                                                <option value="4">Admin</option>
+                                                <%} else if (account.getRole() == 4) {%>
+                                                <option value="1">Người dùng</option>
+                                                <option value="2">Quản lý đơn hàng</option>
+                                                <option value="3">Quản lí sản phẩm</option>
+                                                <option value="4" selected>Admin</option>
+                                                <%}%>
+                                            </select>
+                                        </label>
                                     </th>
                                     <th>
                                         <select class="status" name="status">
                                             <% if (account.getStatus() == 1) {%>
                                             <option value="1" selected>Bình thường</option>
                                             <option value="2">Đã bị khóa</option>
-                                            <%} else {%>
+                                            <%} else if (account.getStatus() == 2) {%>
                                             <option value="1">Bình thường</option>
                                             <option value="2" selected>Đã bị khóa</option>
                                             <%}%>
                                         </select>
                                     </th>
+
                                     <th>
                                         <button type="submit" class="btn-repair">Lưu</button>
                                     </th>

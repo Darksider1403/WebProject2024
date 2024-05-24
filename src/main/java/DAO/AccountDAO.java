@@ -259,7 +259,7 @@ public class AccountDAO {
 
     public static int createAccountWithGoogleAndFacebook(String username, String email, String fullname, int status) {
         JDBI = ConnectJDBI.connector();
-        String sql = "INSERT INTO accounts(username, email, fullname) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO accounts(username, email, fullname, status) VALUES (?, ?, ?, ?)";
         int execute = JDBI.withHandle(handle ->
                 handle.createUpdate(sql)
                         .bind(0, username)
