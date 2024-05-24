@@ -6,6 +6,7 @@ import Model.Slider;
 import org.jdbi.v3.core.Jdbi;
 
 import java.io.File;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.HashMap;
@@ -326,15 +327,17 @@ public class ProductDAO {
         JDBI = ConnectJDBI.connector();
         String image = JDBI.withHandle(handle ->
             handle.createQuery("Select source from images where idProduct = ? AND" +
-                    " is_thumbnail_image = 1").bind(0, idProduct).mapTo(String.class).first()
+                    " is_thumbnail_image = 1").bind(0, idProduct).mapTo(String.class).findOne().orElse("")
         );
 
         return image;
     }
 
-    public static void main(String[] args) {
-        for (Product p : findProductBySearch("T")) {
-            System.out.println(imageThumbByIdProduct(p.getId()));
-        }
+    public static List<Product> getProducts() {
+        JDBI = ConnectJDBI.connector();
+        List<Product> productList = JDBI.withHandle(handle ->
+                handle.createQuery("SELECT id, name, price, quantity, status FROM products ")
+                        .mapToBean(Product.class).stream().toList());
+        return productList;
     }
 }

@@ -1,5 +1,6 @@
 package Controller;
 
+import DAO.ProductDAO;
 import Model.Product;
 import Service.PaginationService;
 import Service.ProductService;
@@ -43,26 +44,10 @@ public class ServletManagerProduct extends HttpServlet {
                 req.setAttribute("notify", "Thay đổi sản phẩm thất bại");
             }
         }
-        String pageCurrent = req.getParameter("page") == null ? "1" : req.getParameter("page");
-        String search = req.getParameter("search");
-        int page = Integer.valueOf(pageCurrent) - 1;
         int totalProduct;
-        List<Product> productList;
-        if (search == null) {
-            productList = paginationService.productList(12, page*12);
-            totalProduct = ps.totalProduct();
-        } else {
-            productList = paginationService.productListBySearch(search, 12, page*12);
-            totalProduct = ps.totalProductBySearch(search);
-        }
-        int totalPage = totalProduct/12;
-        if (totalProduct % 12 != 0) totalPage++;
+        List<Product> productList = ProductDAO.getProducts();
         req.setAttribute("deleteProduct", deleteProduct);
-        req.setAttribute("ps", ps);
-        req.setAttribute("search", search);
         req.setAttribute("productList", productList);
-        req.setAttribute("totalPage", totalPage);
-        req.setAttribute("pageCurrent", pageCurrent);
         req.getRequestDispatcher("ManagerProduct.jsp").forward(req, resp);
     }
 }

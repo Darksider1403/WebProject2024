@@ -10,7 +10,7 @@ nav {
     height: 80px;
 }
 
-nav .list-item {
+nav .header__list-item {
     display: flex;
     color: #fff;
     height: 80px;
@@ -26,20 +26,20 @@ nav .list-item {
     text-decoration: none;!important;
 }
 
-nav .list-item .item {
+nav .header__list-item .header__item {
     margin-right: 20px;
     padding: 5px;
 }
-nav .list-item .item a {
+nav .header__list-item .header__item a {
     color: #fff;
     font-size: 20px;
 }
-nav .list-item .item:hover {
+nav .header__list-item .header__item:hover {
     background-color: #fff;
     cursor: pointer;
 }
 
-nav .list-item .item:hover a {
+nav .header__list-item .header__item:hover a {
     color: #000;
 }
 
