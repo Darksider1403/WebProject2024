@@ -39,6 +39,11 @@
         <%= request.getAttribute("errorMessage") %>
     </div>
     <% } %>
+    <% if (request.getAttribute("message") != null) { %>
+    <div class="error-message">
+        <%= request.getAttribute("message") %>
+    </div>
+    <% } %>
 
     <div class="small-container cart-page">
         <table class="cart-table">

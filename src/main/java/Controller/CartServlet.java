@@ -20,6 +20,7 @@ public class CartServlet extends HttpServlet {
         ShoppingCart gioHang = (ShoppingCart) req.getSession().getAttribute("cart");
         ProductService ps = new ProductService();
         String errorMessage = req.getParameter("errorMessage");
+        String message = req.getParameter("message");
         String deletedProductId = req.getParameter("deletedProductId");
 
         if (gioHang == null) {
@@ -28,6 +29,7 @@ public class CartServlet extends HttpServlet {
         }
         Map<String, String> listImagesThumbnail = ps.selectImageThumbnail();
         req.setAttribute("errorMessage", errorMessage);
+        req.setAttribute("message", message);
         req.setAttribute("deletedProductId", deletedProductId);
         List<CartItems> danhSachSanPham = gioHang.getDanhSachSanPham();
         req.getSession().setAttribute("list-sp", danhSachSanPham);

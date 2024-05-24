@@ -60,6 +60,8 @@ public class CheckQuantityServlet extends HttpServlet {
             String message;
             if (account == null) {
                 message = "Vui lòng đăng nhập để tiếp tục.";
+                resp.sendRedirect("CartServlet?message=" + URLEncoder.encode(message, StandardCharsets.UTF_8.toString()));
+                return;
             } else {
                 message = "Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm vào giỏ hàng trước khi tiếp tục.";
             }
