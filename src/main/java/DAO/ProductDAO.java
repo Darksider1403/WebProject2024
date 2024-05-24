@@ -314,7 +314,6 @@ public class ProductDAO {
         });
         return sliders;
     }
-
     public static List<Product> findProductBySearch(String content) {
         JDBI = ConnectJDBI.connector();
         List<Product> products = JDBI.withHandle(handle ->

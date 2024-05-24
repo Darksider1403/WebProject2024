@@ -47,6 +47,10 @@
                     tongGiaTri += sp.getTotalPrice();
 
             %>
+            <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+            <% if (errorMessage != null) { %>
+            <div class="error-message"><%= errorMessage %></div>
+            <% } %>
             <td><%= stt++ %>
             </td>
             <td>
@@ -126,7 +130,7 @@
         </table>
     </div>
     <div class="buy-button-wraper">
-        <a href="order.jsp" class="button-link">Mua</a>
+        <a href="./CheckQuantityServlet" class="button-link">Mua</a>
     </div>
 </div>
 <div id="footerContainer">
