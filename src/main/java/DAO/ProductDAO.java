@@ -327,7 +327,7 @@ public class ProductDAO {
         JDBI = ConnectJDBI.connector();
         String image = JDBI.withHandle(handle ->
             handle.createQuery("Select source from images where idProduct = ? AND" +
-                    " is_thumbnail_image = 1").bind(0, idProduct).mapTo(String.class).first()
+                    " is_thumbnail_image = 1").bind(0, idProduct).mapTo(String.class).findOne().orElse("")
         );
 
         return image;

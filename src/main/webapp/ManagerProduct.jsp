@@ -36,7 +36,7 @@
             <div class="menu">
                 <div class="menu-title">
                     <div class="logo">
-                        <a href="./home.html"><img src="./assets/logo.svg" alt=""></a>
+                        <a href="./home"><img src="./assets/logo.svg" alt=""></a>
                     </div>
                     <h2 class="shop-name"><a href="">PLQ SHOP</a></h2>
                 </div>
@@ -54,19 +54,19 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerAccount?page=1">
+                    <a href="./managerAccount">
                         <div class="icon"><i class="fa-solid fa-desktop"></i></div>
                         <p class="menu-content">Quản lý tài khoản</p>
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerProduct?page=1" class="active">
+                    <a href="./managerProduct" class="active">
                         <div class="icon"><i class="fa-regular fa-calendar-days"></i></div>
                         <p class="menu-content">Quản lý sản phẩm</p>
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerOrder?page=1">
+                    <a href="./managerOrder">
                         <div class="icon"><i class="fa-solid fa-clipboard"></i></div>
                         <p class="menu-content">Quản lý đơn hàng</p>
                     </a>
