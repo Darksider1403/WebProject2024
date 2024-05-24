@@ -4,8 +4,6 @@
     position: relative;
     max-width: 100%;
     margin: 0 auto;
-
-
 }
 .slider {
 
@@ -117,7 +115,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.product-item {
+.product-item-home {
     border: solid 1px #eeeeee;
     padding: 15px;
     display: inline-block;
