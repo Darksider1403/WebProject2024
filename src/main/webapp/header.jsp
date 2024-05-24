@@ -18,9 +18,9 @@
 <div id="header">
     <div class="container">
         <nav>
-            <ul class="list-item">
-                <li class="item"><a href="./home">Trang chủ</a></li>
-                <li class="item"><a href="./product?category=1&page=1">Danh sách sản phẩm</a></li>
+            <ul class="header__list-item">
+                <li class="header__item"><a href="./home">Trang chủ</a></li>
+                <li class="header__item"><a href="./product?category=1&page=1">Danh sách sản phẩm</a></li>
             </ul>
 
             <div class="header-contain__search">
