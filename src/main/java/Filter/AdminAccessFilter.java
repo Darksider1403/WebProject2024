@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/admin", "/managerAccount", "/managerProduct", "/manageOrder", "/managerComment"})
+@WebFilter(urlPatterns = {"/admin", "/managerAccount", "/managerProduct", "/managerOrder", "/managerComment"})
 public class AdminAccessFilter implements Filter {
 
     @Override
@@ -41,17 +41,16 @@ public class AdminAccessFilter implements Filter {
                     || url.endsWith("/managerProduct")
                     || url.endsWith("/managerOrder")
                     || url.endsWith("/managerComment")) {
-                httpResponse.sendRedirect("/home");
+                httpResponse.sendRedirect("./home");
                 return;
             }
         } else if (account.getRole() == 2 || account.getRole() == 3) {
             if (url.endsWith("/managerAccount")
                     || url.endsWith("/managerComment")) {
-                httpResponse.sendRedirect("/admin");
+                httpResponse.sendRedirect("./admin");
                 return;
             }
         }
-
 
         chain.doFilter(request, response);
     }
