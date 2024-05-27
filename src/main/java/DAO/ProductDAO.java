@@ -87,39 +87,6 @@ public class ProductDAO {
     }
 
 
-    public static int addImages() {
-        JDBI = ConnectJDBI.connector();
-        int index = 8;
-        File file = new File("C:\\Users\\Hieu\\Desktop\\New folder (3)\\WebProject\\src\\main\\webapp\\assets\\images\\product_img");
-
-        int execute = 0;
-        int i = 3;
-        String idw = "%" + i;
-        Product p = JDBI.withHandle(handle ->
-                handle.createQuery("SELECT * FROM products Where ID like ?")
-                        .bind(0, idw).mapToBean(Product.class).first());
-        String idProduct = p.getId();
-        File[] files = file.listFiles((dir, name) -> name.startsWith(idProduct));
-        for (File f : files) {
-            int ID_image = index++;
-            String url = "./assets/images/product_img/" + f.getName();
-            int check;
-            if (f.getName().indexOf("(1)") != -1) check = 1;
-            else {
-                check = 0;
-            }
-            execute += JDBI.withHandle(handle ->
-                    handle.createUpdate("INSERT INTO images(ID, idProduct, source, is_thumbnail_image) " +
-                                    "Values(?, ?, ?, ?)")
-                            .bind(0, ID_image)
-                            .bind(1, idProduct)
-                            .bind(2, url)
-                            .bind(3, check).execute());
-        }
-
-        return execute;
-    }
-
     public static int totalQuantityProduct() {
         JDBI = ConnectJDBI.connector();
         int total = JDBI.withHandle(handle ->
@@ -339,5 +306,31 @@ public class ProductDAO {
                 handle.createQuery("SELECT id, name, price, quantity, status FROM products ")
                         .mapToBean(Product.class).stream().toList());
         return productList;
+    }
+
+    public static void addImage() {
+        String path = "C:\\Users\\Hieu\\Desktop\\ttltw\\WebProject2024\\WebProject2024\\src\\main\\webapp\\assets\\images\\product_img";
+        File files = new File(path);
+        JDBI = ConnectJDBI.connector();
+        File[] file = files.listFiles();
+        for (int i = 0; i < file.length; i++) {
+            int id = i +1;
+            StringTokenizer stk = new StringTokenizer(file[i].getName(), "(");
+            String idProduct = stk.nextToken();
+            String source = "./assets/images/product_img/" + file[i].getName();
+            boolean isThumbnail = stk.nextToken().charAt(0) == '1' ? true : false;
+            JDBI.withHandle(handle -> {
+                return handle.createUpdate("Insert into images(id, idProduct, source, is_thumbnail_image) " +
+                                "Values(?, ?, ?, ?)")
+                        .bind(0, id)
+                        .bind(1, idProduct)
+                        .bind(2, source)
+                        .bind(3, isThumbnail).execute();
+            });
+        }
+    }
+
+    public static void main(String[] args) {
+        addImage();
     }
 }

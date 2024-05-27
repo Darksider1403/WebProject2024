@@ -117,14 +117,18 @@
                                 <form action="./managerProduct" method="post">
                                     <th scope="row">
                                         <select class="status" name="status">
-                                            <% if (p.isStatus()) {%>
+                                            <% if (p.getStatus() == 1) {%>
                                             <option value="1" selected>Đang bán</option>
                                             <option value="2">Ngưng bán</option>
                                             <option value="3">Hết hàng</option>
-                                            <%} else {%>
+                                            <%} else if (p.getStatus() == 2){%>
                                             <option value="1">Đang bán</option>
                                             <option value="2" selected>Ngưng bán</option>
                                             <option value="3">Hết hàng</option>
+                                            <%} else {%>
+                                            <option value="1">Đang bán</option>
+                                            <option value="2">Ngưng bán</option>
+                                            <option value="3" selected>Hết hàng</option>
                                             <%}%>
                                         </select>
                                     </th>

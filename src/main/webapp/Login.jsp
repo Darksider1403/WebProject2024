@@ -12,6 +12,7 @@
     String error = (String) request.getAttribute("error");
     String username = request.getParameter("username") != null ? (String) request.getParameter("username") : "";
     String notify = (String) request.getAttribute("notify");
+    int count = request.getAttribute("count") != null ? Integer.parseInt(request.getAttribute("count").toString()) : 1;
 %>
 <jsp:include page="header.jsp"/>
 <div id="content">
@@ -44,6 +45,7 @@
                     <input type="text" autocomplete="off" name="username" value="<%=username%>" id="username"
                            placeholder="Tên đăng nhập" required="required">
                     <input type="password" name="password" id="password" placeholder="Mật khẩu" required="required">
+                    <input type="hidden" name = "count" value="<%=count%>">
                 </div>
                 <button type="submit" class="btn_login">Đăng nhập</button>
                 <div class="forgot-password"><a href="./forgot">Quên mật khẩu?</a></div>

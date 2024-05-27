@@ -41,6 +41,9 @@
                         String name = entry.getValue();
                     %>
                     <li class="list__category--item">
+                        <% if (id_category.equals(id)) { %>
+                        <a class="active-product" href="./product?category=<%=id%>&page=1"><%=name%>
+                        <%}%>
                         <a href="./product?category=<%=id%>&page=1"><%=name%>
                         </a>
                     </li>
@@ -59,7 +62,7 @@
                                     Nhỏ hơn 50.000
                                 </a>
                             </li>
-                            <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=2">Từ 50.000
+                            <li class="price"><a style="color: #ee4d2d;" href="./product?category=<%=id_category%>&page=1&filter=2">Từ 50.000
                                 đến 100.000</a></li>
                             <li class="price"><a href="./product?category=<%=id_category%>&page=1&filter=3">Từ 100.000
                                 đến 300.000</a></li>

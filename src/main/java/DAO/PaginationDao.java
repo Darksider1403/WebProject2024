@@ -36,7 +36,7 @@ public class PaginationDao {
         JDBI = ConnectJDBI.connector();
         List<Product> listProducts = JDBI.withHandle(handle ->
                 handle.createQuery("Select id, name, price, idCategory From products " +
-                                "Where idCategory = ?" +
+                                "Where idCategory = ? And status = 1 " +
                                 "Limit ? Offset ?")
                         .bind(0, id_category)
                         .bind(1, limit)
@@ -49,7 +49,7 @@ public class PaginationDao {
         JDBI = ConnectJDBI.connector();
         List<Product> listProducts = JDBI.withHandle(handle ->
                 handle.createQuery("Select id, name, price, idCategory From products " +
-                                "Where idCategory = ?" +
+                                "Where idCategory = ? and status = 1 " +
                                 "Order By price " + sort + " " +
                                 "Limit ? Offset ?")
                         .bind(0, id_category)
@@ -101,7 +101,7 @@ public class PaginationDao {
         int maxPrice = priceFilter[1];
         List<Product> listProducts = JDBI.withHandle(handle ->
                 handle.createQuery("Select id, name, price, idCategory From products " +
-                                "Where price between ? and ? And idCategory = ? Limit ? Offset ?")
+                                "Where price between ? and ? And idCategory = ? and status = 1 Limit ? Offset ?")
                         .bind(0, minPrice)
                         .bind(1, maxPrice)
                         .bind(2, id_category)
@@ -113,7 +113,7 @@ public class PaginationDao {
     public static int countProductByCategory(String id_category) {
         JDBI = ConnectJDBI.connector();
         Integer count = JDBI.withHandle(handle ->
-                handle.createQuery("Select COUNT(id) From products Where idCategory = ?")
+                handle.createQuery("Select COUNT(id) From products Where idCategory = ? and status = 1")
                         .bind(0, id_category).mapTo(Integer.class).findOnly());
 
         return count;
@@ -128,7 +128,7 @@ public class PaginationDao {
         JDBI = ConnectJDBI.connector();
         Integer count = JDBI.withHandle(handle ->
                 handle.createQuery("Select COUNT(id) From products " +
-                                "Where price between ? and ? And idCategory = ?")
+                                "Where price between ? and ? And idCategory = ? and status = 1")
                         .bind(0, minPrice)
                         .bind(1, maxPrice)
                         .bind(2, id_category)
@@ -189,9 +189,5 @@ public class PaginationDao {
                         .mapToBean(Order.class).stream().toList()
         );
         return orderList;
-    }
-
-    public static void main(String[] args) {
-
     }
 }
