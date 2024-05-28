@@ -16,6 +16,9 @@
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 <%
@@ -50,19 +53,19 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerAccount?page=1">
+                    <a href="./managerAccount">
                         <div class="icon"><i class="fa-solid fa-desktop"></i></div>
                         <p class="menu-content">Quản lý tài khoản</p>
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerProduct?page=1">
+                    <a href="./managerProduct">
                         <div class="icon"><i class="fa-regular fa-calendar-days"></i></div>
                         <p class="menu-content">Quản lý sản phẩm</p>
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerOrder?page=1" class="active">
+                    <a href="./managerOrder" class="active">
                         <div class="icon"><i class="fa-solid fa-clipboard"></i></div>
                         <p class="menu-content">Quản lý đơn hàng</p>
                     </a>
@@ -86,18 +89,8 @@
                     <h2>Quản lý đơn hàng</h2>
                 </div>
                 <div class="manager">
-                    <div class="manager-search">
-                        <form action="./managerOrder" method="post">
-                            <div class="search">
-                                <input type="text" name="search" class="search" autocomplete="off"
-                                       placeholder="Tìm kiếm">
-                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                     <div class="manager-infor">
-                        <table>
+                        <table id="myTable">
                             <thead>
                             <tr>
                                 <th>Mã đơn hàng</th>
@@ -144,25 +137,6 @@
                             <%}%>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="pagination">
-                        <% if (pageCurrent > 1) {%>
-                        <a href="./managerOrder?page=<%=pageCurrent-1%><%=search%>"
-                           class="other-page previous-page"><span>Trước</span></a>
-                        <%}%>
-
-                        <% for (int i = 1; i <= totalPage; i++) {%>
-                        <% if (i == pageCurrent) {%>
-                        <a href="./managerOrder?page=<%=i%><%=search%>" style="color: red;"
-                           class="other-page"><span><%=i%></span></a>
-                        <%} else {%>
-                        <a href="./managerOrder?page=<%=i%><%=search%>" class="other-page"><span><%=i%></span></a>
-                        <%}%>
-                        <%}%>
-                        <% if (pageCurrent > 1 && pageCurrent < totalPage) {%>
-                        <a href="./managerOrder?page=<%=pageCurrent+1%><%=search%>"
-                           class="other-page next-page"><span>Sau</span></a>
-                        <%}%>
                     </div>
                 </div>
             </div>
@@ -219,5 +193,9 @@
     function closeModal() {
         document.getElementById("myModal").style.display = "none";
     }
+
+    $(document).ready(function() {
+        $('#myTable').DataTable();
+    })
 </script>
 </html>

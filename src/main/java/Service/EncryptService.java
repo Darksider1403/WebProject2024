@@ -24,4 +24,8 @@ public class EncryptService {
             throw new RuntimeException(e);
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println(EncryptService.getInstance().encryptMd5("123456"));
+    }
 }
