@@ -115,6 +115,7 @@ public class FeedbackDAO {
                 handle.createQuery(GET_STATUS_COMMENT_SQL)
                         .bind(0, idAccount)
                         .mapTo(Integer.class)
+                        .stream()
                         .findFirst()
                         .orElseThrow(() -> new IllegalStateException("No status found"))
         );
@@ -122,11 +123,25 @@ public class FeedbackDAO {
         return status;
     }
 
+    public static List<String> getProductId(int idAccount) {
+        String GET_PRODUCT_ID_SQL = "SELECT idProduct FROM reviews WHERE idAccount = ?";
+        JDBI = ConnectJDBI.connector();
+        List<String> productId = JDBI.withHandle(handle ->
+                handle.createQuery(GET_PRODUCT_ID_SQL)
+                        .bind(0, idAccount)
+                        .mapTo(String.class)
+                        .stream()
+                        .toList()
+        );
+
+        return productId;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(getCommentsByProductId("Tl001").get(2).getAccount().getID());
 //        System.out.println(getCommentsByAccountId(19));
 //        System.out.println(getTotalComment());
-        System.out.println(getStatusComment(19));
+        System.out.println(getProductId(19));
     }
 }
 

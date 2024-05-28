@@ -59,10 +59,10 @@ public class LoginGoogleHandler extends HttpServlet {
                 user.setRole(defaultRole);
             }
 
-            if (user.getRole() == 2) {
-                response.sendRedirect("/admin");
-            } else {
+            if (user.getRole() == 1) {
                 response.sendRedirect("/home");
+            } else {
+                response.sendRedirect("/admin");
             }
             logActivity("User " + user.getID() + " Already has an account");
         }

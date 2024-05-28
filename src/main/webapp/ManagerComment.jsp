@@ -30,6 +30,7 @@
             request.getAttribute("ps") == null
                     ? FeedbackAndRatingService.getInstance()
                     : (FeedbackAndRatingService) request.getAttribute("feedbackAndRatingService");
+    System.out.println(commentList.size());
     NumberFormat nf = NumberFormat.getInstance();
 %>
 <div id="id">
@@ -106,7 +107,6 @@
                                 <th>Số điện thoại</th>
                                 <th>Nội dung bình luận</th>
                                 <th>Ngày bình luận</th>
-                                <th>Id sản phẩm</th>
                                 <th>Trạng thái</th>
                                 <th>Thao tác</th>
                             </tr>
@@ -117,6 +117,13 @@
                                         && !account.getNumberPhone().isEmpty())
                                         ? account.getNumberPhone()
                                         : "Chưa cập nhật";
+
+                                if (c.getStatus() == 0) {
+                                    int status = feedbackAndRatingService.getStatusComment(account.getID());
+                                    List<String> idProduct = feedbackAndRatingService.getProductId(account.getID());
+                                    c.setStatus(status);
+                                    c.setIdProduct(String.valueOf(idProduct));
+                                }
                             %>
                             <tr>
                                 <th><%=c.getId()%>
@@ -131,14 +138,7 @@
                                 </th>
                                 <th><%=c.getDateComment()%>
                                 </th>
-                                <th><%=c.getIdProduct()%>
-                                </th>
                                 <th>
-                                    <% if (c.getStatus() == 0) {
-                                        int status = feedbackAndRatingService.getStatusComment(account.getID());
-                                        c.setStatus(status);
-//                                        c.setIdProduct();
-                                    }%>
                                     <select class="status" name="status">
                                         <% if (c.getStatus() == 1) {%>
                                         <option value="1" selected>Ẩn bình luận</option>

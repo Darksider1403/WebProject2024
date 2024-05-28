@@ -46,4 +46,8 @@ public class FeedbackAndRatingService {
     public int getStatusComment(int idAccount) {
         return FeedbackDAO.getStatusComment(idAccount);
     }
+
+    public List<String> getProductId(int idAccount) {
+        return FeedbackDAO.getProductId(idAccount);
+    }
 }
