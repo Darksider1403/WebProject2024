@@ -13,11 +13,6 @@ public class Comment {
     private int status;
 
     public Comment() {
-        this.id = 0;
-        this.content = "";
-        this.dateComment = LocalDate.now();
-        this.idProduct = "";
-        this.idAccount = 0;
     }
 
     public Comment(int id, String content, LocalDate dateComment, String idProduct, int idAccount, Account account, int status) {

@@ -11,6 +11,9 @@
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 <%
     Account a = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
@@ -74,16 +77,6 @@
                     <h2>Quản lý tài khoản</h2>
                 </div>
                 <div class="manager">
-                    <div class="manager-search">
-                        <form action="./managerAccount" method="post">
-                            <div class="search">
-                                <input type="text" name="search" class="search" autocomplete="off"
-                                       placeholder="Tìm kiếm">
-                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                     <div class="manager-infor">
                         <table id="myTable">
                             <thead>
@@ -166,25 +159,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="pagination">
-                        <% if (pageCurrent > 1) {%>
-                        <a href="./managerAccount?page=<%=pageCurrent-1%><%=search%>"
-                           class="other-page previous-page"><span>Trước</span></a>
-                        <%}%>
-
-                        <% for (int i = 1; i <= totalPage; i++) {%>
-                        <% if (i == pageCurrent) {%>
-                        <a href="./managerAccount?page=<%=i%><%=search%>" style="color: red;"
-                           class="other-page"><span><%=i%></span></a>
-                        <%} else {%>
-                        <a href="./managerAccount?page=<%=i%><%=search%>" class="other-page"><span><%=i%></span></a>
-                        <%}%>
-                        <%}%>
-                        <% if (pageCurrent > 1 && pageCurrent < totalPage) {%>
-                        <a href="./managerAccount?page=<%=pageCurrent+1%><%=search%>"
-                           class="other-page next-page"><span>Sau</span></a>
-                        <%}%>
-                    </div>
                 </div>
             </div>
         </div>
@@ -193,5 +167,16 @@
 </body>
 <script src="./js/account.js"></script>
 <script>
+    function openModal() {
+        document.getElementById("myModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    })
 </script>
 </html>

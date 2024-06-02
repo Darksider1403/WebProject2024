@@ -1,6 +1,8 @@
 package Controller;
 
+import Model.Account;
 import Model.Comment;
+import Service.AccountService;
 import Service.FeedbackAndRatingService;
 import Service.PaginationService;
 import Service.ProductService;
@@ -20,6 +22,7 @@ public class ServletManagerComment extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         PaginationService ps = PaginationService.getInstance();
+        List<Account> accountList;
         FeedbackAndRatingService feedbackAndRatingService = FeedbackAndRatingService.getInstance();
         String id = req.getParameter("id");
         String pageCurrent = req.getParameter("page") == null ? "1" : req.getParameter("page");
@@ -32,9 +35,11 @@ public class ServletManagerComment extends HttpServlet {
 
         if (search == null || search.isEmpty()) {
             commentList = ps.commentList(12, page * 12);
+
             totalComment = feedbackAndRatingService.getTotalComment();
         } else {
             commentList = ps.findComment(search, 12, page * 12);
+
             totalComment = feedbackAndRatingService.totalCommentBySearch(search);
         }
 
@@ -49,7 +54,8 @@ public class ServletManagerComment extends HttpServlet {
         req.setAttribute("totalPage", totalPage);
         req.setAttribute("pageCurrent", pageCurrent);
 
-        req.getRequestDispatcher("ManagerComment.jsp").forward(req, resp);
+
+            req.getRequestDispatcher("ManagerComment.jsp").forward(req, resp);
     }
 
     @Override

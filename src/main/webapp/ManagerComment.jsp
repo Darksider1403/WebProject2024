@@ -15,6 +15,9 @@
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 <%
@@ -30,6 +33,7 @@
             request.getAttribute("ps") == null
                     ? FeedbackAndRatingService.getInstance()
                     : (FeedbackAndRatingService) request.getAttribute("feedbackAndRatingService");
+    List<Account> accountList = request.getAttribute("accountList") == null ? new ArrayList<>() : (List<Account>) request.getAttribute("accountList");
     System.out.println(commentList.size());
     NumberFormat nf = NumberFormat.getInstance();
 %>
@@ -63,7 +67,7 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerOrder?page=1" class="active">
+                    <a href="./managerOrder?page=1">
                         <div class="icon"><i class="fa-solid fa-clipboard"></i></div>
                         <p class="menu-content">Quản lý đơn hàng</p>
                     </a>
@@ -87,18 +91,8 @@
                     <h2>Quản lý bình luận</h2>
                 </div>
                 <div class="manager">
-                    <div class="manager-search">
-                        <form action="./managerOrder" method="post">
-                            <div class="search">
-                                <input type="text" name="search" class="search" autocomplete="off"
-                                       placeholder="Tìm kiếm">
-                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                     <div class="manager-infor">
-                        <table>
+                        <table id="myTable">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -117,20 +111,26 @@
                                         && !account.getNumberPhone().isEmpty())
                                         ? account.getNumberPhone()
                                         : "Chưa cập nhật";
-
                                 if (c.getStatus() == 0) {
                                     int status = feedbackAndRatingService.getStatusComment(account.getID());
                                     List<String> idProduct = feedbackAndRatingService.getProductId(account.getID());
                                     c.setStatus(status);
                                     c.setIdProduct(String.valueOf(idProduct));
                                 }
+
+                                System.out.println(commentList);
                             %>
                             <tr>
                                 <th><%=c.getId()%>
                                 </th>
+                                <% for (Account a : accountList) {
+
+                                    account.setEmail(a.getEmail());
+                                    account.setUsername(a.getUsername());
+                                }
+                                %>
                                 <th><%=account.getUsername()%>
                                 </th>
-                                <% System.out.println(c);%>
                                 <th><%=account.getEmail()%>
                                 </th>
                                 <th><%=numberPhone%>
@@ -157,25 +157,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="pagination">
-                        <% if (pageCurrent > 1) {%>
-                        <a href="./managerComment?page=<%=pageCurrent-1%><%=search%>"
-                           class="other-page previous-page"><span>Trước</span></a>
-                        <%}%>
-
-                        <% for (int i = 1; i <= totalPage; i++) {%>
-                        <% if (i == pageCurrent) {%>
-                        <a href="./managerComment?page=<%=i%><%=search%>" style="color: red;"
-                           class="other-page"><span><%=i%></span></a>
-                        <%} else {%>
-                        <a href="./managerComment?page=<%=i%><%=search%>" class="other-page"><span><%=i%></span></a>
-                        <%}%>
-                        <%}%>
-                        <% if (pageCurrent > 1 && pageCurrent < totalPage) {%>
-                        <a href="./managerComment?page=<%=pageCurrent+1%><%=search%>"
-                           class="other-page next-page"><span>Sau</span></a>
-                        <%}%>
-                    </div>
                 </div>
             </div>
         </div>
@@ -183,6 +164,16 @@
 </div>
 </body>
 <script>
+    function openModal() {
+        document.getElementById("myModal").style.display = "flex";
+    }
 
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    })
 </script>
 </html>

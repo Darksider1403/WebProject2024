@@ -138,9 +138,6 @@ public class FeedbackDAO {
     }
 
     public static void main(String[] args) {
-//        System.out.println(getCommentsByProductId("Tl001").get(2).getAccount().getID());
-//        System.out.println(getCommentsByAccountId(19));
-//        System.out.println(getTotalComment());
         System.out.println(getProductId(19));
     }
 }
