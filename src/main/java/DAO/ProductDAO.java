@@ -85,6 +85,27 @@ public class ProductDAO {
         }
         return listImages;
     }
+    public static int decrementQuantity(List<String> productIds, int decrementAmount) {
+        if (decrementAmount <= 0) {
+            throw new IllegalArgumentException("Decrement amount must be greater than 0");
+        }
+
+        JDBI = ConnectJDBI.connector();
+        int totalUpdated = 0;
+
+        for (String productId : productIds) {
+            int updated = JDBI.withHandle(handle ->
+                    handle.createUpdate("UPDATE products SET quantity = quantity - ? WHERE id = ? AND quantity >= ?")
+                            .bind(0, decrementAmount)
+                            .bind(1, productId)
+                            .bind(2, decrementAmount)
+                            .execute()
+            );
+            totalUpdated += updated;
+        }
+
+        return totalUpdated;
+    }
 
 
     public static int addImages() {

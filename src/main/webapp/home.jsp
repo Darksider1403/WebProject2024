@@ -211,49 +211,48 @@
         <%
    List<Product> Nam = request.getAttribute("productNu") == null ? new ArrayList<>() : (List<Product>) request.getAttribute("productNam");
 %>
-    <div class="container" id="Nam-Container">
-        <div class="top-prodcut">
-            <div class="title">Thắt lưng Nam</div>
-            <div class="menu-item">
-                <div class="menu-item"><a href="./product?category=1&page=1">Xem tất cả</a></div>
-            </div>
+<div class="container" id="Nam-Container">
+    <div class="top-prodcut">
+        <div class="title">Nam</div>
+        <div class="menu-item">
+            <div class="menu-item"><a href="./product?category=1&page=1">Xem tất cả</a></div>
         </div>
-        <div class="bottom-product">
-            <div class="left-menu-item">
-                <img src="assets/images/nam1.jpg" alt="">
-            </div>
-            <div class="right-menu-list">
-                <div class="slider-product">
-                    <% for (Product product : Nam) { %>
-                    <div class="product-item">
-                        <div class="product">
-                            <a href="productDetail?id=<%= product.getId() %>"><img class="product-img"
-                                                                                   style="width: 270px;height: 300px"
-                                                                                   src="<%=listImagesThumbnail.get(product.getId())%>"
-                                                                                   alt=""></a>
-                            <p class="product-title">
-                                <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
-                            </p>
-                            <div class="product-detail">
-                                <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
-                                <div class="order">
-                                    <a href="AddToCartServlet?masanpham=<%=product.getId()%>" class="btn-add-to-cart"
-                                       style="text-decoration: none">Thêm vào giỏ hàng</a>
-                                </div>
-                                <span class="rating">
+    </div>
+    <div class="bottom-product">
+        <div class="left-menu-item">
+            <img src="assets/images/nam1.jpg" alt="">
+        </div>
+        <div class="right-menu-list">
+            <div class="slider-product">
+                <% for (Product product : Nam) { %>
+                <div class="product-item-home">
+                    <div class="product">
+                        <a href="productDetail?id=<%= product.getId() %>"><img class="product-img"
+                                                                               style="width: 270px;height: 300px"
+                                                                               src="<%=listImagesThumbnail.get(product.getId())%>"
+                                                                               alt=""></a>
+                        <p class="product-title">
+                            <%= product.getName().length() > 20 ? product.getName().substring(0, 20) + "..." : product.getName() %>
+                        </p>
+                        <div class="product-detail">
+                            <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
+                            <div class="order">
+                                <a href="AddToCartServlet?masanpham=<%=product.getId()%>" class="btn-add-to-cart"
+                                   style="text-decoration: none">Thêm vào giỏ hàng</a>
+                            </div>
+                            <span class="rating">
 <%--                                    <span class="rating-value"><%= product.getRating() %></span>--%>
                                     <i class="fa-solid fa-star"></i>
                                 </span>
-                            </div>
-                            <%--                            TODO: quan : chi tiet san pham --%>
-                            <a href="productDetail?id=<%=product.getId()%>" class="product-order">Xem chi tiết</a>
                         </div>
+                        <a href="productDetail?id=<%= product.getId() %>" class="product-order">Xem chi tiết</a>
                     </div>
-                    <% } %>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>
+</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
             integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A=="

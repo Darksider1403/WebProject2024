@@ -1,6 +1,7 @@
 package Service;
 
 import DAO.OrderDAO;
+import DAO.ProductDAO;
 import Model.CartItems;
 import Model.Order;
 import Model.Order_detail;
@@ -40,9 +41,13 @@ public class OrderService {
 
         return OrderDAO.addOrder(address,status,id_account,datebuy,datearrival,numberPhone);
     }
+    public static int decrementQuantity(List<String> productIds, int decrementAmount) {
+        return ProductDAO.decrementQuantity(productIds,decrementAmount);
+    }
     public List<CartItems> addProductToOrder(String idprodcut, int quanlity, int price){
         return OrderDAO.addProductToOrder(idprodcut,quanlity,price);
     }
+
     public List<Order_detail> showOrderDetail(String idOrder) {
         return OrderDAO.showOrderDetail(idOrder);
     }

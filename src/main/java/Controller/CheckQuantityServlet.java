@@ -40,7 +40,7 @@ public class CheckQuantityServlet extends HttpServlet {
                 iterator.remove();
                 cart.remove(productId); // Loại bỏ sản phẩm khỏi giỏ hàng
                 removedProductIds.add(productId); // Thêm ID của sản phẩm bị loại bỏ vào danh sách
-                allProductsAvailable = false;
+                allProductsAvailable = false;//Biến dùng để check xem có sự thay đổi không
             }
         }
 
