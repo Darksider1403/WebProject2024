@@ -57,4 +57,9 @@ public class EmailService {
         return re.toString();
     }
 
+    public static void main(String[] args) {
+        System.out.println(send("toanphuoc26112003@gmail.com","Xác thực email",
+                "Chào bạn,<br> Đây là mã xác thực từ Handmadestore, vui lòng không cung cấp mã xác thực cho người khác và chỉ có giá trị sử dụng cho 1 lần: " +
+                        "<br> <strong>" + 123456 + "</strong>"));
+    }
 }

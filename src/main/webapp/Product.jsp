@@ -42,10 +42,10 @@
                     %>
                     <li class="list__category--item">
                         <% if (id_category.equals(id)) { %>
-                        <a class="active-product" href="./product?category=<%=id%>&page=1"><%=name%>
-                        <%}%>
+                        <a style="color: #ee4d2d" href="./product?category=<%=id%>&page=1"><%=name%></a>
+                        <%} else {%>
                         <a href="./product?category=<%=id%>&page=1"><%=name%>
-                        </a>
+                        </a><%}%>
                     </li>
                     <%}%>
                 </ul>

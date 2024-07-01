@@ -241,7 +241,3 @@ li.filter-price-title {
 .product-order:hover {
     opacity: 0.7;
 }
-
-.active-product {
-    color: #ee4d2d;
-}

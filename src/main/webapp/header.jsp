@@ -69,7 +69,6 @@
         } else {
             displaySearch.style.display = "block"
         }
-        console.log(content)
         $.ajax({
             url: "search",
             type: "POST",

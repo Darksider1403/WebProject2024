@@ -61,8 +61,7 @@ public class ServletOrder extends HttpServlet {
         }
     }
     private void clearCart(HttpSession session) {
-        // Assuming you have stored cart items in the session with a key "cartItems"
         session.removeAttribute("cart");
-        // You might need to perform additional steps based on how your cart is managed
+
     }
 }
