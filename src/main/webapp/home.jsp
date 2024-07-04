@@ -99,8 +99,7 @@
                             <div class="product-detail">
                                 <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
                                 <div class="order">
-                                    <a href="AddToCartServlet?masanpham=<%=product.getId()%>" class="btn-add-to-cart"
-                                       style="text-decoration: none">Thêm vào giỏ hàng</a>
+                                    <button class="btn-add-to-cart" data-id="<%= product.getId() %>">Thêm vào giỏ hàng</button>
                                 </div>
                                 <span class="rating">
                                     <span class="rating-value"></span>
@@ -147,8 +146,7 @@
                             <div class="product-detail">
                                 <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
                                 <div class="order">
-                                    <a href="AddToCartServlet?masanpham=<%=product.getId()%>" class="btn-add-to-cart"
-                                       style="text-decoration: none">Thêm vào giỏ hàng</a>
+                                    <button class="btn-add-to-cart" data-id="<%= product.getId() %>">Thêm vào giỏ hàng</button>
                                 </div>
                                 <span class="rating">
 <%--                                    <span class="rating-value"><%= product.getRating() %></span>--%>
@@ -192,8 +190,7 @@
                             <div class="product-detail">
                                 <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
                                 <div class="order">
-                                    <a href="AddToCartServlet?masanpham=<%=product.getId()%>" class="btn-add-to-cart"
-                                       style="text-decoration: none">Thêm vào giỏ hàng</a>
+                                    <button class="btn-add-to-cart" data-id="<%= product.getId() %>">Thêm vào giỏ hàng</button>
                                 </div>
                                 <span class="rating">
 <%--                                    <span class="rating-value"><%= product.getRating() %></span>--%>
@@ -237,8 +234,7 @@
                         <div class="product-detail">
                             <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
                             <div class="order">
-                                <a href="AddToCartServlet?masanpham=<%=product.getId()%>" class="btn-add-to-cart"
-                                   style="text-decoration: none">Thêm vào giỏ hàng</a>
+                                <button class="btn-add-to-cart" data-id="<%= product.getId() %>">Thêm vào giỏ hàng</button>
                             </div>
                             <span class="rating">
 <%--                                    <span class="rating-value"><%= product.getRating() %></span>--%>
@@ -261,6 +257,38 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".btn-add-to-cart").forEach(function(button) {
+                button.addEventListener("click", function() {
+                    const productId = this.getAttribute("data-id");
+                    addToCart(productId);
+                });
+            });
+        });
+
+        function addToCart(productId) {
+            fetch("AddToCartServlet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({ masanpham: productId })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Product added to cart!");
+                        // Optionally, you can update the cart count or other UI elements here
+                    } else {
+                        alert("Failed to add product to cart.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while adding the product to the cart.");
+                });
+        }
+
         $('.slider-product').slick({
             dots: true,
             infinite: false,
