@@ -99,7 +99,7 @@
                             <div class="product-detail">
                                 <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
                                 <div class="order">
-                                    <button class="btn-add-to-cart" data-id="<%= product.getId() %>">Thêm vào giỏ hàng</button>
+                                    <button onclick="addToCart('<%= product.getId() %>')">Add to Cart</button>
                                 </div>
                                 <span class="rating">
                                     <span class="rating-value"></span>
@@ -146,7 +146,7 @@
                             <div class="product-detail">
                                 <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
                                 <div class="order">
-                                    <button class="btn-add-to-cart" data-id="<%= product.getId() %>">Thêm vào giỏ hàng</button>
+                                    <button onclick="addToCart('<%= product.getId() %>')">Add to Cart</button>
                                 </div>
                                 <span class="rating">
 <%--                                    <span class="rating-value"><%= product.getRating() %></span>--%>
@@ -190,7 +190,7 @@
                             <div class="product-detail">
                                 <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
                                 <div class="order">
-                                    <button class="btn-add-to-cart" data-id="<%= product.getId() %>">Thêm vào giỏ hàng</button>
+                                    <button onclick="addToCart('<%= product.getId() %>')">Add to Cart</button>
                                 </div>
                                 <span class="rating">
 <%--                                    <span class="rating-value"><%= product.getRating() %></span>--%>
@@ -234,7 +234,7 @@
                         <div class="product-detail">
                             <p class="product-price"><%= nf.format(product.getPrice()) %>đ</p>
                             <div class="order">
-                                <button class="btn-add-to-cart" data-id="<%= product.getId() %>">Thêm vào giỏ hàng</button>
+                                <button onclick="addToCart('<%= product.getId() %>')">Add to Cart</button>
                             </div>
                             <span class="rating">
 <%--                                    <span class="rating-value"><%= product.getRating() %></span>--%>
@@ -265,31 +265,39 @@
                 });
             });
         });
-
-        function addToCart(productId) {
-            fetch("AddToCartServlet", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: new URLSearchParams({ masanpham: productId })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("Product added to cart!");
-                        // Optionally, you can update the cart count or other UI elements here
+            function addToCart(productId) {
+            $.ajax({
+                url: './AddToCartServlet',
+                method: 'POST',
+                data: { masanpham: productId },
+                success: function (response) {
+                    if (response.success) {
+                        $('#cart-size').text(response.cartSize);
                     } else {
-                        alert("Failed to add product to cart.");
+                        alert("Failed to add item to cart.");
                     }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("An error occurred while adding the product to the cart.");
-                });
+                }
+            });
         }
 
-        $('.slider-product').slick({
+            function updateCartSize() {
+            $.ajax({
+                url: './CartSizeServlet',
+                method: 'GET',
+                success: function (response) {
+                    $('#cart-size').text(response.cartSize);
+                }
+            });
+        }
+
+            $(document).ready(function () {
+            // Initial call to set the cart size on page load
+            updateCartSize();
+        });
+
+
+
+$('.slider-product').slick({
             dots: true,
             infinite: false,
             speed: 300,

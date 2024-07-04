@@ -7,6 +7,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import com.google.gson.Gson;
 import org.json.JSONObject;
 
 @WebServlet(name = "AddToCartServlet", value = "/AddToCartServlet")
@@ -29,6 +31,7 @@ public class AddToCartServlet extends HttpServlet {
             cart.add(maSp);
             session.setAttribute("cart", cart);
             jsonResponse.put("success", true);
+            jsonResponse.put("cartSize", cart.getSize());
         } else {
             jsonResponse.put("success", false);
         }
