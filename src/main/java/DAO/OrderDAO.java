@@ -211,16 +211,11 @@ public class OrderDAO {
         }
     }
 
-
-    public static void main(String[] args) {
-        OrderDAO od = new OrderDAO();
-        List<Order_detail> orderDetails = od.showOrderDetail("OR050");
-        for (Order_detail orderDetail : orderDetails) {
-            System.out.println("Order ID: " + orderDetail.getIdOrder());
-            System.out.println("Product ID: " + orderDetail.getIdProduct());
-            System.out.println("Quantity: " + orderDetail.getQuantity());
-            System.out.println("Price: " + orderDetail.getPrice());
-            // Additional processing as needed...
-        }
+    public static List<Order> getOrderList() {
+        JDBI = ConnectJDBI.connector();
+        List<Order> orderList = JDBI.withHandle(handle ->
+                handle.createQuery("SELECT o.id, a.fullname, o.dateBuy, o.dateArrival, o.address, o.numberPhone, o.status " +
+                        "From accounts a INNER JOIN orders o ON a.id = o.idAccount ").mapToBean(Order.class).stream().toList());
+        return orderList;
     }
 }

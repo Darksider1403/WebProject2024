@@ -6,6 +6,7 @@ import Model.Slider;
 import org.jdbi.v3.core.Jdbi;
 
 import java.io.File;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.HashMap;
@@ -61,7 +62,6 @@ public class ProductDAO {
             return null;
         }
     }
-
     private static Map<String, String> getStringMapForImageForThumbnail(List<Map<String, Object>> maps) {
         Map<String, String> listImages = new HashMap<>();
         for (int i = 0; i < maps.size(); i++) {
@@ -335,6 +335,30 @@ public class ProductDAO {
         });
         return sliders;
     }
+    public static List<Product> findProductBySearch(String content) {
+        JDBI = ConnectJDBI.connector();
+        List<Product> products = JDBI.withHandle(handle ->
+                handle.createQuery("SELECT id, name, price " +
+                                "FROM products Where name like ? and status = 1")
+                        .bind(0,  content + "%").mapToBean(Product.class).list());
+        return products;
+    }
 
+    public static String imageThumbByIdProduct(String idProduct) {
+        JDBI = ConnectJDBI.connector();
+        String image = JDBI.withHandle(handle ->
+            handle.createQuery("Select source from images where idProduct = ? AND" +
+                    " is_thumbnail_image = 1").bind(0, idProduct).mapTo(String.class).findOne().orElse("")
+        );
 
+        return image;
+    }
+
+    public static List<Product> getProducts() {
+        JDBI = ConnectJDBI.connector();
+        List<Product> productList = JDBI.withHandle(handle ->
+                handle.createQuery("SELECT id, name, price, quantity, status FROM products ")
+                        .mapToBean(Product.class).stream().toList());
+        return productList;
+    }
 }

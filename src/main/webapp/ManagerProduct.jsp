@@ -16,6 +16,9 @@
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 <%
     Account account = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
@@ -24,9 +27,6 @@
     Map<String, String> listImageThumbnail = ps.selectImageThumbnail();
     Map<String, String> categorys = ps.selectCategory();
     List<Product> listProduct = request.getAttribute("productList") == null ? new ArrayList<>() : (List<Product>) request.getAttribute("productList");
-    int totalPage = request.getAttribute("totalPage") == null ? 0 : (int) request.getAttribute("totalPage");
-    String search = request.getAttribute("search") == null ? "" : "&search=" + request.getAttribute("search").toString();
-    int pageCurrent = request.getAttribute("pageCurrent") == null ? 1 : Integer.parseInt(request.getAttribute("pageCurrent").toString());
     NumberFormat nf = NumberFormat.getInstance();
 %>
 <body>
@@ -36,7 +36,7 @@
             <div class="menu">
                 <div class="menu-title">
                     <div class="logo">
-                        <a href="./home.html"><img src="./assets/logo.svg" alt=""></a>
+                        <a href="./home"><img src="./assets/logo.svg" alt=""></a>
                     </div>
                     <h2 class="shop-name"><a href="">PLQ SHOP</a></h2>
                 </div>
@@ -54,19 +54,19 @@
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerAccount?page=1">
+                    <a href="./managerAccount">
                         <div class="icon"><i class="fa-solid fa-desktop"></i></div>
                         <p class="menu-content">Quản lý tài khoản</p>
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerProduct?page=1" class="active">
+                    <a href="./managerProduct" class="active">
                         <div class="icon"><i class="fa-regular fa-calendar-days"></i></div>
                         <p class="menu-content">Quản lý sản phẩm</p>
                     </a>
                 </div>
                 <div class="menu-item">
-                    <a href="./managerOrder?page=1">
+                    <a href="./managerOrder">
                         <div class="icon"><i class="fa-solid fa-clipboard"></i></div>
                         <p class="menu-content">Quản lý đơn hàng</p>
                     </a>
@@ -84,28 +84,18 @@
                     <h2>Quản lý Sản phẩm</h2>
                 </div>
                 <div class="manager">
-                    <div class="manager-search">
-                        <form action="./managerProduct" method="post">
-                            <div class="search">
-                                <input type="text" name="search" class="search" autocomplete="off"
-                                       placeholder="Tìm kiếm">
-                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                     <div class="manager-infor">
-                        <table>
+                        <table id="myTable">
                             <thead>
                             <tr>
-                                <th>Mã sản phẩm</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Hình ảnh</th>
-                                <th>Giá sản phẩm</th>
-                                <th>Số lượng</th>
-                                <th>Trạng thái</th>
-                                <th>Lưu</th>
-                                <th>Xóa</th>
+                                <th scope="col">Mã sản phẩm</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Hình ảnh</th>
+                                <th scope="col">Giá sản phẩm</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col">Lưu</th>
+                                <th scope="col">Xóa</th>
                             </tr>
                             </thead>
 
@@ -125,14 +115,16 @@
                                 <th><%=p.getQuantity()%>
                                 </th>
                                 <form action="./managerProduct" method="post">
-                                    <th>
+                                    <th scope="row">
                                         <select class="status" name="status">
                                             <% if (p.isStatus()) {%>
                                             <option value="1" selected>Đang bán</option>
-                                            <option value="0">Ngưng bán</option>
+                                            <option value="2">Ngưng bán</option>
+                                            <option value="3">Hết hàng</option>
                                             <%} else {%>
                                             <option value="1">Đang bán</option>
-                                            <option value="0" selected>Ngưng bán</option>
+                                            <option value="2" selected>Ngưng bán</option>
+                                            <option value="3">Hết hàng</option>
                                             <%}%>
                                         </select>
                                     </th>
@@ -157,25 +149,6 @@
                         </table>
                     </div>
                     <button class="btn-addProduct" onclick="openModal()">Thêm sản phẩm</button>
-                    <div class="pagination">
-                        <% if (pageCurrent > 1) {%>
-                        <a href="./managerProduct?page=<%=pageCurrent-1%><%=search%>"
-                           class="other-page previous-page"><span>Trước</span></a>
-                        <%}%>
-
-                        <% for (int i = 1; i <= totalPage; i++) {%>
-                        <% if (i == pageCurrent) {%>
-                        <a href="./managerProduct?page=<%=i%><%=search%>" style="color: red;"
-                           class="other-page"><span><%=i%></span></a>
-                        <%} else {%>
-                        <a href="./managerProduct?page=<%=i%><%=search%>" class="other-page"><span><%=i%></span></a>
-                        <%}%>
-                        <%}%>
-                        <% if (pageCurrent > 1 && pageCurrent < totalPage) {%>
-                        <a href="./managerProduct?page=<%=pageCurrent+1%><%=search%>"
-                           class="other-page next-page"><span>Sau</span></a>
-                        <%}%>
-                    </div>
                 </div>
             </div>
         </div>
@@ -300,5 +273,10 @@
     function closeDeleteModal() {
         document.getElementById("updateModal").style.display = "none";
     }
+
+    $(document).ready(function() {
+        $('#myTable').DataTable();
+    })
+
 </script>
 </html>
