@@ -61,8 +61,8 @@ public class PaginationService {
         return PaginationDao.findOrder(search, limit, page);
     }
 
-    public List<Comment> commentList(int limit, int page) {
-        return PaginationDao.commentList(limit, page);
+    public List<Comment> commentList() {
+        return PaginationDao.commentList();
     }
 
     public List<Comment> findComment(String search, int limit, int page) {

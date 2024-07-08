@@ -194,7 +194,7 @@
         document.getElementById("myModal").style.display = "none";
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#myTable').DataTable();
     })
 </script>

@@ -107,10 +107,6 @@
                             </thead>
                             <tbody>
                             <% for (Comment c : commentList) {
-                                String numberPhone = (account.getNumberPhone() != null
-                                        && !account.getNumberPhone().isEmpty())
-                                        ? account.getNumberPhone()
-                                        : "Chưa cập nhật";
                                 if (c.getStatus() == 0) {
                                     int status = feedbackAndRatingService.getStatusComment(account.getID());
                                     List<String> idProduct = feedbackAndRatingService.getProductId(account.getID());
@@ -120,20 +116,14 @@
 
                                 System.out.println(commentList);
                             %>
+                            <% String numberPhone = !c.getNumberPhone().equals("0") ? c.getNumberPhone() : "Chưa cập nhật"; %>
                             <tr>
-                                <th><%=c.getId()%>
+                                <th><%=c.getId()%></th>
+                                <th><%=c.getUsername()%>
                                 </th>
-                                <% for (Account a : accountList) {
-
-                                    account.setEmail(a.getEmail());
-                                    account.setUsername(a.getUsername());
-                                }
-                                %>
-                                <th><%=account.getUsername()%>
+                                <th><%=c.getEmail()%>
                                 </th>
-                                <th><%=account.getEmail()%>
-                                </th>
-                                <th><%=numberPhone%>
+                                <th><%=numberPhone%></th>
                                 <th><%=c.getContent()%>
                                 </th>
                                 <th><%=c.getDateComment()%>

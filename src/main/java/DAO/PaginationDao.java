@@ -197,18 +197,17 @@ public class PaginationDao {
         return orderList;
     }
 
-    public static List<Comment> commentList(int limit, int page) {
+    public static List<Comment> commentList() {
         JDBI = ConnectJDBI.connector();
-        String sql = "SELECT c.id, c.content, c.dateComment, a.fullname, p.name " +
-                "From reviews c INNER JOIN accounts a ON c.idAccount = a.id " +
-                "INNER JOIN products p ON c.idProduct = p.id " +
-                "Limit ? Offset ?";
+        String sql = "Select r.id, r.content, r.dateComment, a.username, a.email, a.numberPhone , r.idProduct, r.status " +
+                "From reviews r INNER JOIN accounts a ON r.idAccount = a.id ";
+
         List<Comment> commentList = JDBI.withHandle(handle ->
                 handle.createQuery(sql)
-                        .bind(0, limit)
-                        .bind(1, page)
                         .mapToBean(Comment.class)
-                        .stream().toList());
+                        .stream()
+                        .toList()
+        );
 
         return commentList;
     }
@@ -235,6 +234,6 @@ public class PaginationDao {
     }
 
     public static void main(String[] args) {
-
+        System.out.println(commentList().get(0).getNumberPhone().equals("0"));
     }
 }

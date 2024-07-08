@@ -11,18 +11,11 @@ public class Comment {
     private int idAccount;
     private Account account;
     private int status;
+    private String username;
+    private String email;
+    private String numberPhone;
 
     public Comment() {
-    }
-
-    public Comment(int id, String content, LocalDate dateComment, String idProduct, int idAccount, Account account, int status) {
-        this.id = id;
-        this.content = content;
-        this.dateComment = dateComment;
-        this.idProduct = idProduct;
-        this.idAccount = idAccount;
-        this.account = account;
-        this.status = status;
     }
 
     public int getStatus() {
@@ -81,6 +74,30 @@ public class Comment {
         this.account = account;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNumberPhone() {
+        return numberPhone;
+    }
+
+    public void setNumberPhone(String numberPhone) {
+        this.numberPhone = numberPhone;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -91,6 +108,9 @@ public class Comment {
                 ", idAccount=" + idAccount +
                 ", account=" + account +
                 ", status=" + status +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", numberPhone='" + numberPhone + '\'' +
                 '}';
     }
 }

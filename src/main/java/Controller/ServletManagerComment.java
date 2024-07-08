@@ -22,7 +22,6 @@ public class ServletManagerComment extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         PaginationService ps = PaginationService.getInstance();
-        List<Account> accountList;
         FeedbackAndRatingService feedbackAndRatingService = FeedbackAndRatingService.getInstance();
         String id = req.getParameter("id");
         String pageCurrent = req.getParameter("page") == null ? "1" : req.getParameter("page");
@@ -34,7 +33,7 @@ public class ServletManagerComment extends HttpServlet {
         List<Comment> commentList;
 
         if (search == null || search.isEmpty()) {
-            commentList = ps.commentList(12, page * 12);
+            commentList = ps.commentList();
 
             totalComment = feedbackAndRatingService.getTotalComment();
         } else {
