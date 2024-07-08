@@ -8,37 +8,49 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
+import com.google.gson.Gson;
+import org.json.JSONObject;
 
 @WebServlet(name = "QuantityServlet", value = "/QuantityServlet")
 public class QuantityServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         ShoppingCart gioHang = (ShoppingCart) req.getSession().getAttribute("cart");
         List<CartItems> sanPhams = gioHang.getDanhSachSanPham();
         String hanhdong = req.getParameter("thuchien");
         String masanpham = req.getParameter("masanpham");
-        if (hanhdong != null && masanpham !=null){
-            if (hanhdong.equals("tang")){
-                for (CartItems sp: sanPhams){
-                    if (sp.getProduct().getId().equals(masanpham)){
+        JSONObject jsonResponse = new JSONObject();
+
+        if (hanhdong != null && masanpham != null) {
+            if (hanhdong.equals("tang")) {
+                for (CartItems sp : sanPhams) {
+                    if (sp.getProduct().getId().equals(masanpham)) {
                         gioHang.add(masanpham, 1);
                     }
                 }
             }
-            if (hanhdong.equals("giam")){
-                for (CartItems sp: sanPhams){
-                    if (sp.getProduct().getId().equals(masanpham)){
+            if (hanhdong.equals("giam")) {
+                for (CartItems sp : sanPhams) {
+                    if (sp.getProduct().getId().equals(masanpham)) {
                         gioHang.decrease(masanpham, 1);
                     }
                 }
             }
         }
-        req.setAttribute("list-sp", sanPhams);
-        resp.sendRedirect("CartServlet");
+        req.getSession().setAttribute("cart", gioHang);
+
+        jsonResponse.put("cartSize", gioHang.getSize());
+        jsonResponse.put("sanPhams", sanPhams);
+
+
+        resp.setContentType("application/json");
+        resp.getWriter().write(jsonResponse.toString());
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

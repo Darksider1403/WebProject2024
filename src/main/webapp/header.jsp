@@ -28,7 +28,7 @@
                 <li class="item"><a href="./" class="linked-item">Sản phẩm</a></li>
             </ul>
 
-            <div class="header-contain__search" style="display: none">
+            <div class="header-contain__search" >
                 <input class="header__search" name="search" placeholder="Tìm kiếm sản phẩm" type="text">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <div class="header-contain__display-product">
