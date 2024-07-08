@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ShoppingCart {
-    Map<String, CartItems> data = new HashMap<>();
+    private Map<String, CartItems> data = new HashMap<>();
 
     public boolean add(String maSP) {
         return add(maSP, 1);
@@ -16,10 +16,7 @@ public class ShoppingCart {
 
     public boolean add(String maSP, int soLuong) {
         Product products = ProductService.getInstance().findById(maSP);
-        System.out.println("Product retrieved from ProductService: " + products);
-
         if (products == null) {
-            System.out.println("Product not found for ID: " + maSP);
             return false;
         }
 
@@ -40,7 +37,6 @@ public class ShoppingCart {
             CartItems cartItems = data.get(maSP);
             cartItems.decreaseQuantity(soLuong);
             if (cartItems.getQuantity() <= 0) {
-                // If the quantity decreases to or below 0, remove the product from the cart
                 data.remove(maSP);
             }
             return true;
@@ -70,5 +66,4 @@ public class ShoppingCart {
                 "data=" + data +
                 '}';
     }
-
 }

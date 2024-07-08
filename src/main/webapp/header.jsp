@@ -41,10 +41,13 @@
                 <li class="item"><a href="">Liên hệ</a></li>
             </ul>
             <div class="header-contain__method">
-                <a href="./CartServlet" class="header_cart"><i class="fa fa-fw fa-cart-arrow-down mr-1"></i></a>
-                <span class="position-absolute left-100 translate-middle badge bg-light text-dark" style="border-radius: 30rem !important;">
-                    <%= gh.getSize() %>
-                </span>
+                <a href="./CartServlet" class="header_cart">
+                    <i class="fa fa-fw fa-cart-arrow-down mr-1"></i>
+                    <span class="position-absolute left-100 translate-middle badge bg-light text-dark"
+                          style="border-radius: 30rem !important;" id="cart-size">
+                        <%= gh.getSize() %>
+                    </span>
+                </a>
                 <% if (session.getAttribute("account") == null) { %>
                 <a class="nav-icon position-relative text-decoration-none header__login" href="./login">
                     <i class="fa fa-fw fa-user mr-3"></i>
@@ -58,6 +61,23 @@
         </nav>
     </div>
 </div>
+
+<script>
+    function updateCartSize() {
+        $.ajax({
+            url: './CartSizeServlet',
+            method: 'GET',
+            success: function (response) {
+                $('#cart-size').text(response.cartSize);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        // Call updateCartSize periodically or after adding an item to the cart
+        updateCartSize();
+    });
+</script>
 </body>
 
 <script>
