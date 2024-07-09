@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shopping Cart</title>
+    <title>Title</title>
     <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -47,7 +47,6 @@
 
     <div class="small-container cart-page">
         <table class="cart-table">
-            <thead>
             <tr>
                 <th scope="col"></th>
                 <th scope="col">Stt</th>
@@ -59,8 +58,6 @@
                 <th scope="col">Thành tiền</th>
                 <th scope="col"></th>
             </tr>
-            </thead>
-            <tbody>
             <%
                 NumberFormat nf = NumberFormat.getInstance();
                 List<CartItems> sanPhams = (List<CartItems>) session.getAttribute("list-sp");
@@ -69,159 +66,94 @@
                 int stt = 1;
                 for (CartItems sp : sanPhams) {
                     tongGiaTri += sp.getTotalPrice();
+
             %>
-            <tr>
-                <td><%= stt++ %></td>
-                <td>
-                    <div>
-                        <p>
-                            <%
-                                String productName = sp.getProduct().getName();
-                                if (productName.length() > 30) {
-                                    String firstLine = productName.substring(0, 30);
-                                    String remainingText = productName.substring(30);
-                            %>
-                            <%= firstLine %><br>
-                            <%= remainingText %>
-                            <%
-                            } else {
-                            %>
-                            <%= productName %>
-                            <%
-                                }
-                            %>
-                        </p>
-                    </div>
-                </td>
-                <td>
-                    <div class="cart-info">
+            <td><%= stt++ %>
+            </td>
+            <td>
+                <div>
+                    <p>
                         <%
-                            String productId = sp.getProduct().getId();
-                            String imageSource = listImagesThumbnail.get(productId);
+                            String productName = sp.getProduct().getName();
+                            if (productName.length() > 30) {
+                                String firstLine = productName.substring(0, 30);
+                                String remainingText = productName.substring(30);
                         %>
-                        <img src="<%= imageSource %>" alt="">
-                    </div>
-                </td>
-                <td><%= sp.getProduct().getId() %></td>
-                <td><%= nf.format(sp.getProduct().getPrice()) %>đ</td>
-                <td>
-                    <a href="javascript:void(0)" onclick="updateCart('tang', '<%= sp.getProduct().getId() %>')" class="cart-btn-plus">+</a>
-                    <input type="number" value="<%= sp.getQuantity() %>" name="quantity" disabled>
-                    <a href="javascript:void(0)" onclick="updateCart('giam', '<%= sp.getProduct().getId() %>')" class="cart-btn-minus">-</a>
-                </td>
-                <td><%= nf.format(sp.getTotalPrice()) %>đ</td>
-                <td><a href="javascript:void(0)" onclick="deleteFromCart('<%= sp.getProduct().getId() %>')">Xóa</a></td>
+                        <%= firstLine %><br>
+                        <%= remainingText %>
+                        <%
+                        } else {
+                        %>
+                        <%= productName %>
+                        <%
+                            }
+                        %>
+                    </p>
+                </div>
+            </td>
+            <td>
+                <div class="cart-info">
+                    <%
+                        String productId = sp.getProduct().getId();
+                        String imageSource = listImagesThumbnail.get(productId);
+                    %>
+                    <img src="<%=imageSource%>" alt="">
+                </div>
+            </td>
+            <td>
+                <div>
+                    <p><%= sp.getProduct().getId() %>
+                    </p>
+                </div>
+            </td>
+            <td>
+                <div class="cart-price">
+                    <p><%= nf.format(sp.getProduct().getPrice()) %>đ</p>
+                </div>
+            </td>
+            <td>
+                <div class="change-quantity">
+                    <a href="QuantityServlet?thuchien=tang&masanpham=<%= sp.getProduct().getId()%>"
+                       class="cart-btn-plus"
+                       style="font-size: 2.4rem; padding: 8px; border: 4px; cursor: pointer;">+</a>
+                    <input type="number" value="<%= sp.getQuantity()%>" name="quantity" disabled>
+                    <a href="QuantityServlet?thuchien=giam&masanpham=<%= sp.getProduct().getId()%>"
+                       class="cart-btn-minus"
+                       style="font-size: 2.4rem; padding: 8px;border: 4px; cursor: pointer; font-weight: 800;">-</a>
+                </div>
+            </td>
+            <td class="totalPricePerItem"><%= nf.format(sp.getTotalPrice()) %>đ</td>
+            <td>
+                <a href="DeleteServlet?masanpham=<%=sp.getProduct().getId()%>">Xóa</a>
+                <%--                <i class="fas fa-trash-alt"></i> <!-- Font Awesome trash icon -->--%>
+                </a>
+            </td>
             </tr>
             <%
-                }
+
+                } // End of for loop
             %>
-            </tbody>
         </table>
+        <!-- Other HTML content... -->
     </div>
     <div class="total-price">
         <table>
             <tr>
-                <td>Tổng số tiền</td>
-                <td id="grandTotal"><%= nf.format(tongGiaTri) %>đ</td>
+                <td>
+                    Tổng số tiền
+                </td>
+                <td id="grandTotal"><%= nf.format(tongGiaTri)%>đ</td>
             </tr>
         </table>
     </div>
     <form action="./CheckQuantityServlet" method="get">
-        <div class="buy-button-wrapper">
-            <button type="submit">Mua</button>
-        </div>
+    <div class="buy-button-wraper">
+       <button type="submit">mua</button>
+    </div>
     </form>
 </div>
+<div id="footerContainer">
 
-<div id="footerContainer"></div>
-
-<script>
-    // Define listImagesThumbnail as a JavaScript variable
-    var listImagesThumbnail = {
-        <%
-            for (Map.Entry<String, String> entry : listImagesThumbnail.entrySet()) {
-                String productId = entry.getKey();
-                String imageUrl = entry.getValue();
-        %>
-        '<%= productId %>': '<%= imageUrl %>',
-        <% } %>
-    };
-
-    // Now you can safely use listImagesThumbnail in your JavaScript functions
-    function updateCart(action, productId) {
-        $.ajax({
-            url: './QuantityServlet',
-            method: 'GET',
-            data: { thuchien: action, masanpham: productId },
-            success: function (response) {
-                if (response) {
-                    $('#cart-size').text(response.cartSize);
-                    updateCartTable(response.sanPhams);
-                    $('#grandTotal').text(response.totalPrice + 'đ');
-                } else {
-                    alert("Failed to update cart.");
-                }
-            }
-        });
-    }
-
-    function deleteFromCart(productId) {
-        $.ajax({
-            url: './DeleteServlet',
-            method: 'GET',
-            data: { masanpham: productId },
-            success: function (response) {
-                if (response) {
-                    $('#cart-size').text(response.cartSize);
-                    updateCartTable(response.sanPhams);
-                    $('#grandTotal').text(response.totalPrice + 'đ');
-                } else {
-                    alert("Failed to delete item from cart.");
-                }
-            }
-        });
-    }
-
-    function updateCartTable(cartItems) {
-        let cartTable = $('.cart-table tbody');
-        cartTable.empty();
-        let nf = new Intl.NumberFormat();
-        let stt = 1;
-        cartItems.forEach(function (sp) {
-            let productName = sp.product.name;
-            let image = listImagesThumbnail[sp.product.id];
-            let productNameHtml = productName.length > 30
-                ? productName.substring(0, 30) + '<br>' + productName.substring(30)
-                : productName;
-            let rowHtml = `
-                <tr>
-                    <td>${stt}</td>
-                    <td>
-                        <div>
-                            <p>${productNameHtml}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="cart-info">
-                            <img src="${image}" alt="">
-                        </div>
-                    </td>
-                    <td>${sp.product.id}</td>
-                    <td>${nf.format(sp.product.price)}đ</td>
-                    <td>
-                        <a href="javascript:void(0)" onclick="updateCart('tang', '${sp.product.id}')" class="cart-btn-plus">+</a>
-                        <input type="number" value="${sp.quantity}" name="quantity" disabled>
-                        <a href="javascript:void(0)" onclick="updateCart('giam', '${sp.product.id}')" class="cart-btn-minus">-</a>
-                    </td>
-                    <td>${nf.format(sp.totalPrice)}đ</td>
-                    <td><a href="javascript:void(0)" onclick="deleteFromCart('${sp.product.id}')">Xóa</a></td>
-                </tr>
-            `;
-            cartTable.append(rowHtml);
-            stt++;
-        });
-    }
-</script>
-
+</div>
 </body>
 </html>
