@@ -73,7 +73,7 @@ public class AccountService {
 
     public boolean vertifyEmail(Account account) {
         String code = EmailService.createCode();
-        String mess = "http://localhost:8080/WebProject/verifyEmail?code=" + code ;
+        String mess = "http://localhost:8080/verifyEmail?code=" + code ;
         Calendar date = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formatDateCreate = dateFormat.format(date.getTime());
