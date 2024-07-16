@@ -10,21 +10,20 @@ public class Comment {
     private String idProduct;
     private int idAccount;
     private Account account;
+    private int status;
+    private String username;
+    private String email;
+    private String numberPhone;
 
     public Comment() {
-        this.id = 0;
-        this.content = "";
-        this.dateComment = LocalDate.now();
-        this.idProduct = "";
-        this.idAccount = 0;
     }
 
-    public Comment(int id, String content, LocalDate dateComment, String idProduct, int idAccount) {
-        this.id = id;
-        this.content = content;
-        this.dateComment = dateComment;
-        this.idProduct = idProduct;
-        this.idAccount = idAccount;
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getIdProduct() {
@@ -75,14 +74,43 @@ public class Comment {
         this.account = account;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNumberPhone() {
+        return numberPhone;
+    }
+
+    public void setNumberPhone(String numberPhone) {
+        this.numberPhone = numberPhone;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", dateComment=" + dateComment +
-                ", idProduct=" + idProduct +
+                ", idProduct='" + idProduct + '\'' +
                 ", idAccount=" + idAccount +
+                ", account=" + account +
+                ", status=" + status +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", numberPhone='" + numberPhone + '\'' +
                 '}';
     }
 }

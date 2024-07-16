@@ -72,6 +72,7 @@
                     </a>
                 </div>
                 <div class="menu-item">
+
                     <a href="./managerLog">
                         <div class="icon"><i class="fa-solid fa-file-alt"></i></div>
                         <p class="menu-content">Quản lý nhật ký</p>
@@ -81,6 +82,11 @@
                     <a href="./createVoucher?page=1">
                         <div class="icon"><i class="fa-solid fa-gift"></i></div>
                         <p class="menu-content">Quản lý Voucher</p>
+
+                    <a href="./managerComment?page=1">
+                        <div class="icon"><i class="fa-solid fa-comment"></i></div>
+                        <p class="menu-content">Quản lý bình luận</p>
+
                     </a>
                 </div>
                 <div class="menu-item">
@@ -286,7 +292,7 @@
         document.getElementById("updateModal").style.display = "none";
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#myTable').DataTable();
     })
 
