@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Account;
+import Model.Comment;
 import Model.Order;
 import Model.Product;
 import org.jdbi.v3.core.Jdbi;
@@ -26,12 +27,13 @@ public class PaginationDao {
                 handle.createQuery("Select id, name, price, status, quantity From products " +
                                 "Where name like ? Or id like ?" +
                                 "Limit ? Offset ?")
-                        .bind(0, "%"+search+"%")
-                        .bind(1, "%"+search+"%")
+                        .bind(0, "%" + search + "%")
+                        .bind(1, "%" + search + "%")
                         .bind(2, limit)
                         .bind(3, page).mapToBean(Product.class).stream().toList());
         return listProducts;
     }
+
     public static List<Product> productByCategory(int limit, int page, String id_category) {
         JDBI = ConnectJDBI.connector();
         List<Product> listProducts = JDBI.withHandle(handle ->
@@ -93,6 +95,7 @@ public class PaginationDao {
         priceFilter[1] = maxPrice;
         return priceFilter;
     }
+
     public static List<Product> productByCategoryAndFilterByPrice(int limit, int page, String id_category, String filter) {
         JDBI = ConnectJDBI.connector();
         int filter_id = Integer.valueOf(filter);
@@ -139,7 +142,7 @@ public class PaginationDao {
 
     public static List<Account> accountList(int limit, int page) {
         JDBI = ConnectJDBI.connector();
-        List<Account> accountList =JDBI.withHandle(handle ->
+        List<Account> accountList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT a.id, a.username, a.email, a.fullname, a.numberPhone, al.role, a.status " +
                                 "From accounts a INNER JOIN access_levels al ON a.id = al.idAccount where a.status > 0 " +
                                 "Limit ? Offset ?")
@@ -152,11 +155,11 @@ public class PaginationDao {
 
     public static List<Account> findAccountByUsername(String username, int limit, int page) {
         JDBI = ConnectJDBI.connector();
-        List<Account> accountList =JDBI.withHandle(handle ->
+        List<Account> accountList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT a.id, a.username, a.email, a.fullname, a.numberPhone, al.role, a.status " +
                                 "From accounts a INNER JOIN access_levels al ON a.id = al.idAccount where a.username like ? And a.status > 0 " +
                                 "Limit ? Offset ?")
-                        .bind(0, "%"+username +"%")
+                        .bind(0, "%" + username + "%")
                         .bind(1, limit)
                         .bind(2, page)
                         .mapToBean(Account.class).stream().toList()
@@ -166,7 +169,7 @@ public class PaginationDao {
 
     public static List<Order> orderList(int limit, int page) {
         JDBI = ConnectJDBI.connector();
-        List<Order> orderList =JDBI.withHandle(handle ->
+        List<Order> orderList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT o.id, a.fullname, o.dateBuy, o.dateArrival, o.address, o.numberPhone, o.status " +
                                 "From accounts a INNER JOIN orders o ON a.id = o.idAccount " +
                                 "Limit ? Offset ?")
@@ -179,19 +182,58 @@ public class PaginationDao {
 
     public static List<Order> findOrder(String search, int limit, int page) {
         JDBI = ConnectJDBI.connector();
-        List<Order> orderList =JDBI.withHandle(handle ->
+        List<Order> orderList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT o.id, a.fullname, o.dateBuy, o.dateArrival, o.address, o.numberPhone, o.status " +
                                 "From accounts a INNER JOIN orders o ON a.id = o.idAccount Where a.fullname like ? " +
                                 "Limit ? Offset ?")
                         .bind(0, "%" + search + "%")
                         .bind(1, limit)
                         .bind(2, page)
-                        .mapToBean(Order.class).stream().toList()
+                        .mapToBean(Order.class)
+                        .stream()
+                        .toList()
         );
+
         return orderList;
     }
 
-    public static void main(String[] args) {
+    public static List<Comment> commentList() {
+        JDBI = ConnectJDBI.connector();
+        String sql = "Select r.id, r.content, r.dateComment, a.username, a.email, a.numberPhone , r.idProduct " +
+                "From reviews r INNER JOIN accounts a ON r.idAccount = a.id ";
 
+        List<Comment> commentList = JDBI.withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapToBean(Comment.class)
+                        .stream()
+                        .toList()
+        );
+
+        return commentList;
+    }
+
+    public static List<Comment> findComment(String search, int limit, int page) {
+        JDBI = ConnectJDBI.connector();
+        String sql = "SELECT c.id, c.content, c.dateComment, a.fullname, p.name " +
+                "From reviews c INNER JOIN accounts a ON c.idAccount = a.id " +
+                "INNER JOIN products p ON c.idProduct = p.id " +
+                "Where c.content like ? " +
+                "Limit ? Offset ?";
+
+        List<Comment> commentList = JDBI.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, "%" + search + "%")
+                        .bind(1, limit)
+                        .bind(2, page)
+                        .mapToBean(Comment.class)
+                        .stream()
+                        .toList()
+        );
+
+        return commentList;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(commentList().get(0).getNumberPhone().equals("0"));
     }
 }

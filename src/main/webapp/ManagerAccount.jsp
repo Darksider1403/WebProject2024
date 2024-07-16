@@ -11,6 +11,9 @@
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 <%
     Account a = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
@@ -56,6 +59,12 @@
                     </a>
                 </div>
                 <div class="menu-item">
+                    <a href="./managerComment?page=1">
+                        <div class="icon"><i class="fa-solid fa-comment"></i></div>
+                        <p class="menu-content">Quản lý bình luận</p>
+                    </a>
+                </div>
+                <div class="menu-item">
                     <a href="./ServletLogOut">
                         <p class="menu-content">Đăng xuất</p>
                     </a>
@@ -68,16 +77,6 @@
                     <h2>Quản lý tài khoản</h2>
                 </div>
                 <div class="manager">
-                    <div class="manager-search">
-                        <form action="./managerAccount" method="post">
-                            <div class="search">
-                                <input type="text" name="search" class="search" autocomplete="off"
-                                       placeholder="Tìm kiếm">
-                                <button type="submit" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                     <div class="manager-infor">
                         <table id="myTable">
                             <thead>
@@ -113,27 +112,44 @@
                                 <form action="./managerAccount" method="post">
                                     <input type="hidden" name="idAccount" value="<%=account.getID()%>">
                                     <th>
-                                        <select class="role" name="role">
-                                            <% if (account.getRole() == 1) {%>
-                                            <option value="1" selected>Người dùng</option>
-                                            <option value="2">Admin</option>
-                                            <%} else {%>
-                                            <option value="1">Người dùng</option>
-                                            <option value="2" selected>Admin</option>
-                                            <%}%>
-                                        </select>
+                                        <label>
+                                            <select class="role" name="role">
+                                                <% if (account.getRole() == 1) {%>
+                                                <option value="1" selected>Người dùng</option>
+                                                <option value="2">Quản lý đơn hàng</option>
+                                                <option value="3">Quản lí sản phẩm</option>
+                                                <option value="4">Admin</option>
+                                                <%} else if (account.getRole() == 2) {%>
+                                                <option value="1">Người dùng</option>
+                                                <option value="2" selected>Quản lý đơn hàng</option>
+                                                <option value="3">Quản lí sản phẩm</option>
+                                                <option value="4">Admin</option>
+                                                <%} else if (account.getRole() == 3) {%>
+                                                <option value="1">Người dùng</option>
+                                                <option value="2">Quản lý đơn hàng</option>
+                                                <option value="3" selected>Quản lí sản phẩm</option>
+                                                <option value="4">Admin</option>
+                                                <%} else if (account.getRole() == 4) {%>
+                                                <option value="1">Người dùng</option>
+                                                <option value="2">Quản lý đơn hàng</option>
+                                                <option value="3">Quản lí sản phẩm</option>
+                                                <option value="4" selected>Admin</option>
+                                                <%}%>
+                                            </select>
+                                        </label>
                                     </th>
                                     <th>
                                         <select class="status" name="status">
                                             <% if (account.getStatus() == 1) {%>
                                             <option value="1" selected>Bình thường</option>
                                             <option value="2">Đã bị khóa</option>
-                                            <%} else {%>
+                                            <%} else if (account.getStatus() == 2) {%>
                                             <option value="1">Bình thường</option>
                                             <option value="2" selected>Đã bị khóa</option>
                                             <%}%>
                                         </select>
                                     </th>
+
                                     <th>
                                         <button type="submit" class="btn-repair">Lưu</button>
                                     </th>
@@ -143,25 +159,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="pagination">
-                        <% if (pageCurrent > 1) {%>
-                        <a href="./managerAccount?page=<%=pageCurrent-1%><%=search%>"
-                           class="other-page previous-page"><span>Trước</span></a>
-                        <%}%>
-
-                        <% for (int i = 1; i <= totalPage; i++) {%>
-                        <% if (i == pageCurrent) {%>
-                        <a href="./managerAccount?page=<%=i%><%=search%>" style="color: red;"
-                           class="other-page"><span><%=i%></span></a>
-                        <%} else {%>
-                        <a href="./managerAccount?page=<%=i%><%=search%>" class="other-page"><span><%=i%></span></a>
-                        <%}%>
-                        <%}%>
-                        <% if (pageCurrent > 1 && pageCurrent < totalPage) {%>
-                        <a href="./managerAccount?page=<%=pageCurrent+1%><%=search%>"
-                           class="other-page next-page"><span>Sau</span></a>
-                        <%}%>
-                    </div>
                 </div>
             </div>
         </div>
@@ -170,5 +167,16 @@
 </body>
 <script src="./js/account.js"></script>
 <script>
+    function openModal() {
+        document.getElementById("myModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    })
 </script>
 </html>

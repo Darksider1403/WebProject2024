@@ -71,6 +71,12 @@
                     </a>
                 </div>
                 <div class="menu-item">
+                    <a href="./managerComment?page=1">
+                        <div class="icon"><i class="fa-solid fa-comment"></i></div>
+                        <p class="menu-content">Quản lý bình luận</p>
+                    </a>
+                </div>
+                <div class="menu-item">
                     <a href="./ServletLogOut">
                         <p class="menu-content">Đăng xuất</p>
                     </a>
@@ -188,7 +194,7 @@
         document.getElementById("myModal").style.display = "none";
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#myTable').DataTable();
     })
 </script>

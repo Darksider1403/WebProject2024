@@ -115,31 +115,31 @@
                             </div>
                         </div>
 
-                            <!-- Change Password Form -->
-<%--                            <div class="tab-pane fade" id="account-change-password">--%>
-<%--                                <!-- Change Password Form -->--%>
-<%--                                <div class="card-body pb-2">--%>
-<%--                                        <h5 class="card-title">Change Password</h5>--%>
-<%--                                        <form id="changePasswordForm" action="./ServletPassChanging" method="post">--%>
-<%--                                            <div class="form-group">--%>
-<%--                                                <label for="currentPassword">Current Password</label>--%>
-<%--                                                <input type="password" name="currentPassword" id="currentPassword" class="form-control" required>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="form-group">--%>
-<%--                                                <label for="newPassword">New Password</label>--%>
-<%--                                                <input type="password" name="newPassword" id="newPassword" class="form-control" required>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="form-group">--%>
-<%--                                                <label for="confirmNewPassword">Confirm New Password</label>--%>
-<%--                                                <input type="password" name="confirmNewPassword" id="confirmNewPassword" class="form-control" required>--%>
-<%--                                            </div>--%>
+                        <!-- Change Password Form -->
+                        <%--                            <div class="tab-pane fade" id="account-change-password">--%>
+                        <%--                                <!-- Change Password Form -->--%>
+                        <%--                                <div class="card-body pb-2">--%>
+                        <%--                                        <h5 class="card-title">Change Password</h5>--%>
+                        <%--                                        <form id="changePasswordForm" action="./ServletPassChanging" method="post">--%>
+                        <%--                                            <div class="form-group">--%>
+                        <%--                                                <label for="currentPassword">Current Password</label>--%>
+                        <%--                                                <input type="password" name="currentPassword" id="currentPassword" class="form-control" required>--%>
+                        <%--                                            </div>--%>
+                        <%--                                            <div class="form-group">--%>
+                        <%--                                                <label for="newPassword">New Password</label>--%>
+                        <%--                                                <input type="password" name="newPassword" id="newPassword" class="form-control" required>--%>
+                        <%--                                            </div>--%>
+                        <%--                                            <div class="form-group">--%>
+                        <%--                                                <label for="confirmNewPassword">Confirm New Password</label>--%>
+                        <%--                                                <input type="password" name="confirmNewPassword" id="confirmNewPassword" class="form-control" required>--%>
+                        <%--                                            </div>--%>
 
-<%--                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verificationModal">--%>
-<%--                                                Change Password--%>
-<%--                                            </button>--%>
-<%--                                        </form>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
+                        <%--                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#verificationModal">--%>
+                        <%--                                                Change Password--%>
+                        <%--                                            </button>--%>
+                        <%--                                        </form>--%>
+                        <%--                                    </div>--%>
+                        <%--                                </div>--%>
                         <div class="tab-pane fade" id="account-change-password">
                             <form action="./ServletPassChanging" method="post">
                                 <div class="card-body pb-2">
@@ -171,12 +171,12 @@
                                         <span id="">Vui lòng ấn vào nút lấy mã xác nhận trước khi quý khách thực hiện đổi mật khẩu để nhận mã thông qua email</span>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Thay đổi mật khẩu </button>
+                                    <button type="submit" class="btn btn-primary">Thay đổi mật khẩu</button>
 
                                 </div>
                             </form>
                             <form action="./ServletSendMail" method="post">
-                                <button type="submit" class="btn btn-primary">Lấy mã </button>
+                                <button type="submit" class="btn btn-primary">Lấy mã</button>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="shopping-order">
@@ -235,7 +235,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -307,7 +308,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="verificationModal" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
+<div class="modal fade" id="verificationModal" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -326,7 +328,7 @@
                 </form>
             </div>
         </div>
-        </div>
+    </div>
 </div>
 <script>
     $(document).ready(function () {
@@ -340,7 +342,7 @@
             $.ajax({
                 url: 'OrderDetail.jsp', // URL to fetch order details (adjust this to your implementation)
                 method: 'GET',
-                data: { orderId: orderId },
+                data: {orderId: orderId},
                 success: function (response) {
                     // Update modal content with fetched order details
                     modal.find('.modal-body #orderDetailsContainer').html(response);

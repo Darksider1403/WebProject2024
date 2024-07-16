@@ -45,9 +45,14 @@
                            placeholder="Tên đăng nhập" required="required">
                     <input type="password" name="password" id="password" placeholder="Mật khẩu" required="required">
                 </div>
+
+                <div class="g-recaptcha" data-sitekey="6LfsCOYpAAAAAG6HclMXDIeUNArusfVNulX9A_Kb"
+                     data-action="LOGIN"></div>
+                <div id="error"></div>
                 <button type="submit" class="btn_login">Đăng nhập</button>
                 <div class="forgot-password"><a href="./forgot">Quên mật khẩu?</a></div>
             </form>
+
             <div class="third-party-login">
                 <div class="or-text">
                     <div class="thin-line"></div>
@@ -69,5 +74,24 @@
         </div>
     </div>
 </div>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfsCOYpAAAAAG6HclMXDIeUNArusfVNulX9A_Kb"></script>
+<script>
+    window.onload = function (){
+        let isValid = false;
+        const form = document.getElementById("form");
+        const error = document.getElementById("error");
+
+        form.addEventListener("submit", function (event){
+            event.preventDefault();
+            const response = grecaptcha.getResponse();
+            if (response){
+                form.submit();
+            } else {
+                error.innerHTML = "Please check";
+            }
+        });
+    }
+</script>
 </body>
 </html>

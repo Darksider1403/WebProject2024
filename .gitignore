@@ -55,3 +55,5 @@ src/main/resources/db.properties.properties
 src/main/resources/db.properties
 /src/main/resources
 .idea/webContexts.xml
+.idea/misc.xml
+*.properties
