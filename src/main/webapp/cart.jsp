@@ -19,11 +19,32 @@
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid red;
+            background-color: #fdd;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
 
 <div class="container">
+    <% if (request.getAttribute("errorMessage") != null) { %>
+    <div class="error-message">
+        <%= request.getAttribute("errorMessage") %>
+    </div>
+    <% } %>
+    <% if (request.getAttribute("message") != null) { %>
+    <div class="error-message">
+        <%= request.getAttribute("message") %>
+    </div>
+    <% } %>
+
     <div class="small-container cart-page">
         <table class="cart-table">
             <tr>
@@ -52,6 +73,7 @@
             <div class="error-message"><%= errorMessage %>
             </div>
             <% } %>
+
             <td><%= stt++ %>
             </td>
             <td>
@@ -130,9 +152,11 @@
             </tr>
         </table>
     </div>
+    <form action="./CheckQuantityServlet" method="get">
     <div class="buy-button-wraper">
-        <a href="./CheckQuantityServlet" class="button-link">Mua</a>
+       <button type="submit">mua</button>
     </div>
+    </form>
 </div>
 <div id="footerContainer">
 

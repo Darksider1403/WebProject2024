@@ -48,6 +48,9 @@ public class ServletOrder extends HttpServlet {
                     int price = cartItem.getProduct().getPrice();
                     String id_product = cartItem.getProduct().getId();
                     OrderService.getInstance().addProductToOrder(id_product, quantity, price);
+                    OrderService.decrementQuantity(List.of(id_product), quantity);
+
+
                 }
 
                 clearCart(session);

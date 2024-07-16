@@ -246,9 +246,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Content will be dynamically populated here -->
                 <div id="orderDetailsContainer">
-                    <!-- Order details will be loaded here dynamically via JavaScript -->
                 </div>
             </div>
         </div>
