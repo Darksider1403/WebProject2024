@@ -30,4 +30,24 @@ public class FeedbackAndRatingService {
     public int getTotalNumberOfComments() {
         return FeedbackDAO.getTotalNumberOfComments();
     }
+
+    public List<Comment> getCommentsByAccountId(int idAccount) {
+        return FeedbackDAO.getCommentsByAccountId(idAccount);
+    }
+
+    public int getTotalComment() {
+        return FeedbackDAO.getTotalComment();
+    }
+
+    public int totalCommentBySearch(String search) {
+        return FeedbackDAO.totalCommentBySearch(search);
+    }
+
+    public int getStatusComment(int idAccount) {
+        return FeedbackDAO.getStatusComment(idAccount);
+    }
+
+    public List<String> getProductId(int idAccount) {
+        return FeedbackDAO.getProductId(idAccount);
+    }
 }

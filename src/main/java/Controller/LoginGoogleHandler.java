@@ -42,9 +42,10 @@ public class LoginGoogleHandler extends HttpServlet {
         int defaultRole = 1;
         String name = user.getName();
         String nameWithoutSpace = name.trim().replace(" ", "");
+        int defaultStatus = 1;
 
         if (as.isAccountExist(user.getEmail())) {
-            as.createAccountWithGoogleAndFacebook(nameWithoutSpace, user.getEmail(), user.getName());
+            as.createAccountWithGoogleAndFacebook(nameWithoutSpace, user.getEmail(), user.getName(), defaultStatus);
 
             setIdAndUsername(user);
 
@@ -58,10 +59,10 @@ public class LoginGoogleHandler extends HttpServlet {
                 user.setRole(defaultRole);
             }
 
-            if (user.getRole() == 2) {
-                response.sendRedirect("/admin");
-            } else {
+            if (user.getRole() == 1) {
                 response.sendRedirect("/home");
+            } else {
+                response.sendRedirect("/admin");
             }
             logActivity("User " + user.getID() + " Already has an account");
         }

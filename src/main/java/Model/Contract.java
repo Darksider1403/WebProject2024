@@ -9,7 +9,6 @@ public class Contract {
     int account_type;
 
     public Contract(int id, String fullName, String phone, String email, String message, int type) {
-
         this.id = id;
         this.fullName = fullName;
         this.phone = phone;

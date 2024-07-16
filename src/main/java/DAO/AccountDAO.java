@@ -189,8 +189,9 @@ public class AccountDAO {
     public static int totalAccount() {
         JDBI = ConnectJDBI.connector();
         int total = JDBI.withHandle(handle ->
-                handle.createQuery("SELECT COUNT(id) " +
-                        "FROM accounts where status = 1").mapTo(Integer.class).findOnly()
+                handle.createQuery("SELECT COUNT(id) " + "FROM accounts where status = 1")
+                        .mapTo(Integer.class)
+                        .findOnly()
         );
 
         return total;
@@ -202,7 +203,10 @@ public class AccountDAO {
         List<Account> accountList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT a.id, a.username, a.email, a.fullname, a.numberPhone, al.role, a.status " +
                                 "From accounts a INNER JOIN access_levels al ON a.id = al.idAccount where a.username like ? And a.status > 0 ")
-                        .bind(0, "%" + username + "%").mapToBean(Account.class).stream().toList());
+                        .bind(0, "%" + username + "%")
+                        .mapToBean(Account.class)
+                        .stream()
+                        .toList());
 
         return accountList;
     }
@@ -212,7 +216,9 @@ public class AccountDAO {
         int total = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT COUNT(id) " +
                                 "FROM accounts where username like ? and status = 1")
-                        .bind(0, "%" + search + "%").mapTo(Integer.class).findOnly()
+                        .bind(0, "%" + search + "%")
+                        .mapTo(Integer.class)
+                        .findOnly()
         );
 
         return total;
@@ -222,7 +228,10 @@ public class AccountDAO {
         JDBI = ConnectJDBI.connector();
         int role = JDBI.withHandle(handle ->
                 handle.createQuery("Select role From access_levels where idAccount = ?")
-                        .bind(0, id).mapTo(Integer.class).findOnly());
+                        .bind(0, id)
+                        .mapTo(Integer.class)
+                        .findOnly());
+
         return role;
     }
 
@@ -233,6 +242,7 @@ public class AccountDAO {
                         .bind(0, newPassword)
                         .bind(1, username)
                         .execute());
+
         return execute > 0;
     }
 
@@ -243,18 +253,21 @@ public class AccountDAO {
                         .bind(0, newFullname)
                         .bind(1, username)
                         .execute());
+
         return execute > 0;
     }
 
-    public static int createAccountWithGoogleAndFacebook(String username, String email, String fullname) {
+    public static int createAccountWithGoogleAndFacebook(String username, String email, String fullname, int status) {
         JDBI = ConnectJDBI.connector();
-        String sql = "INSERT INTO accounts(username, email, fullname) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO accounts(username, email, fullname, status) VALUES (?, ?, ?, ?)";
         int execute = JDBI.withHandle(handle ->
                 handle.createUpdate(sql)
                         .bind(0, username)
                         .bind(1, email)
                         .bind(2, fullname)
+                        .bind(3, status)
                         .execute());
+
         return execute;
     }
 

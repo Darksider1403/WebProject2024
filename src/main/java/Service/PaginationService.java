@@ -2,6 +2,7 @@ package Service;
 
 import DAO.PaginationDao;
 import Model.Account;
+import Model.Comment;
 import Model.Order;
 import Model.Product;
 
@@ -17,12 +18,13 @@ public class PaginationService {
     }
 
     public List<Product> productList(int limit, int page) {
-        return PaginationDao.productList(limit,page);
+        return PaginationDao.productList(limit, page);
     }
 
     public List<Product> ProductDefault(int limit, int page, String id_category) {
         return PaginationDao.productByCategory(limit, page, id_category);
     }
+
     public List<Product> productSort(int limit, int page, String id_category, String sort) {
         return PaginationDao.productByCategoryAndSortByPrice(limit, page, id_category, sort);
     }
@@ -57,5 +59,13 @@ public class PaginationService {
 
     public List<Order> findOrder(String search, int limit, int page) {
         return PaginationDao.findOrder(search, limit, page);
+    }
+
+    public List<Comment> commentList() {
+        return PaginationDao.commentList();
+    }
+
+    public List<Comment> findComment(String search, int limit, int page) {
+        return PaginationDao.findComment(search, limit, page);
     }
 }
