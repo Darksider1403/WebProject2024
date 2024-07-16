@@ -74,6 +74,9 @@
         </div>
     </div>
 </div>
+
+<jsp:include page="footer.jsp"/>
+
 <script src="https://www.google.com/recaptcha/api.js"></script>
 <script src="https://www.google.com/recaptcha/api.js?render=6LfsCOYpAAAAAG6HclMXDIeUNArusfVNulX9A_Kb"></script>
 <script>
@@ -93,5 +96,6 @@
         });
     }
 </script>
+
 </body>
 </html>

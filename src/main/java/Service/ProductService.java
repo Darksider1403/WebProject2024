@@ -47,7 +47,7 @@ public class ProductService {
     }
 
     public int insertProduct(String id, String name, String price, String quantity, String material,
-                                    String size, String color, String gender, String idCategory) {
+                             String size, String color, String gender, String idCategory) {
         return ProductDAO.insertProduct(id, name, price, quantity, material, size,color, gender, idCategory);
     }
 
@@ -78,5 +78,8 @@ public class ProductService {
         return ProductDAO.findAll();
     }
 
-
+    public static void main(String[] args) {
+        ProductService ps = new ProductService();
+        ps.updateProduct("TL006",0);
+    }
 }

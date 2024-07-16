@@ -330,6 +330,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="footer.jsp"/>
 <script>
     $(document).ready(function () {
         // Handle click event on "Xem Chi tiết" button within the modal
@@ -381,5 +382,6 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

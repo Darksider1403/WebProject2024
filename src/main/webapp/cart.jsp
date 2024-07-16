@@ -158,8 +158,9 @@
     </div>
     </form>
 </div>
-<div id="footerContainer">
+
 
 </div>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

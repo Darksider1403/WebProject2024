@@ -1,5 +1,7 @@
 package Controller;
 
+import DAO.LogDAO;
+import DAO.LogDAOImp;
 import Model.*;
 import Service.OrderService;
 import Service.ProductService;
@@ -26,6 +28,7 @@ public class ServletOrder extends HttpServlet {
         HttpSession session = req.getSession();
         Account account = (Account) session.getAttribute("account");
         ProductService ps = new ProductService();
+
         if (account != null) {
             int id = account.getID();
             String phoneNumber = req.getParameter("phoneNumber");
@@ -36,7 +39,7 @@ public class ServletOrder extends HttpServlet {
             calendar.setTime(datebuy);
             calendar.add(Calendar.DAY_OF_MONTH, 7);
             Date arrivalDate = calendar.getTime();
-            boolean addOrder = OrderService.addOrder(address, status, id, datebuy, arrivalDate,phoneNumber);
+            boolean addOrder = OrderService.addOrder(address, status, id, datebuy, arrivalDate, phoneNumber);
 
             Map<String, String> listImagesThumbnail = ps.selectImageThumbnail();
             req.getSession().setAttribute("listImagesThumbnail", listImagesThumbnail);
@@ -49,12 +52,22 @@ public class ServletOrder extends HttpServlet {
                     String id_product = cartItem.getProduct().getId();
                     OrderService.getInstance().addProductToOrder(id_product, quantity, price);
                     OrderService.decrementQuantity(List.of(id_product), quantity);
-
-
                 }
 
                 clearCart(session);
-                System.out.println("hello world");
+
+                // Logging the order
+                LogDAO logDAO = new LogDAOImp();
+                Log log = new Log();
+                log.setLevel(Log_Level.INFO);
+                log.setIp(req.getRemoteAddr()); // Get client's IP address
+                log.setAddress(address);
+                log.setPreValue(""); // No previous value
+                log.setValue("Order placed successfully");
+                log.setCountry(""); // Set the country if available
+                log.setStatus("SUCCESS"); // Log status
+                logDAO.add(log);
+
                 resp.sendRedirect("home");
             } else {
                 resp.sendRedirect("error.jsp");
@@ -63,9 +76,8 @@ public class ServletOrder extends HttpServlet {
             resp.sendRedirect("index.jsp");
         }
     }
+
     private void clearCart(HttpSession session) {
-        // Assuming you have stored cart items in the session with a key "cartItems"
         session.removeAttribute("cart");
-        // You might need to perform additional steps based on how your cart is managed
     }
 }
