@@ -199,7 +199,7 @@ public class PaginationDao {
 
     public static List<Comment> commentList() {
         JDBI = ConnectJDBI.connector();
-        String sql = "Select r.id, r.content, r.dateComment, a.username, a.email, a.numberPhone , r.idProduct, r.status " +
+        String sql = "Select r.id, r.content, r.dateComment, a.username, a.email, a.numberPhone , r.idProduct " +
                 "From reviews r INNER JOIN accounts a ON r.idAccount = a.id ";
 
         List<Comment> commentList = JDBI.withHandle(handle ->
