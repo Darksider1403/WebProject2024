@@ -235,7 +235,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="voucherForm" action="/voucher" method="post">
+                <form id="voucherForm" action="./voucher" method="post">
                     <%
                         List<Voucher> voucherList = (List<Voucher>) VoucherService.getInstance().getVouchers();
                         if (voucherList == null || voucherList.isEmpty()) {

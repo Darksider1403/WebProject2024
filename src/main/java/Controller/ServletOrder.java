@@ -22,11 +22,13 @@ public class ServletOrder extends HttpServlet {
     }
 
     @Override
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         HttpSession session = req.getSession();
         Account account = (Account) session.getAttribute("account");
+
         ProductService ps = new ProductService();
 
         if (account != null) {
@@ -39,6 +41,15 @@ public class ServletOrder extends HttpServlet {
             calendar.setTime(datebuy);
             calendar.add(Calendar.DAY_OF_MONTH, 7);
             Date arrivalDate = calendar.getTime();
+
+            // Calculate shipping fee using GHN API
+            double shippingFee = GHNApiUtil.totalFee(address);
+            if (shippingFee == -1) {
+                // Handle error if shipping fee calculation fails
+                resp.sendRedirect("error.jsp");
+                return;
+            }
+
             boolean addOrder = OrderService.addOrder(address, status, id, datebuy, arrivalDate, phoneNumber);
 
             Map<String, String> listImagesThumbnail = ps.selectImageThumbnail();
@@ -68,6 +79,7 @@ public class ServletOrder extends HttpServlet {
                 log.setStatus("SUCCESS"); // Log status
                 logDAO.add(log);
 
+                // Redirect to home after successful order
                 resp.sendRedirect("home");
             } else {
                 resp.sendRedirect("error.jsp");
@@ -76,6 +88,7 @@ public class ServletOrder extends HttpServlet {
             resp.sendRedirect("index.jsp");
         }
     }
+
 
     private void clearCart(HttpSession session) {
         session.removeAttribute("cart");
