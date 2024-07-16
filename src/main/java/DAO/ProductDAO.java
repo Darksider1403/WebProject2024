@@ -165,7 +165,7 @@ public class ProductDAO {
         JDBI = ConnectJDBI.connector();
         List<Product> productList = JDBI.withHandle(handle ->
                 handle.createQuery("SELECT id, name, price, quantity, status " +
-                        "FROM products Where status = 1").mapToBean(Product.class).stream().toList()
+                        "FROM products ").mapToBean(Product.class).stream().toList()
         );
 
         return productList;
@@ -360,5 +360,10 @@ public class ProductDAO {
                 handle.createQuery("SELECT id, name, price, quantity, status FROM products ")
                         .mapToBean(Product.class).stream().toList());
         return productList;
+    }
+
+    public static void main(String[] args) {
+//        ProductDAO pr = new ProductDAO();
+//        pr.updateProduct("TL006",0);
     }
 }

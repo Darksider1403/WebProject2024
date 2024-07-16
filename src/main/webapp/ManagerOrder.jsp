@@ -77,6 +77,12 @@
                     </a>
                 </div>
                 <div class="menu-item">
+                    <a href="./createVoucher?page=1">
+                        <div class="icon"><i class="fa-solid fa-gift"></i></div>
+                        <p class="menu-content">Quản lý Voucher</p>
+                    </a>
+                </div>
+                <div class="menu-item">
                     <a href="./ServletLogOut">
                         <p class="menu-content">Đăng xuất</p>
                     </a>

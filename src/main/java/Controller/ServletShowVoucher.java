@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
-@WebServlet(name = "ServletVoucher", value = "/createVoucher")
-public class ServletVou extends HttpServlet {
+@WebServlet(name = "ServletVoucherShow", value = "/createVoucher")
+public class ServletShowVoucher extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Voucher> vouchers = VoucherService.getInstance().getVouchers();

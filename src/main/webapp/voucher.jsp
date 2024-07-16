@@ -1,6 +1,8 @@
 <%@ page import="Service.VoucherService" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Model.Voucher" %>
+<%@ page import="Model.Account" %>
+<%@ page import="Service.AccountService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,10 +19,11 @@
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 <%
+  Account account = session.getAttribute("account") == null ? new Account() : (Account) session.getAttribute("account");
   List<Voucher> vouchers = VoucherService.getInstance().getVouchers();
 %>
 <body>
-<div id="id">
+<div id="main">
   <div id="admin">
     <div class="left">
       <div class="menu">
@@ -30,7 +33,50 @@
           </div>
           <h2 class="shop-name"><a href="">PLQ SHOP</a></h2>
         </div>
-        <!-- Your sidebar menu items here -->
+        <div class="shop-user">
+          <p>Xin chào, <%= account.getFullname() %></p>
+        </div>
+        <div class="menu-item">
+          <a href="./admin" class="active">
+            <div class="icon"><i class="fa-solid fa-house-chimney"></i></div>
+            <p class="menu-content">Thống kê</p>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a href="./managerAccount?page=1">
+            <div class="icon"><i class="fa-solid fa-desktop"></i></div>
+            <p class="menu-content">Quản lý tài khoản</p>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a href="./managerProduct?page=1">
+            <div class="icon"><i class="fa-regular fa-calendar-days"></i></div>
+            <p class="menu-content">Quản lý sản phẩm</p>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a href="./managerOrder?page=1">
+            <div class="icon"><i class="fa-solid fa-clipboard"></i></div>
+            <p class="menu-content">Quản lý đơn hàng</p>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a href="/managerLog?page=1">
+            <div class="icon"><i class="fa-solid fa-file-alt"></i></div>
+            <p class="menu-content">Quản lý nhật ký</p>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a href="./createVoucher?page=1">
+            <div class="icon"><i class="fa-solid fa-gift"></i></div>
+            <p class="menu-content">Quản lý Voucher</p>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a href="./ServletLogOut">
+            <p class="menu-content">Đăng xuất</p>
+          </a>
+        </div>
       </div>
     </div>
     <div class="right">
@@ -69,13 +115,13 @@
     </div>
   </div>
 </div>
-</body>
-<%-- Modal thêm voucher --%>
+
+<!-- Modal thêm voucher -->
 <div id="myModal" class="modal">
   <div class="modal-content">
     <div class="btn-close" onclick="closeModal()"><span class="close">&times;</span></div>
     <div class="modal-content__title"><h4>Thêm Voucher</h4></div>
-    <form action="./createVoucher" method="post">
+    <form id="voucherForm" action="./createVoucher" method="post">
       <div class="modal-content__input">
         <div class="description"><span>Tên Voucher*: </span></div>
         <input type="text" name="name" autocomplete="off" required>
@@ -106,8 +152,17 @@
     document.getElementById("myModal").style.display = "none";
   }
 
+  document.getElementById("voucherForm").addEventListener("submit", function(event) {
+    // Prevent default form submission
+    event.preventDefault();
+
+    // Perform form submission via JavaScript
+    this.submit();
+  });
+
   $(document).ready(function() {
     $('#myTable').DataTable();
   });
 </script>
+</body>
 </html>
