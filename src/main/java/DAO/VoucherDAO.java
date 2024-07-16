@@ -53,8 +53,10 @@ public class VoucherDAO {
 
     public static void main(String[] args) {
         VoucherDAO vd = new VoucherDAO();
-        vd.createVoucher("Quan", Date.valueOf("2024-07-24"), Date.valueOf("2024-08-25"), 0.8);
-        vd.createVoucher("Nguyen", Date.valueOf("2024-07-24"), Date.valueOf("2024-08-25"), 0.7);
+        vd.createVoucher("Quoc", Date.valueOf("2024-07-24"), Date.valueOf("2024-08-25"), 0.8);
+        vd.createVoucher("Duong", Date.valueOf("2024-07-24"), Date.valueOf("2024-08-25"), 0.7);
+        vd.createVoucher("Sale", Date.valueOf("2024-09-24"), Date.valueOf("2026-08-25"), 0.2);
+        vd.createVoucher("Black market", Date.valueOf("2024-10-24"), Date.valueOf("2025-12-25"), 0.5);
         System.out.println(vd.getVouchers());
 //        System.out.println(vd.getVoucherByID(1));
     }

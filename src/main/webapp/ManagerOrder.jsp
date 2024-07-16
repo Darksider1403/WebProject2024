@@ -71,6 +71,12 @@
                     </a>
                 </div>
                 <div class="menu-item">
+                    <a href="./managerLog">
+                        <div class="icon"><i class="fa-solid fa-file-alt"></i></div>
+                        <p class="menu-content">Quản lý nhật ký</p>
+                    </a>
+                </div>
+                <div class="menu-item">
                     <a href="./ServletLogOut">
                         <p class="menu-content">Đăng xuất</p>
                     </a>

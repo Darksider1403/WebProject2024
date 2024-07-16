@@ -38,7 +38,14 @@ public class ServletLogin extends HttpServlet {
         // Logging the login attempt
         LogDAO logDAO = new LogDAOImp();
         Log log = new Log();
-        log.setIp(req.getRemoteAddr()); // Get client's IP address
+
+        // Get client's IP address
+        String ipAddress = req.getHeader("X-Forwarded-For");
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = req.getRemoteAddr();
+        }
+
+        log.setIp(ipAddress);
         log.setAddress(username);
         log.setPreValue(""); // No previous value
         log.setCountry(""); // Set the country if available
@@ -47,7 +54,7 @@ public class ServletLogin extends HttpServlet {
         if (username.isEmpty() || password.isEmpty()) {
             req.getRequestDispatcher("Login.jsp").forward(req, resp);
             // Log unsuccessful login attempt due to missing credentials
-
+            logDAO.add(log);
         } else {
             if (account != null) {
                 if (as.isLoginSuccess(account)) {

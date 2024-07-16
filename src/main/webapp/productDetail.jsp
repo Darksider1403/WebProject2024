@@ -188,7 +188,7 @@
         <% } %>
     </div>
         <% } %>
-
+    <jsp:include page="footer.jsp"/>
 </body>
 <script src="https://use.fontawesome.com/releases/v6.4.2/js/all.js"
         crossorigin="anonymous"></script>
@@ -274,4 +274,5 @@
         });
     });
 </script>
+
 </html>
